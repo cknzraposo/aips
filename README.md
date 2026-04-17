@@ -192,6 +192,8 @@ If you are interested in contributing — as an economist, sector expert, policy
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution modes and the collaborator brief.
 
+> **Style rule:** All content in this repository must use **NZ English** spelling and **no em-dashes** (`—`) — use spaced hyphens (` - `) instead. See [.github/CONTRIBUTING-STYLE.md](.github/CONTRIBUTING-STYLE.md).
+
 ---
 
 ## An AI for Good NZ initiative
