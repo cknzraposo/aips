@@ -1,6 +1,6 @@
-# New Research — Analysis Notes (18 April 2026)
+# New Research - Analysis Notes (18 April 2026)
 
-## 1. AI Forum NZ — Full Productivity Report (September 2024, 34 pages)
+## 1. AI Forum NZ - Full Productivity Report (September 2024, 34 pages)
 
 This is the **full version** of the report we previously analysed from a summary extraction. Key new data:
 
@@ -18,8 +18,8 @@ This is the **full version** of the report we previously analysed from a summary
 
 ### Methodology (critical for our project)
 - **232 valid survey responses** from AI Forum network
-- **Self-selected sample** — not nationally representative
-- Lead researcher: Dr Andrew Lensen (VUW) — acknowledges selection bias
+- **Self-selected sample** - not nationally representative
+- Lead researcher: Dr Andrew Lensen (VUW) - acknowledges selection bias
 - Survey period: mid-2024
 - Some industries had fewer than 5 respondents (excluded from industry breakdown)
 - "Per area" question structure deterred many from completing → methodology being revised
@@ -33,17 +33,17 @@ This is the **full version** of the report we previously analysed from a summary
 ### Simulator implications
 - Confirms the **self-selection bias** we identified in provenance analysis
 - The 67% figure is the AI Forum's September 2024 reading (we had this)
-- **New detail:** by-function breakdown (marketing/admin/design dominate — not domain-core AI)
+- **New detail:** by-function breakdown (marketing/admin/design dominate - not domain-core AI)
 - The efficiency vs displacement data is useful for labour pressure modelling
 - Case studies provide concrete NZ evidence for C7 fields
-- **Strong correlation between AI spend and financial benefit** — useful for investment-return modelling
+- **Strong correlation between AI spend and financial benefit** - useful for investment-return modelling
 
 ---
 
-## 2. Tech New Zealand — Tech Innovation Manifesto 2026 (55 pages)
+## 2. Tech New Zealand - Tech Innovation Manifesto 2026 (55 pages)
 
 ### Key data points for S05 (Technology sector)
-- **$24 billion GDP contribution (8% of economy)** — updated from $23.8B
+- **$24 billion GDP contribution (8% of economy)** - updated from $23.8B
 - **119,520 jobs in tech sector**
 - **$11.4 billion tech exports (11% of NZ total)**
 - **$1.2 billion invested in R&D in ICT/tech** (29% of NZ's total R&D)
@@ -68,7 +68,7 @@ This is the **full version** of the report we previously analysed from a summary
 - **Fees-free policy:** realign to growth sectors (tech, biotech, fintech, agritech)
 - **Game development subsidy:** retain as sector approaches $1B exports
 
-### NZTech Key Metrics Report 2024 (22 pages — image-based PDF)
+### NZTech Key Metrics Report 2024 (22 pages - image-based PDF)
 - Could **not** be text-extracted (image-based PDF, no text layer)
 - **However:** the Manifesto page 7 contains the same headline data from the Key Metrics report
 - We now have the key figures without needing OCR

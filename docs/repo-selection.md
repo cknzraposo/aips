@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Reference Repo Selection
+# NZ AI Policy Sandbox - Reference Repo Selection
 
 *Date: 2026-04-17*  
 *Decision status: Primary reference selected*

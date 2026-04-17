@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Methods Note
+# NZ AI Policy Sandbox - Methods Note
 
 *Working title: NZ AI Economy Simulator*  
 *Date: 2026-04-17*  
@@ -65,13 +65,13 @@ These differences are not cosmetic. They change how policy works.
 
 The project compares three policy structures.
 
-### Scenario A — Aggregate policy
+### Scenario A - Aggregate policy
 Investment or support is distributed broadly across the economy, typically by GDP share or another economy-wide rule.
 
-### Scenario B — Targeted demand-side policy
+### Scenario B - Targeted demand-side policy
 Policy support is directed toward sectors where adoption is lagging, where bottlenecks are most acute, or where productivity gains are likely to be unlocked by direct intervention.
 
-### Scenario C — Targeted supply-side policy
+### Scenario C - Targeted supply-side policy
 Policy support is concentrated on enabling capacity, especially the domestic technology sector, skills pipeline, and enabling infrastructure, on the theory that this creates spillover effects across other sectors.
 
 The central analytical comparison is not just aggregate versus targeted. It is also:
@@ -84,7 +84,7 @@ The central analytical comparison is not just aggregate versus targeted. It is a
 
 The model should represent the whole economy, but with different levels of detail.
 
-### Tier 1 — archetype sectors
+### Tier 1 - archetype sectors
 These are the explanatory sectors where the policy stories are richest and the modelling detail is highest.
 
 Current Tier 1 candidates:
@@ -98,7 +98,7 @@ Current Tier 1 candidates:
 - Financial Services
 - Retail/Wholesale
 
-### Tier 2 — simplified sectors
+### Tier 2 - simplified sectors
 Sectors that matter for economy coverage and policy completeness, but do not require full-depth modelling.
 
 Likely examples:
@@ -109,7 +109,7 @@ Likely examples:
 - Information Media and Telecommunications
 - Utilities
 
-### Tier 3 — residual sectors
+### Tier 3 - residual sectors
 A small number of residual blocks used to close the denominator and preserve whole-economy honesty.
 
 This structure is necessary because a 9-sector-only model covers about **61% of GDP** and **70% of employment**, which is not enough for an honest aggregate-policy comparison.
@@ -152,9 +152,9 @@ This project does not start from a clean dataset. It starts from a fragmented ev
 
 That means the model must explicitly distinguish between:
 
-- **observed values** — directly supported by NZ data
-- **derived values** — inferred from multiple sources or international benchmarks
-- **assumed values** — placeholders used for scenario structure, always labelled as such
+- **observed values** - directly supported by NZ data
+- **derived values** - inferred from multiple sources or international benchmarks
+- **assumed values** - placeholders used for scenario structure, always labelled as such
 
 The model should show confidence levels, not hide them.
 
@@ -169,19 +169,19 @@ That is enough for scenario comparison, but not for precision forecasting.
 
 ## 9. Methodological principles
 
-### Principle 1 — Transparency over false precision
+### Principle 1 - Transparency over false precision
 If a variable is estimated, say so. If a result is range-bound, present it as a range.
 
-### Principle 2 — Whole-economy honesty
+### Principle 2 - Whole-economy honesty
 If the project claims to compare economy-wide policy structures, the aggregate scenario must cover the whole economy.
 
-### Principle 3 — One mechanism at a time where possible
+### Principle 3 - One mechanism at a time where possible
 The model should separate mechanisms rather than bundling everything into one opaque parameter.
 
-### Principle 4 — Policy relevance before technical flourish
+### Principle 4 - Policy relevance before technical flourish
 The right model is the simplest one that can answer the question credibly.
 
-### Principle 5 — Comparative usefulness over predictive theatre
+### Principle 5 - Comparative usefulness over predictive theatre
 The model succeeds if it helps compare policy choices better, not if it creates an illusion of certainty.
 
 ---

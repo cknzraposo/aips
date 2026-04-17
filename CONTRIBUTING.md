@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Collaborator Brief
+# NZ AI Policy Sandbox - Collaborator Brief
 
 *Working title: NZ AI Economy Simulator*  
 *Date: 2026-04-17*  
@@ -83,7 +83,7 @@ Not on producing a false sense of quantitative certainty.
 
 The model now uses a tiered whole-economy structure.
 
-### Tier 1 — full explanatory sectors (9)
+### Tier 1 - full explanatory sectors (9)
 These sectors carry the richest policy narratives and will be modelled in greatest depth:
 - Agriculture
 - Manufacturing
@@ -95,7 +95,7 @@ These sectors carry the richest policy narratives and will be modelled in greate
 - Financial Services
 - Retail and Wholesale
 
-### Tier 2 — simplified sectors (6)
+### Tier 2 - simplified sectors (6)
 These sectors matter for whole-economy coverage and policy realism, but will use lighter parameterisation:
 - Education and Training
 - Transport, Postal and Warehousing
@@ -104,7 +104,7 @@ These sectors matter for whole-economy coverage and policy realism, but will use
 - Information Media and Telecommunications
 - Utilities
 
-### Tier 3 — residual sectors (4)
+### Tier 3 - residual sectors (4)
 These sectors close the whole-economy denominator:
 - Mining
 - Rental, Hiring and Real Estate Services

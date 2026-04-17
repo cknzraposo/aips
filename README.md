@@ -8,7 +8,7 @@
 
 NZAIS is a whole-economy scenario model for comparing AI policy approaches in New Zealand.
 
-It exists because New Zealand's current AI policy discussion rests on a weak baseline. The most-cited "44%" figure is not a business adoption rate — it is a public trust measure. Actual adoption figures in circulation range from 32% to 87%, depending on who was surveyed, what population was sampled, and how "adoption" was defined.
+It exists because New Zealand's current AI policy discussion rests on a weak baseline. The most-cited "44%" figure is not a business adoption rate - it is a public trust measure. Actual adoption figures in circulation range from 32% to 87%, depending on who was surveyed, what population was sampled, and how "adoption" was defined.
 
 That means much of the public conversation around "NZ AI adoption" is flatter and more confident than the evidence supports.
 
@@ -22,17 +22,17 @@ This project replaces single-number thinking with a structured, sector-calibrate
 
 A related question sits underneath it:
 
-> When is it better to support direct adoption in sectors, and when is it better to invest in enabling capacity — technology, skills, procurement, infrastructure, and diffusion?
+> When is it better to support direct adoption in sectors, and when is it better to invest in enabling capacity - technology, skills, procurement, infrastructure, and diffusion?
 
 ---
 
 ## What the model is and is not
 
 ### The model is
-- a **policy sandbox** — for comparing scenarios, not forecasting GDP
+- a **policy sandbox** - for comparing scenarios, not forecasting GDP
 - a **structured synthesis** of fragmented NZ evidence
 - a **whole-economy model** with tiered sector coverage
-- **transparent** — assumptions are labelled, not hidden
+- **transparent** - assumptions are labelled, not hidden
 
 ### The model is not
 - a forecasting engine
@@ -52,7 +52,7 @@ The evidence shows clear sector differences:
 | Manufacturing | Productivity sweet spot | 58% adoption. Clearest productivity case. Investment Boost lowers barriers. |
 | Professional Services | Diminishing returns test | Highest adoption. Further investment yields smaller marginal gains. |
 | Public Sector | Employment story | Lowest adoption, fastest acceleration. Capability, culture, and scale are the barriers. |
-| Technology | Supply-side enabler | Not just an adopter — it enables the other sectors. $24B GDP, $11.4B exports. |
+| Technology | Supply-side enabler | Not just an adopter - it enables the other sectors. $24B GDP, $11.4B exports. |
 | Healthcare | Equity-constrained high-potential | 62% adoption. Admin AI vs clinical AI. Equity and governance are binding constraints. |
 | Construction | Worst case for aggregate policy | No published adoption rate. 95% of firms < 10 people. Lowest digital maturity. |
 | Financial Services | Regulatory throttle | High adoption constrained by dual regulators (FMA + RBNZ). |
@@ -66,13 +66,13 @@ These differences are not cosmetic. They change how policy works.
 
 The model uses a **tiered structure** covering all 19 ANZSIC Level 1 sectors:
 
-### Tier 1 — Full explanatory sectors (9)
+### Tier 1 - Full explanatory sectors (9)
 Agriculture, Manufacturing, Professional Services, Public Sector, Technology, Healthcare, Construction, Financial Services, Retail & Wholesale
 
-### Tier 2 — Simplified sectors (6)
+### Tier 2 - Simplified sectors (6)
 Education & Training, Transport & Warehousing, Accommodation & Food Services, Administrative & Support Services, Information Media & Telecommunications, Utilities
 
-### Tier 3 — Residual sectors (4)
+### Tier 3 - Residual sectors (4)
 Mining, Rental/Hiring/Real Estate, Arts & Recreation, Other Services
 
 **Why tiered?** Because a 9-sector-only model covers ~61% of GDP. That is not enough for an honest economy-wide aggregate-policy comparison. The whole economy must be represented.
@@ -81,14 +81,14 @@ Mining, Rental/Hiring/Real Estate, Arts & Recreation, Other Services
 
 ## Policy scenarios
 
-### Scenario A — Aggregate policy
+### Scenario A - Aggregate policy
 Broad economy-wide allocation by GDP share or equivalent rule.
 
-### Scenario B — Targeted demand-side policy
+### Scenario B - Targeted demand-side policy
 Support focused on sectors where adoption is lagging, bottlenecks are acute, or direct intervention unlocks productivity or public value.
 
-### Scenario C — Targeted supply-side policy
-Support focused on enabling capacity — technology, skills, infrastructure, procurement, and diffusion mechanisms that raise adoption capacity across the economy.
+### Scenario C - Targeted supply-side policy
+Support focused on enabling capacity - technology, skills, infrastructure, procurement, and diffusion mechanisms that raise adoption capacity across the economy.
 
 The central analytical tension is not only aggregate versus targeted. It is also:
 
@@ -111,15 +111,15 @@ The project draws on 10 completed research analyses and 38 catalogued data sourc
 | RBNZ "Rise of the Machines" (2025) | Financial stability risks, regulatory vacuum |
 | FMA AI Research (2024) | Financial services adoption (13 respondents) |
 | NZTech Manifesto (2026) | Tech sector: $24B GDP, 119,520 jobs, $11.4B exports |
-| Stats NZ (multiple) | GDP, employment, business demography — all 19 sectors |
+| Stats NZ (multiple) | GDP, employment, business demography - all 19 sectors |
 
-The 44% provenance analysis — showing that the widely-cited figure is trust, not adoption — is a foundational contribution of this project.
+The 44% provenance analysis - showing that the widely-cited figure is trust, not adoption - is a foundational contribution of this project.
 
 ---
 
 ## Modelling approach
 
-The primary reference architecture is adapted from [Strauss (ai-web-economy-simulator)](https://github.com/IlanStrauss/ai-web-economy-simulator) — a mechanism-design ODE model with:
+The primary reference architecture is adapted from [Strauss (ai-web-economy-simulator)](https://github.com/IlanStrauss/ai-web-economy-simulator) - a mechanism-design ODE model with:
 
 - bounded state variables
 - one-mechanism-per-layer causal structure
@@ -184,7 +184,7 @@ nzais/
 
 This project is currently private and in foundation phase.
 
-If you are interested in contributing — as an economist, sector expert, policy analyst, or technically literate critic — the most useful next step is a short conversation focused on:
+If you are interested in contributing - as an economist, sector expert, policy analyst, or technically literate critic - the most useful next step is a short conversation focused on:
 
 - what the project is missing
 - what it is overclaiming
@@ -192,22 +192,22 @@ If you are interested in contributing — as an economist, sector expert, policy
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution modes and the collaborator brief.
 
-> **Style rule:** All content in this repository must use **NZ English** spelling and **no em-dashes** (`—`) — use spaced hyphens (` - `) instead. See [.github/CONTRIBUTING-STYLE.md](.github/CONTRIBUTING-STYLE.md).
+> **Style rule:** All content in this repository must use **NZ English** spelling and **no em-dashes** (` - `) - use spaced hyphens (` - `) instead. See [.github/CONTRIBUTING-STYLE.md](.github/CONTRIBUTING-STYLE.md).
 
 ---
 
 ## An AI for Good NZ initiative
 
-This project is developed under [AI for Good New Zealand](https://www.aiforgood.org.nz) — a community dedicated to ensuring AI benefits all New Zealanders.
+This project is developed under [AI for Good New Zealand](https://www.aiforgood.org.nz) - a community dedicated to ensuring AI benefits all New Zealanders.
 
 ---
 
 ## Authors
 
-- **CK** — co-author, domain expert. Three decades of enterprise technology adoption. Founder, AI for Good NZ. [Blog](https://hello.chandima.net) · [Substack](https://chandima.substack.com)
+- **CK** - co-author, domain expert. Three decades of enterprise technology adoption. Founder, AI for Good NZ. [Blog](https://hello.chandima.net) · [Substack](https://chandima.substack.com)
 
 ---
 
 ## Licence
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).

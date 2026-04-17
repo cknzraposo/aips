@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Comprehensive FAQ
+# NZ AI Policy Sandbox - Comprehensive FAQ
 
 *Working title: NZ AI Economy Simulator*  
 *Date: 2026-04-17*

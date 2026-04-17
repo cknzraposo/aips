@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Project Scope
+# NZ AI Policy Sandbox - Project Scope
 
 *Working title: NZ AI Economy Simulator*  
 *Date: 2026-04-17*  
@@ -77,7 +77,7 @@ To build a transparent, evidence-based policy sandbox that:
 
 The model must cover the whole economy. The earlier 9-sector structure remains analytically useful, but it cannot stand alone as the denominator for an economy-wide policy comparison.
 
-### Tier 1 — Full explanatory sectors (9)
+### Tier 1 - Full explanatory sectors (9)
 These sectors carry the main analytical narrative and receive the richest modelling treatment.
 
 1. Agriculture  
@@ -92,7 +92,7 @@ These sectors carry the main analytical narrative and receive the richest modell
 
 These are included because they represent distinct AI adoption archetypes and policy stories.
 
-### Tier 2 — Simplified sectors (6)
+### Tier 2 - Simplified sectors (6)
 These sectors matter for economy coverage and policy realism, but do not require full-depth treatment in the first model.
 
 1. Education and Training  
@@ -104,7 +104,7 @@ These sectors matter for economy coverage and policy realism, but do not require
 
 These sectors will be represented with lighter parameterisation so they absorb their economic weight in aggregate scenarios and contribute to whole-economy outcomes.
 
-### Tier 3 — Residual economy blocks (4)
+### Tier 3 - Residual economy blocks (4)
 These sectors close the denominator and preserve whole-economy honesty.
 
 1. Mining  
@@ -119,13 +119,13 @@ The aggregate scenario must distribute investment or support across the whole ec
 
 ## 7. Policy scenarios in scope
 
-### Scenario A — Aggregate policy
+### Scenario A - Aggregate policy
 Broad economy-wide allocation, typically proportional to GDP share or another system-wide rule.
 
-### Scenario B — Targeted demand-side policy
+### Scenario B - Targeted demand-side policy
 Support concentrated on sectors where adoption is lagging, bottlenecks are acute, or direct intervention is likely to unlock productivity or public value.
 
-### Scenario C — Targeted supply-side policy
+### Scenario C - Targeted supply-side policy
 Support concentrated on enabling capacity such as the domestic technology sector, skills, infrastructure, data capability, and diffusion mechanisms that raise adoption capacity across the economy.
 
 ### Analytical tension
@@ -168,9 +168,9 @@ Each sector or sector block must, at minimum, have structured parameters across 
 ## 9. Evidence standards
 
 The project must distinguish clearly between:
-- **observed** values — directly supported by NZ data
-- **derived** values — inferred from multiple sources or international benchmarks
-- **assumed** values — explicit placeholders used for scenario structure
+- **observed** values - directly supported by NZ data
+- **derived** values - inferred from multiple sources or international benchmarks
+- **assumed** values - explicit placeholders used for scenario structure
 
 ### Key principle
 Transparency matters more than completeness theatre.
@@ -254,11 +254,11 @@ Its value is that it helps New Zealand move from confused headline metrics to a 
 
 ## 14. Non-negotiable guardrails
 
-1. **Whole-economy honesty** — no aggregate claim without whole-economy denominator coverage  
-2. **No false precision** — outputs should favour ranges and scenario comparisons  
+1. **Whole-economy honesty** - no aggregate claim without whole-economy denominator coverage  
+2. **No false precision** - outputs should favour ranges and scenario comparisons  
 3. **Paper logic before product polish**  
-4. **Explainable assumptions** — no black box logic where transparency can be preserved  
-5. **Architecture serves the question** — not the other way around
+4. **Explainable assumptions** - no black box logic where transparency can be preserved  
+5. **Architecture serves the question** - not the other way around
 
 ---
 

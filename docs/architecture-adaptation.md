@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Architecture Adaptation Brief
+# NZ AI Policy Sandbox - Architecture Adaptation Brief
 
 *Adapting the Strauss reference repo to the NZ whole-economy policy sandbox*  
 *Date: 2026-04-17*  
@@ -255,7 +255,7 @@ Those may become useful later in a specialised labour-market extension, but they
 
 ## 12. Practical build recommendation
 
-## Stage 1 — paper-grade system model
+## Stage 1 - paper-grade system model
 Build a compact sector-level model with:
 - 19 tiered sector blocks
 - 4 core states for Tier 1
@@ -263,10 +263,10 @@ Build a compact sector-level model with:
 - three named policy scenarios
 - transparent parameters and sensitivity analysis
 
-## Stage 2 — calibrated prototype
+## Stage 2 - calibrated prototype
 Implement the model in code only after the state logic and parameter table are agreed.
 
-## Stage 3 — optional extensions
+## Stage 3 - optional extensions
 Only after the core model survives criticism:
 - richer spillover structure
 - more detailed labour sub-model

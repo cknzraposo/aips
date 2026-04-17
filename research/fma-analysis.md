@@ -1,4 +1,4 @@
-# FMA — AI in Financial Services: Key Insights
+# FMA - AI in Financial Services: Key Insights
 
 *Source: FMA Occasional Paper, "Understanding Artificial Intelligence in Financial Services" (July 2024)*
 *PDF downloaded: `data/raw/fma-ai-financial-services-2024.pdf` (27 pages)*

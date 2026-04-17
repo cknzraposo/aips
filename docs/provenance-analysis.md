@@ -1,4 +1,4 @@
-# The 44% Figure — Provenance Analysis
+# The 44% Figure - Provenance Analysis
 
 *Why this project exists*
 *Compiled: 2026-04-14*
@@ -9,7 +9,7 @@
 
 A figure of "44% AI adoption" circulates widely in NZ policy discussion. Our provenance analysis reveals it is not an adoption rate at all.
 
-The 44% comes from the **KPMG / University of Melbourne "Trust, Attitudes and Use of AI" global survey (2025)** — 48,000+ respondents across 47 countries. The NZ finding: "Only 44% of New Zealanders believe the benefits of AI outweigh the risks."
+The 44% comes from the **KPMG / University of Melbourne "Trust, Attitudes and Use of AI" global survey (2025)** - 48,000+ respondents across 47 countries. The NZ finding: "Only 44% of New Zealanders believe the benefits of AI outweigh the risks."
 
 This is a **public sentiment metric**, not a business adoption rate. NZ ranked lowest of all 47 countries surveyed.
 
@@ -21,7 +21,7 @@ This is a **public sentiment metric**, not a business adoption rate. NZ ranked l
 |---|---|---|---|---|---|
 | NZIER / Spark QSBO | 2024 | **32%** | SMEs with any plans to evaluate/invest in AI | Nationally representative panel | Structured survey |
 | Datacom State of AI | 2023 | **48%** | Larger businesses "using some form of AI" | 200 senior leaders | Convenience sample |
-| KPMG / UoM | 2025 | **44%** | Public trust — believe benefits outweigh risks | 48,000+ individuals (global) | Global survey, NZ subset |
+| KPMG / UoM | 2025 | **44%** | Public trust - believe benefits outweigh risks | 48,000+ individuals (global) | Global survey, NZ subset |
 | Datacom State of AI | 2024 | **67%** | Same as 2023, one year later | 200 senior leaders | Convenience sample |
 | KPMG / UoM | 2025 | **69%** | Individual workers using AI regularly | Same global survey | Global survey, NZ subset |
 | AI Forum | Sep 2024 | **~67%** | Respondents using AI in organisations | Self-selected network | Opt-in survey |
@@ -60,4 +60,4 @@ The simulator doesn't assume any single adoption figure. It calibrates per-secto
 - NZIER / Spark, Quarterly Survey of Business Opinion, 2024
 - Datacom, "State of AI in New Zealand," 2023 and 2024
 - AI Forum NZ, AI adoption pulse surveys, Sep 2024 / Mar 2025 / Aug 2025
-- MBIE, "Artificial Intelligence in New Zealand — National Strategy," July 2025
+- MBIE, "Artificial Intelligence in New Zealand - National Strategy," July 2025

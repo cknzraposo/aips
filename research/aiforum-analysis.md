@@ -1,4 +1,4 @@
-# AI Forum NZ — Business Productivity Report (September 2024)
+# AI Forum NZ - Business Productivity Report (September 2024)
 
 *Source: AI Forum NZ, "New Zealand's AI Productivity Report", September 2024*
 *PDF: `data/raw/aiforum-business-productivity-sep2024.pdf` (34 pages, 14MB)*
@@ -9,7 +9,7 @@
 
 ## ⚠️ Critical Methodology Note
 
-This is a **self-selected, opt-in survey** of the AI Forum's network — NOT a nationally representative sample. The 67% adoption rate reflects the AI-interested community, not NZ businesses broadly. Compare with NZIER/Spark QSBO (nationally representative): 32%.
+This is a **self-selected, opt-in survey** of the AI Forum's network - NOT a nationally representative sample. The 67% adoption rate reflects the AI-interested community, not NZ businesses broadly. Compare with NZIER/Spark QSBO (nationally representative): 32%.
 
 **Sample:** 276 total responses, 232 valid. 155 (67%) reported using AI; 77 (33%) reported no AI use.
 
@@ -19,9 +19,9 @@ This is a **self-selected, opt-in survey** of the AI Forum's network — NOT a n
 
 ### Adoption
 - **67% using AI** (of 232 valid responses)
-- **Generative AI most common** — 55% of AI users use GenAI (ChatGPT, LLMs, Copilot, Grammarly)
-- **Machine Learning** — 19.5%
-- **Predictive AI** (financial modelling etc.) — reported separately
+- **Generative AI most common** - 55% of AI users use GenAI (ChatGPT, LLMs, Copilot, Grammarly)
+- **Machine Learning** - 19.5%
+- **Predictive AI** (financial modelling etc.) - reported separately
 - **43 non-users** plan to use AI in near future; **34 have no plans**
 
 ### Financial Impact
@@ -56,7 +56,7 @@ This is a **self-selected, opt-in survey** of the AI Forum's network — NOT a n
 | Procurement | 2% |
 | **Manufacturing** | **1.4%** |
 
-**Notable:** Manufacturing at 1.4% — lowest of all use cases. This contrasts with Datacom's 58% adoption figure for manufacturing, suggesting AI in manufacturing is more about ML/predictive than GenAI tools.
+**Notable:** Manufacturing at 1.4% - lowest of all use cases. This contrasts with Datacom's 58% adoption figure for manufacturing, suggesting AI in manufacturing is more about ML/predictive than GenAI tools.
 
 ---
 
@@ -82,9 +82,9 @@ This is a **self-selected, opt-in survey** of the AI Forum's network — NOT a n
 | Rental, Hiring and Real Estate Services | 1 | 0.4% |
 | Mining | 0 | 0% |
 | Accommodation and Food Services | 0 | 0% |
-| Wholesale Trade | — | (not separated) |
+| Wholesale Trade | - | (not separated) |
 
-**Important:** No per-sector adoption rates are published in this report. The industry breakdown shows respondent composition only — not adoption rates by sector. Education is overrepresented (22.4% of responses).
+**Important:** No per-sector adoption rates are published in this report. The industry breakdown shows respondent composition only - not adoption rates by sector. Education is overrepresented (22.4% of responses).
 
 **Missing sectors:** Mining (0 responses), Accommodation & Food Services (0 responses).
 
@@ -94,9 +94,9 @@ This is a **self-selected, opt-in survey** of the AI Forum's network — NOT a n
 
 | Size | Responses | % |
 |---|---|---|
-| Small (0-19 employees) | — | 36% |
-| Medium (20-99 employees) | — | 19% |
-| Large (100+ employees) | — | 46% |
+| Small (0-19 employees) | - | 36% |
+| Medium (20-99 employees) | - | 19% |
+| Large (100+ employees) | - | 46% |
 
 Large businesses overrepresented (46% of respondents vs their actual share of NZ firms).
 
@@ -112,9 +112,9 @@ Large businesses overrepresented (46% of respondents vs their actual share of NZ
 - **Financial impact correlation:** more investment = more return (Spearman's 0.83)
 
 ### What this report does NOT give us
-- **No sector-level adoption rates** — the report breaks respondents by industry but doesn't report adoption rates per industry. The 67% is aggregate across all respondents.
+- **No sector-level adoption rates** - the report breaks respondents by industry but doesn't report adoption rates per industry. The 67% is aggregate across all respondents.
 - **No firm-size adoption breakdown within sectors**
-- **Selection bias means the 67% overstates national adoption** — comparison with NZIER/Spark (32%) confirms this
+- **Selection bias means the 67% overstates national adoption** - comparison with NZIER/Spark (32%) confirms this
 
 ### For the provenance analysis
 This report is one of three sources contributing to the "32% to 87%" adoption range in CK's provenance analysis:
@@ -122,4 +122,4 @@ This report is one of three sources contributing to the "32% to 87%" adoption ra
 - Mar 2025: **82%** (pulse survey)
 - Aug 2025: **87%** (pulse survey)
 
-The rising trajectory (67%→82%→87%) likely reflects an expanding, increasingly AI-engaged respondent pool rather than actual NZ adoption growth at that pace. The survey methodology is opt-in via AI Forum's network — respondents are self-selecting AI enthusiasts.
+The rising trajectory (67%→82%→87%) likely reflects an expanding, increasingly AI-engaged respondent pool rather than actual NZ adoption growth at that pace. The survey methodology is opt-in via AI Forum's network - respondents are self-selecting AI enthusiasts.

@@ -1,4 +1,4 @@
-# NZ AI Economy Simulator — Critical Analysis
+# NZ AI Economy Simulator - Critical Analysis
 
 *Based on current project state and eight completed research analyses*  
 *Date: 2026-04-17*
@@ -220,8 +220,8 @@ Because New Zealand is already making AI policy, investment, capability, procure
 
 That produces two predictable failures:
 
-1. **single-average thinking** — treating AI adoption as a national number rather than a structural pattern
-2. **policy misallocation** — funding what is visible or fashionable rather than what is bottlenecked or high-leverage
+1. **single-average thinking** - treating AI adoption as a national number rather than a structural pattern
+2. **policy misallocation** - funding what is visible or fashionable rather than what is bottlenecked or high-leverage
 
 This project is useful if it helps decision-makers ask better questions:
 

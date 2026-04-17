@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Formal Paper Outline
+# NZ AI Policy Sandbox - Formal Paper Outline
 
 *Working title: NZ AI Economy Simulator*  
 *Date: 2026-04-17*  
@@ -96,12 +96,12 @@ Introduce the sector argument: adoption pace, barriers, returns, and risks diffe
 
 ## 3.2 Evidence from key sectors
 Use short analytical mini-sections:
-- Healthcare — admin vs clinical AI, equity and governance constraints
-- Public sector — capability, culture, scale, and chilling effect
-- Financial services — regulation and stability constraints
-- Manufacturing — clearer productivity logic
-- Construction — fragmented firms, low maturity, weak digital foundations
-- Technology — enabling sector and diffusion pathway
+- Healthcare - admin vs clinical AI, equity and governance constraints
+- Public sector - capability, culture, scale, and chilling effect
+- Financial services - regulation and stability constraints
+- Manufacturing - clearer productivity logic
+- Construction - fragmented firms, low maturity, weak digital foundations
+- Technology - enabling sector and diffusion pathway
 
 ## 3.3 Theoretical grounding
 Use OECD and related productivity logic to show why broad aggregate policy can underperform in a mixed economy.
@@ -118,7 +118,7 @@ Use OECD and related productivity logic to show why broad aggregate policy can u
 ## 4.2 Whole-economy scope
 Explain why the paper uses a tiered model instead of only the 9 archetype sectors.
 
-### Tier 1 — full explanatory sectors (9)
+### Tier 1 - full explanatory sectors (9)
 - agriculture
 - manufacturing
 - professional services
@@ -129,7 +129,7 @@ Explain why the paper uses a tiered model instead of only the 9 archetype sector
 - financial services
 - retail and wholesale
 
-### Tier 2 — simplified sectors (6)
+### Tier 2 - simplified sectors (6)
 - education and training
 - transport, postal and warehousing
 - accommodation and food services
@@ -137,7 +137,7 @@ Explain why the paper uses a tiered model instead of only the 9 archetype sector
 - information media and telecommunications
 - utilities
 
-### Tier 3 — residual blocks (4)
+### Tier 3 - residual blocks (4)
 - mining
 - rental / hiring / real estate
 - arts and recreation
@@ -159,13 +159,13 @@ Describe the four parameter groups:
 
 # 5. Scenario Design
 
-## 5.1 Scenario A — Aggregate policy
+## 5.1 Scenario A - Aggregate policy
 Economy-wide allocation by GDP share or equivalent broad rule.
 
-## 5.2 Scenario B — Targeted demand-side policy
+## 5.2 Scenario B - Targeted demand-side policy
 Direct support to lagging or high-leverage sectors.
 
-## 5.3 Scenario C — Targeted supply-side policy
+## 5.3 Scenario C - Targeted supply-side policy
 Investment in enabling sectors and diffusion infrastructure.
 
 ## 5.4 Why these scenarios matter

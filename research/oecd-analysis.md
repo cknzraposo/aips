@@ -1,4 +1,4 @@
-# OECD — "Miracle or Myth? Assessing the Macroeconomic Productivity Gains from AI"
+# OECD - "Miracle or Myth? Assessing the Macroeconomic Productivity Gains from AI"
 
 *Source: OECD AI Paper No. 29, November 2024 (Filippucci, Gal and Schief)*
 *PDF not downloaded (OECD iLibrary Cloudflare blocked)*
@@ -26,7 +26,7 @@ Micro-level studies show stunning task-level AI gains:
 | **Total Factor Productivity (TFP)** | **0.25 - 0.6 pp** |
 | **Labour Productivity** | **0.4 - 0.9 pp** |
 
-**Context:** US annual TFP growth has averaged ~1% and labour productivity ~1.5% over the past two decades. AI would be a significant but not transformational addition — unlike the ICT boom of 1995-2004, which contributed 1-1.5pp to annual US TFP growth.
+**Context:** US annual TFP growth has averaged ~1% and labour productivity ~1.5% over the past two decades. AI would be a significant but not transformational addition - unlike the ICT boom of 1995-2004, which contributed 1-1.5pp to annual US TFP growth.
 
 ### Precise Scenario Results (Table 2 from paper)
 
@@ -42,11 +42,11 @@ Micro-level studies show stunning task-level AI gains:
 | **Total TFP (pp/year)** | **0.24** | **0.62** | **0.53** |
 | **Total Labour Productivity (pp/year)** | **0.36** | **0.93** | **0.80** |
 
-**Critical finding:** In Scenario 3 (most realistic — uneven adoption + frictions), the Baumol effect drags aggregate TFP down by 0.08pp. This is the mathematical mechanism that makes sector-targeted policy superior to aggregate policy. When gains concentrate in a few sectors, demand saturation and reallocation frictions erode aggregate growth.
+**Critical finding:** In Scenario 3 (most realistic - uneven adoption + frictions), the Baumol effect drags aggregate TFP down by 0.08pp. This is the mathematical mechanism that makes sector-targeted policy superior to aggregate policy. When gains concentrate in a few sectors, demand saturation and reallocation frictions erode aggregate growth.
 
 ---
 
-## Why Micro Gains Don't Simply Scale Up — Three Structural Drags
+## Why Micro Gains Don't Simply Scale Up - Three Structural Drags
 
 ### 1. Limited exposure
 AI primarily boosts cognitive, knowledge-intensive tasks (ICT, finance, professional services). Physical and manual tasks remain largely unaffected.
@@ -68,7 +68,7 @@ When AI gains concentrate in a few sectors, demand saturation and factor realloc
 | **Robotics integration** (AI extends to physical tasks) | **~1 pp** | The breakthrough case |
 | **High concentration + frictions** | Gains cut by ~1/3 | Baumol drag fully operative |
 
-**The robotics integration scenario is the breakthrough case** — when physical tasks are also exposed, gains spread across all sectors, eliminating the Baumol reallocation drag entirely.
+**The robotics integration scenario is the breakthrough case** - when physical tasks are also exposed, gains spread across all sectors, eliminating the Baumol reallocation drag entirely.
 
 ---
 
@@ -87,10 +87,10 @@ When AI gains concentrate in a few sectors, demand saturation and factor realloc
 
 ## Policy Levers Identified
 
-1. **Accelerate adoption and diffusion** — skills policy, digital infrastructure, liberalised digital trade
-2. **Maintain competitive markets** — prevent incumbency advantages from discouraging laggard adoption
-3. **Invest in complementary capabilities** — digital tools and robotics integration to widen AI's sectoral reach
-4. **Manage reallocation** — facilitate labour mobility across sectors to minimise Baumol drag
+1. **Accelerate adoption and diffusion** - skills policy, digital infrastructure, liberalised digital trade
+2. **Maintain competitive markets** - prevent incumbency advantages from discouraging laggard adoption
+3. **Invest in complementary capabilities** - digital tools and robotics integration to widen AI's sectoral reach
+4. **Manage reallocation** - facilitate labour mobility across sectors to minimise Baumol drag
 
 ---
 
@@ -109,11 +109,11 @@ When AI gains concentrate in a few sectors, demand saturation and factor realloc
 
 ### NZ Productivity Estimate
 
-**Rough NZ range: 0.2-0.5pp annual labour productivity gain over 10 years** — toward the lower half of the OECD range, unless deliberate policy action accelerates adoption.
+**Rough NZ range: 0.2-0.5pp annual labour productivity gain over 10 years** - toward the lower half of the OECD range, unless deliberate policy action accelerates adoption.
 
 ### The NZ-Specific Upside Case
 
-The **robotics integration pathway is disproportionately important for NZ**. Comparative advantages in agriculture, horticulture, aquaculture, and logistics are domains where AI-robotics convergence could deliver outsized returns — precisely because these sectors are currently NOT exposed to pure GenAI productivity gains.
+The **robotics integration pathway is disproportionately important for NZ**. Comparative advantages in agriculture, horticulture, aquaculture, and logistics are domains where AI-robotics convergence could deliver outsized returns - precisely because these sectors are currently NOT exposed to pure GenAI productivity gains.
 
 If NZ positions itself as an early mover in AI-robotics integration within primary industries, the productivity calculus shifts materially.
 
@@ -121,32 +121,32 @@ If NZ positions itself as an early mover in AI-robotics integration within prima
 
 ## Key Takeaway for NZ Policy Framing
 
-The paper's central message — that macro gains are conditional, not automatic — carries particular weight for New Zealand. The structural headwinds (slow diffusion, low intangible investment, primary-sector weighting) mean **NZ cannot passively import the productivity dividend**. It requires active intervention on adoption, skills, digital infrastructure, and especially AI-robotics convergence in the sectors where NZ actually competes.
+The paper's central message - that macro gains are conditional, not automatic - carries particular weight for New Zealand. The structural headwinds (slow diffusion, low intangible investment, primary-sector weighting) mean **NZ cannot passively import the productivity dividend**. It requires active intervention on adoption, skills, digital infrastructure, and especially AI-robotics convergence in the sectors where NZ actually competes.
 
 ---
 
 ## Implications for Simulator
 
-### Critical for all sectors — productivity calibration anchor
+### Critical for all sectors - productivity calibration anchor
 
 - **C15 (productivity estimates):** Use 0.25-0.6pp TFP as the calibration range for aggregate scenarios
 - **NZ-specific adjustment:** 0.2-0.5pp labour productivity (lower half of OECD range)
-- **Baumol drag:** Must be modelled — when gains concentrate in few sectors, aggregate gains are cut by ~1/3. This is the mathematical basis for why sector-targeted policy beats aggregate policy.
-- **Robotics scenario:** The breakthrough pathway for Agriculture archetype specifically — AI-robotics convergence in primary industries
+- **Baumol drag:** Must be modelled - when gains concentrate in few sectors, aggregate gains are cut by ~1/3. This is the mathematical basis for why sector-targeted policy beats aggregate policy.
+- **Robotics scenario:** The breakthrough pathway for Agriculture archetype specifically - AI-robotics convergence in primary industries
 
 ### For sector archetypes specifically
 | Archetype | OECD Implication |
 |---|---|
 | Agriculture (targeted-policy beneficiary) | Robotics integration is the upside case; pure GenAI exposure is low |
 | Manufacturing (productivity sweet spot) | Directly in the "expanded digital tools" scenario range |
-| Professional Services (diminishing returns) | Already high exposure — Baumol saturation applies |
+| Professional Services (diminishing returns) | Already high exposure - Baumol saturation applies |
 | Construction (worst case for aggregate) | Physical/manual tasks = low GenAI exposure = needs robotics pathway |
 | Technology (supply-side enabler) | The complementary capability that widens AI reach for other sectors |
 
 ### For policy scenarios
-- **Aggregate scenario:** OECD shows this produces Baumol drag — validates our hypothesis
+- **Aggregate scenario:** OECD shows this produces Baumol drag - validates our hypothesis
 - **Demand-targeted scenario:** Concentrating on low-adoption sectors reduces reallocation frictions
 - **Supply-targeted scenario:** Investing in tech/digital tools = the "expanded digital tools" scenario that lifts gains from 0.25 to 0.4-0.6pp
 
 ### Additional reference
-- **NZ Treasury Analytical Note AN 24/06 (July 2024)** — companion NZ-specific analysis. Worth finding and adding to the source catalogue.
+- **NZ Treasury Analytical Note AN 24/06 (July 2024)** - companion NZ-specific analysis. Worth finding and adding to the source catalogue.

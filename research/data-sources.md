@@ -1,4 +1,4 @@
-# Data Sources — NZ AI Economy Simulator
+# Data Sources - NZ AI Economy Simulator
 *Compiled: 2026-04-11*
 
 ## Primary NZ Data Sources
@@ -168,18 +168,18 @@
 ## Gaps & Additional Sources Needed
 
 ### Identified gaps
-1. **Granular sector-level AI adoption** — Need Stats NZ Business Ops Survey detailed results
-2. **NZ AI specialist workforce count** — No authoritative source; need to triangulate (LinkedIn, Immigration NZ, uni grads)
-3. **Regional variation within NZ** — Auckland vs Wellington vs regions; limited data
-4. **Longitudinal firm-level data** — Track same firms over time with/without AI; need research partnership
-5. **NZ AI export revenue** — Which companies scaling globally? Revenue data sparse
+1. **Granular sector-level AI adoption** - Need Stats NZ Business Ops Survey detailed results
+2. **NZ AI specialist workforce count** - No authoritative source; need to triangulate (LinkedIn, Immigration NZ, uni grads)
+3. **Regional variation within NZ** - Auckland vs Wellington vs regions; limited data
+4. **Longitudinal firm-level data** - Track same firms over time with/without AI; need research partnership
+5. **NZ AI export revenue** - Which companies scaling globally? Revenue data sparse
 
 ### Potential additional sources
-- **Contact Stats NZ directly** — Request microdata access for Business Ops Survey
-- **AI Forum NZ** — Request granular data from 2024 survey
-- **NZTE (NZ Trade & Enterprise)** — Export data for tech companies
-- **Angel Association NZ / Venture Capital Association** — NZ VC funding data
-- **Research collaboration** — Partner with uni (e.g., VUW School of Economics) for data access & modelling
+- **Contact Stats NZ directly** - Request microdata access for Business Ops Survey
+- **AI Forum NZ** - Request granular data from 2024 survey
+- **NZTE (NZ Trade & Enterprise)** - Export data for tech companies
+- **Angel Association NZ / Venture Capital Association** - NZ VC funding data
+- **Research collaboration** - Partner with uni (e.g., VUW School of Economics) for data access & modelling
 
 ---
 

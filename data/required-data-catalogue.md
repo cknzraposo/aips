@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox — Required Data Catalogue
+# NZ AI Policy Sandbox - Required Data Catalogue
 
 *Working title: NZ AI Economy Simulator*  
 *Date: 2026-04-17*  
@@ -23,9 +23,9 @@ The goal is not to pretend every sector is equally well measured. The goal is to
 
 Every data item should be tagged as one of:
 
-- **Observed** — directly supported by NZ data
-- **Derived** — estimated from multiple sources or international benchmarks
-- **Assumed** — placeholder used for scenario structure, explicitly declared
+- **Observed** - directly supported by NZ data
+- **Derived** - estimated from multiple sources or international benchmarks
+- **Assumed** - placeholder used for scenario structure, explicitly declared
 
 Every item should also carry a **status** tag:
 - **Available**
@@ -36,7 +36,7 @@ Every item should also carry a **status** tag:
 
 ## 3. Whole-economy sector structure
 
-### Tier 1 — full explanatory sectors (9)
+### Tier 1 - full explanatory sectors (9)
 1. Agriculture  
 2. Manufacturing  
 3. Professional Services  
@@ -47,7 +47,7 @@ Every item should also carry a **status** tag:
 8. Financial Services  
 9. Retail and Wholesale
 
-### Tier 2 — simplified sectors (6)
+### Tier 2 - simplified sectors (6)
 10. Education and Training  
 11. Transport, Postal and Warehousing  
 12. Accommodation and Food Services  
@@ -55,7 +55,7 @@ Every item should also carry a **status** tag:
 14. Information Media and Telecommunications  
 15. Utilities
 
-### Tier 3 — residual sectors (4)
+### Tier 3 - residual sectors (4)
 16. Mining  
 17. Rental, Hiring and Real Estate Services  
 18. Arts and Recreation Services  
@@ -130,7 +130,7 @@ Tier 1 sectors need the richest treatment because they carry the policy narrativ
 
 ---
 
-## 6. Tier 1 — current status by sector
+## 6. Tier 1 - current status by sector
 
 | Sector | Economic baseline | Adoption state | Productivity / labour | Policy / regulation | Overall |
 |---|---|---|---|---|---|
@@ -184,7 +184,7 @@ Tier 2 sectors must be modelled well enough to absorb their economic weight and 
 
 ---
 
-## 8. Tier 2 — required sectors and likely evidence strength
+## 8. Tier 2 - required sectors and likely evidence strength
 
 | Sector | Baseline | Adoption | Policy responsiveness | Outcome channels | Overall |
 |---|---|---|---|---|---|
@@ -242,7 +242,7 @@ These are not sector-specific fields but are required to parameterise policy sce
 
 # 11. Required data by build stage
 
-## Build stage 1 — enough to build Version 1
+## Build stage 1 - enough to build Version 1
 This is the minimum viable evidence set.
 
 ### Must-have before modelling
@@ -254,14 +254,14 @@ This is the minimum viable evidence set.
 - At least indicative productivity ranges for Tier 1 sectors
 - Tier 2 and Tier 3 simplified placeholders with explicit confidence tags
 
-## Build stage 2 — enough to improve the model materially
+## Build stage 2 - enough to improve the model materially
 - Better sector-specific adoption baselines
 - Skills pipeline and immigration data
 - Better capital cost estimates
 - Better NZ case evidence by sector
 - Better labour pressure calibration
 
-## Build stage 3 — enough for stronger publication-grade calibration
+## Build stage 3 - enough for stronger publication-grade calibration
 - LBD or equivalent longitudinal validation
 - Better firm-level productivity evidence
 - Raw or more detailed survey breakdowns from AI Forum / Datacom / sector bodies
@@ -272,7 +272,7 @@ This is the minimum viable evidence set.
 
 ## Highest priority gaps
 
-### Gap 1 — sector-level adoption starting points for weakly measured sectors
+### Gap 1 - sector-level adoption starting points for weakly measured sectors
 Especially:
 - Agriculture
 - Construction
@@ -281,16 +281,16 @@ Especially:
 - Accommodation / Food
 - Admin / Support
 
-### Gap 2 — better distinction between types of AI use
+### Gap 2 - better distinction between types of AI use
 Especially where current figures blur:
 - admin vs core-domain AI
 - pilot vs scaled deployment
 - generative AI usage vs actual operational integration
 
-### Gap 3 — NZ-specific productivity and labour calibration
+### Gap 3 - NZ-specific productivity and labour calibration
 The current evidence is good enough for ranges, but weak for precision.
 
-### Gap 4 — supply-side capability inputs
+### Gap 4 - supply-side capability inputs
 - graduates
 - migration / skills inflow
 - sector access to AI capability
@@ -330,8 +330,8 @@ The current evidence is good enough for ranges, but weak for precision.
 | Tier 1 | 9 | 28 | 252 |
 | Tier 2 | 6 | 12 | 72 |
 | Tier 3 | 4 | 6 | 24 |
-| **Sector total** | **19** | — | **348** |
-| Cross-cutting national datasets | — | — | **8 major datasets** |
+| **Sector total** | **19** | - | **348** |
+| Cross-cutting national datasets | - | - | **8 major datasets** |
 
 This is the current whole-economy data requirement footprint for Version 1.
 

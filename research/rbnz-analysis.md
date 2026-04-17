@@ -1,4 +1,4 @@
-# RBNZ — "Rise of the Machines: How Could AI Impact Financial Stability?"
+# RBNZ - "Rise of the Machines: How Could AI Impact Financial Stability?"
 
 *Source: RBNZ Financial Stability Report, May 2025, Special Topic (Matthew Hankin)*
 *PDF: `data/raw/rbnz-rise-of-machines-2025.pdf` (8 pages, 385KB)*
@@ -82,15 +82,15 @@ Benchmarked against BoE FPC (April 2025), FSB (November 2024), and BIS (June 202
 
 ## Additional References Found in Paper
 
-- **NZ Treasury Analytical Note AN 24/06 (July 2024)** — "The Impact of Artificial Intelligence – an economic analysis"
+- **NZ Treasury Analytical Note AN 24/06 (July 2024)** - "The Impact of Artificial Intelligence – an economic analysis"
   - URL: https://www.treasury.govt.nz/sites/default/files/2024-07/an24-06.pdf
   - Referenced by RBNZ as source for NZ-specific AI productivity estimates
-  - **Should download and analyse** — NZ-specific companion to the OECD paper
+  - **Should download and analyse** - NZ-specific companion to the OECD paper
 
 - **AI Forum NZ Business Productivity Report (September 2024)**
   - URL: https://aiforum.org.nz/wp-content/uploads/2024/09/AI-Business-Productivity-Report_September-2024_final.pdf
   - Source of the 8% displacement figure
-  - **Should download** — direct link from RBNZ footnotes
+  - **Should download** - direct link from RBNZ footnotes
 
 - **BoE AI in UK Financial Services Survey (2024)**
   - URL: https://www.bankofengland.co.uk/report/2024/artificial-intelligence-in-uk-financial-services-2024

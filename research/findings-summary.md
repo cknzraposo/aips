@@ -1,4 +1,4 @@
-# Research Findings Summary — NZ AI Economic Data
+# Research Findings Summary - NZ AI Economic Data
 *Compiled: 2026-04-11 | Updated: 2026-04-14 (provenance analysis, 19-sector scope)*
 
 ## What We Know (High Confidence)
@@ -14,25 +14,25 @@
 
 ---
 
-### AI Adoption Rates (NZ) — PROVENANCE ANALYSIS COMPLETE
+### AI Adoption Rates (NZ) - PROVENANCE ANALYSIS COMPLETE
 
 ⚠️ The commonly cited "44%" is NOT an adoption rate. See `provenance-analysis.md` for full analysis.
 
-The 44% comes from KPMG/UoM (2025) — a public trust metric ("benefits outweigh risks"), not business adoption.
+The 44% comes from KPMG/UoM (2025) - a public trust metric ("benefits outweigh risks"), not business adoption.
 
 Actual adoption figures in circulation:
-- NZIER/Spark QSBO (2024): **32%** — SMEs with plans to evaluate/invest (nationally representative)
-- Datacom (2023): **48%** — larger businesses using AI (200 senior leaders)
-- Datacom (2024): **67%** — same methodology, one year later
-- AI Forum (Sep 2024): **~67%** — self-selected network
-- AI Forum (Mar 2025): **82%** — self-selected network
-- AI Forum (Aug 2025): **87%** — self-selected network
-- KPMG/UoM (2025): **69%** — workers using AI regularly (global survey)
+- NZIER/Spark QSBO (2024): **32%** - SMEs with plans to evaluate/invest (nationally representative)
+- Datacom (2023): **48%** - larger businesses using AI (200 senior leaders)
+- Datacom (2024): **67%** - same methodology, one year later
+- AI Forum (Sep 2024): **~67%** - self-selected network
+- AI Forum (Mar 2025): **82%** - self-selected network
+- AI Forum (Aug 2025): **87%** - self-selected network
+- KPMG/UoM (2025): **69%** - workers using AI regularly (global survey)
 
 The 2.7x gap (32% → 87%) reflects different populations, definitions, and selection bias.
 MBIE's NZ AI Strategy (July 2025) cites contradictory figures without reconciling them.
 
-**Source quality:** ⭐⭐⭐ (multiple sources exist, but methodologically incoherent — reconciling this IS the contribution)
+**Source quality:** ⭐⭐⭐ (multiple sources exist, but methodologically incoherent - reconciling this IS the contribution)
 
 ---
 
@@ -120,7 +120,7 @@ MBIE's NZ AI Strategy (July 2025) cites contradictory figures without reconcilin
 ---
 
 ### 5. Regional Variation Within NZ
-❌ **Gap:** Auckland vs Wellington vs regions — AI adoption patterns unknown  
+❌ **Gap:** Auckland vs Wellington vs regions - AI adoption patterns unknown  
 ❌ **Why it matters:** Policy interventions may need geographic targeting (e.g., regional skills programs)
 
 **Mitigation:**
@@ -193,19 +193,19 @@ MBIE's NZ AI Strategy (July 2025) cites contradictory figures without reconcilin
 ## Priority Actions for Data Gap Closure
 
 ### Immediate (April 2026)
-1. **Email AI Forum NZ** (contact@aiforum.org.nz) — request detailed sector-level data from 2024 survey
-2. **Check Stats NZ Business Operations Survey** — see if 2024 results include AI/digital tech adoption questions
-3. **Review Productivity Commission reports** — "Technology & Future of Work" series
+1. **Email AI Forum NZ** (contact@aiforum.org.nz) - request detailed sector-level data from 2024 survey
+2. **Check Stats NZ Business Operations Survey** - see if 2024 results include AI/digital tech adoption questions
+3. **Review Productivity Commission reports** - "Technology & Future of Work" series
 
 ### Short-term (May-Jun 2026)
-4. **Contact universities** — CS department heads at Auckland, VUW, Canterbury for grad numbers & placement data
-5. **Reach out to Callaghan Innovation** — R&D grant data, AI-focused projects
-6. **NZTE export data** — request tech sector export breakdown
+4. **Contact universities** - CS department heads at Auckland, VUW, Canterbury for grad numbers & placement data
+5. **Reach out to Callaghan Innovation** - R&D grant data, AI-focused projects
+6. **NZTE export data** - request tech sector export breakdown
 
 ### Medium-term (Q3 2026)
-7. **Consider research partnership** — VUW School of Economics or Auckland Business School for data access & modelling collaboration
-8. **Interview NZ AI companies** — Soul Machines, Ika, etc. for qualitative insights
-9. **Run targeted survey** — if existing data insufficient (expensive, last resort)
+7. **Consider research partnership** - VUW School of Economics or Auckland Business School for data access & modelling collaboration
+8. **Interview NZ AI companies** - Soul Machines, Ika, etc. for qualitative insights
+9. **Run targeted survey** - if existing data insufficient (expensive, last resort)
 
 ---
 
