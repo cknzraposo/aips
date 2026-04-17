@@ -144,7 +144,7 @@ Tech stack is not yet decided. The methods and scope come first.
 - [x] 122/348 cells pre-populated (35%)
 - [x] Primary reference repo selected (Strauss)
 - [x] Architecture adaptation brief written
-- [ ] State-variable specification
+- [x] State-variable specification drafted
 - [ ] First-pass equations
 - [ ] Tech stack decision
 - [ ] Version 1 model build
@@ -162,6 +162,7 @@ nzais/
 ├── SCOPE.md               # Formal project scope
 ├── PAPER-OUTLINE.md       # Paper structure
 ├── METHODS.md             # Methods note
+├── STATE-VARIABLES.md     # Critique-ready state variable specification
 ├── FAQ.md                 # Comprehensive FAQ
 ├── CONTRIBUTING.md        # Collaborator brief
 ├── docs/
