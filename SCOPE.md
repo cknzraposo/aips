@@ -18,7 +18,7 @@ This project will model the New Zealand economy as a tiered whole-economy struct
 
 New Zealand's current AI policy discussion rests on an unstable baseline.
 
-The most-cited **44%** figure is not a business adoption rate. It is a public trust measure. Meanwhile, actual adoption figures in circulation range from **32% to 87%**, depending on who was surveyed, what population was sampled, and how "adoption" was defined.
+The most-cited AI adoption figures in New Zealand range from **32% to 87%**. No two sources measure the same thing. Some widely-cited figures are not adoption measures at all. Policy built on any single number is standing on weak ground.
 
 This creates a policy problem. Broad national claims about AI adoption are often made as if they describe a single coherent reality. They do not.
 

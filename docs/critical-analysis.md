@@ -11,8 +11,8 @@ The original NZ AI Economy Simulator is built around a **real and important prob
 
 The strongest part of the project is **not** the simulator itself. It is the diagnosis that New Zealand's AI policy baseline is methodologically incoherent:
 
-- the widely-cited **44%** figure is **not adoption** but public trust
-- actual adoption figures range from **32% to 87%** depending on population and method
+- adoption figures in NZ range from **32% to 87%** depending on source, population, and definition
+- no two sources measure the same thing, and some widely-cited figures are not adoption measures at all
 - sector behaviour is clearly heterogeneous
 - current policy discussion often speaks as if a single national average is meaningful
 
@@ -171,7 +171,7 @@ This matters because the evidence supports comparative scenario testing better t
 The most defensible contribution now is a combination of three things:
 
 ### A. Baseline correction
-Fix the misuse of the 44% figure and show why current adoption discourse is incoherent.
+Establish the baseline incoherence and show why current adoption discourse is unreliable for policy.
 
 ### B. Sector typology
 Show that sectors differ materially in adoption logic, constraints, and policy responsiveness.
@@ -278,7 +278,7 @@ That overclaims.
 The project is differentiated by the combination of:
 
 - NZ-specific framing
-- provenance correction of the 44% figure
+- source comparison of NZ AI adoption figures
 - cross-sector synthesis
 - comparison of demand-side vs supply-side policy
 - potential for an explainable, transparent model rather than black-box consultancy output

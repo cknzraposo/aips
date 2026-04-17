@@ -10,7 +10,7 @@
 
 This project exists because New Zealand's current AI policy discussion rests on a weak baseline.
 
-The most-cited **44%** figure is not a business adoption rate. It is a public trust measure: the share of New Zealanders who believe the benefits of AI outweigh the risks. Meanwhile, actual AI adoption figures in circulation range from **32% to 87%**, depending on who was surveyed, how adoption was defined, and what kind of use was counted.
+The most-cited AI adoption figures in New Zealand range from **32% to 87%**, reflecting different populations, definitions, and methods. Some widely-cited figures are not adoption measures at all. Meanwhile, actual AI adoption figures in circulation vary depending on who was surveyed, how adoption was defined, and what kind of use was counted.
 
 That means the standard habit of talking about "NZ AI adoption" as a single national number is methodologically unsound.
 

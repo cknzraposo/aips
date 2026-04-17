@@ -16,7 +16,7 @@
 
 This project is building a paper-grade framework and scenario model for thinking about AI policy in New Zealand.
 
-The starting point is simple: NZ's current AI baseline is methodologically messy. The most-cited **44%** figure is not business adoption at all, but a trust measure. Other numbers in circulation range from **32% to 87%**, depending on source, sample, and definition.
+The starting point is simple: NZ's current AI baseline is methodologically messy. Adoption figures in circulation range from **32% to 87%**, reflecting different populations, definitions, and selection biases. No two sources measure the same thing, and some widely-cited figures are not adoption measures at all.
 
 That means much of the public conversation around "NZ AI adoption" is flatter and more confident than the evidence supports.
 
@@ -131,7 +131,7 @@ Support focused on enabling capacity such as technology, skills, infrastructure,
 ## Current state of the project
 
 Completed or substantially advanced:
-- provenance analysis of the 44% figure
+- source comparison of NZ AI adoption figures (provenance analysis)
 - synthesis of major NZ AI adoption sources
 - research analyses across OECD, Treasury, Datacom, AI Forum, PMCSA healthcare, public sector, RBNZ, and FMA
 - critical analysis of the original simulator concept

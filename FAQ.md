@@ -9,9 +9,9 @@
 It is a transparent NZ sector-calibrated policy sandbox for testing AI policy tradeoffs under uncertainty.
 
 ## 2. What problem is it solving?
-It addresses the fact that New Zealand's AI policy discussion relies on inconsistent and often misleading baseline metrics, especially the misuse of the 44% figure as if it were a business adoption rate.
+It addresses the fact that New Zealand's AI policy discussion relies on inconsistent and often misleading baseline metrics. Adoption figures in circulation range from 32% to 87%, with no two sources measuring the same thing.
 
-## 3. Why does the 44% figure matter so much?
+## 3. Why does the baseline problem matter so much?
 Because it has been treated as if it describes adoption, when it actually describes public trust. If the baseline is wrong, the policy conversation built on top of it is weaker than it looks.
 
 ## 4. What is the project's central claim?
@@ -97,7 +97,7 @@ Weak evidence is not hidden. It is surfaced.
 No. It makes it more honest. Pretending weak evidence is strong would make it less rigorous.
 
 ## 26. What is the strongest finding so far?
-That the baseline itself is broken. The provenance correction around the 44% figure is the cleanest and most defensible contribution at this stage.
+That the baseline itself is fragmented. The source comparison - showing figures from 32% to 87% that measure different things - is the cleanest and most defensible contribution at this stage.
 
 ## 27. What is the project's real value proposition?
 It gives policymakers and serious readers a structured way to think about AI policy tradeoffs in NZ without leaning on misleading single-number thinking.

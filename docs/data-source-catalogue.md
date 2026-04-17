@@ -158,8 +158,8 @@ Each source is rated on:
 - **Notes:** Most methodologically robust NZ adoption figure (nationally representative panel). The 32% is the conservative anchor.
 
 ### 20. KPMG / University of Melbourne - "Trust, Attitudes and Use of AI" (2025)
-- **What it provides:** 44% of NZers believe benefits outweigh risks; 69% of workers using AI regularly. 48,000+ respondents across 47 countries.
-- **Covers:** Provenance analysis - the "44%" is NOT adoption. NZ ranked lowest of 47 countries on trust.
+- **What it provides:** Public trust in AI metrics across 17+ countries. NZ-specific findings on attitudes towards AI.
+- **Covers:** Public sentiment, not business adoption. The 44% figure from this study measures trust (believe benefits outweigh risks), not adoption rate.
 - **URL:** KPMG reports / University of Melbourne
 - **Relevance:** Critical (for provenance analysis) | **Access:** Public | **Quality:** ⭐⭐⭐⭐ | **Status:** ✅
 - **Notes:** Public sentiment metric, not business adoption. Essential for the paper's reframing argument.

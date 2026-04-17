@@ -8,7 +8,7 @@
 
 NZAIS is a whole-economy scenario model for comparing AI policy approaches in New Zealand.
 
-It exists because New Zealand's current AI policy discussion rests on a weak baseline. The most-cited "44%" figure is not a business adoption rate - it is a public trust measure. Actual adoption figures in circulation range from 32% to 87%, depending on who was surveyed, what population was sampled, and how "adoption" was defined.
+It exists because New Zealand's current AI policy discussion rests on a fragmented baseline. Adoption figures in circulation range from 32% to 87%, depending on who was surveyed, what population was sampled, and how "adoption" was defined. No two sources measure the same thing. Policy built on any single number is standing on weak ground.
 
 That means much of the public conversation around "NZ AI adoption" is flatter and more confident than the evidence supports.
 
@@ -113,7 +113,7 @@ The project draws on 10 completed research analyses and 38 catalogued data sourc
 | NZTech Manifesto (2026) | Tech sector: $24B GDP, 119,520 jobs, $11.4B exports |
 | Stats NZ (multiple) | GDP, employment, business demography - all 19 sectors |
 
-The 44% provenance analysis - showing that the widely-cited figure is trust, not adoption - is a foundational contribution of this project.
+The source comparison - showing that adoption figures range from 32% to 87% with no consistent definition - is a foundational contribution of this project.
 
 ---
 

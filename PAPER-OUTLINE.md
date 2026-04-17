@@ -11,7 +11,7 @@
 **From One Number to Many Realities: A Sector-Calibrated Policy Sandbox for AI Policy in New Zealand**
 
 ### Alternative titles
-1. **Beyond the 44%: Modelling AI Policy Tradeoffs in a Heterogeneous New Zealand Economy**
+1. **Fragmented Baselines, Targeted Policy: Modelling AI Policy Tradeoffs in a Heterogeneous New Zealand Economy**
 2. **Why Single-Average AI Policy Fails: A Tiered Whole-Economy Framework for New Zealand**
 3. **A Transparent NZ AI Policy Sandbox: Comparing Aggregate and Targeted AI Policy Under Uncertainty**
 
@@ -69,8 +69,8 @@ This paper contributes:
 
 # 2. The Baseline Problem
 
-## 2.1 The misuse of the 44% figure
-- explain what the 44% actually measures
+## 2.1 The fragmented baseline
+- explain the 32%-87% range and why no two sources agree
 - show how it has been treated as adoption in broader discussion
 - clarify why trust is not the same as deployment or readiness
 
@@ -264,7 +264,7 @@ End with the project's modest but serious ambition:
 ---
 
 ## Appendices to prepare later
-1. Provenance analysis of the 44% figure  
+1. Source comparison of NZ AI adoption figures  
 2. Sector table with evidence classes  
 3. Scenario parameter assumptions  
 4. Sensitivity analysis notes  

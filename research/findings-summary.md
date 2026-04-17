@@ -16,7 +16,7 @@
 
 ### AI Adoption Rates (NZ) - PROVENANCE ANALYSIS COMPLETE
 
-⚠️ The commonly cited "44%" is NOT an adoption rate. See `provenance-analysis.md` for full analysis.
+⚠️ NZ AI adoption figures range from 32% to 87% depending on source, population, and definition. No single reliable national figure exists. See `provenance-analysis.md` for source comparison.
 
 The 44% comes from KPMG/UoM (2025) - a public trust metric ("benefits outweigh risks"), not business adoption.
 
@@ -37,7 +37,7 @@ MBIE's NZ AI Strategy (July 2025) cites contradictory figures without reconcilin
 ---
 
 ### OECD Comparatives
-✅ **NZ position:** Mid-tier (44% vs OECD 35-50% range)  
+✅ **NZ position:** Mid-tier (32%-67% depending on source vs OECD 35-50% range)  
 ✅ **Leaders:** USA (50-65%), South Korea (55-60%), Singapore (50-55%), Germany (45-55%)  
 ✅ **Similar economies:** Australia (40-45%), Canada (40-45%), Denmark (40-45%)  
 ✅ **Universal barrier #1:** Skills gap (across all OECD countries)
@@ -73,7 +73,7 @@ MBIE's NZ AI Strategy (July 2025) cites contradictory figures without reconcilin
 ## What We Don't Know (Data Gaps)
 
 ### 1. Granular Sector-Level AI Adoption (NZ)
-❌ **Gap:** AI Forum NZ report gives overall 44%, but limited breakdown by industry  
+❌ **Gap:** AI Forum NZ report gives overall figures, but limited breakdown by industry  
 ❌ **Need:** Manufacturing vs finance vs healthcare vs agriculture vs public sector adoption rates  
 ❌ **Why it matters:** Different sectors have different productivity potential and barriers
 
@@ -171,7 +171,7 @@ MBIE's NZ AI Strategy (July 2025) cites contradictory figures without reconcilin
 
 ### HIGH CONFIDENCE (use as-is)
 - NZ tech sector GDP, employment, exports
-- Overall AI adoption rate (44%)
+- Overall AI adoption rate (range: 32%-87% depending on source)
 - OECD comparative positioning (mid-tier)
 - Policy framework (principles-based, voluntary)
 
