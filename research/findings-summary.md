@@ -18,7 +18,7 @@
 
 ⚠️ NZ AI adoption figures range from 32% to 87% depending on source, population, and definition. No single reliable national figure exists. See `provenance-analysis.md` for source comparison.
 
-The 44% comes from KPMG/UoM (2025) - a public trust metric ("benefits outweigh risks"), not business adoption.
+The 44% from KPMG/University of Queensland (2023) is a public trust metric ("benefits outweigh risks"), not business adoption. A separate Datacom "44%" measures NZ readiness perception. Neither is an adoption rate.
 
 Actual adoption figures in circulation:
 - NZIER/Spark QSBO (2024): **32%** - SMEs with plans to evaluate/invest (nationally representative)

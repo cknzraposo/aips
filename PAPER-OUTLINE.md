@@ -268,5 +268,5 @@ End with the project's modest but serious ambition:
 2. Sector table with evidence classes  
 3. Scenario parameter assumptions  
 4. Sensitivity analysis notes  
-5. Architecture decision memo  
+5. Architecture decision (decided - see `docs/repo-selection.md`)    
 6. Data source catalogue
