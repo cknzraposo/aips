@@ -194,6 +194,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution modes and the collaborat
 
 ---
 
+## An AI for Good NZ initiative
+
+This project is developed under [AI for Good New Zealand](https://www.aiforgood.org.nz) — a community dedicated to ensuring AI benefits all New Zealanders.
+
+---
+
 ## Authors
 
 - **CK** — co-author, domain expert. Three decades of enterprise technology adoption. Founder, AI for Good NZ. Microsoft ATS for NZ Higher Education.
@@ -202,4 +208,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution modes and the collaborat
 
 ## Licence
 
-Not yet decided. Currently private.
+MIT — see [LICENSE](LICENSE).
