@@ -108,14 +108,14 @@ First: policymakers, economists, policy analysts, collaborators, and expert revi
 ## 29. Why not build the public tool first?
 Because a polished interface can hide a weak method. The paper logic and assumptions need to be credible before the public layer is built.
 
-## 30. Is the architecture decided yet?
-No. That comes after the methods and tiered scope are stable.
+## 30. Is the architecture decided?
+Yes. The project uses a sector-level system model adapted from the Strauss ODE reference (`IlanStrauss/ai-web-economy-simulator`). See `docs/repo-selection.md` for the full rationale.
 
-## 31. What architecture options are being considered?
-Broadly, a more interpretable sector-level system model or a more complex agent-based model. The decision will be driven by the question, not by which architecture looks more sophisticated.
+## 31. Why was this architecture chosen?
+The Strauss reference uses bounded state variables, one mechanism per layer, named policy scenarios, and transparent equilibrium logic. That matches the project's need for a sector-calibrated policy sandbox better than a firm-level agent-based model.
 
-## 32. Why not jump straight to an ABM?
-Because complexity is not the same as usefulness. If a simpler and more transparent structure can answer the policy question, it should be preferred first.
+## 32. Why not an ABM?
+Because complexity is not the same as usefulness. The sector-level system model answers the policy question more transparently. If firm-level emergence becomes genuinely necessary later, an ABM extension can be added as a second step.
 
 ## 33. What is the biggest risk to the project?
 False precision. If the model sounds more certain than the evidence allows, it will overclaim and lose credibility.
@@ -163,7 +163,7 @@ Because it is exactly the kind of sector aggregate policy may fail to reach effe
 1. Scope and framing
 2. Methods note
 3. Tiered sector structure
-4. Architecture decision
+4. Architecture decision (decided - see `docs/repo-selection.md`)
 5. Version 1 scenario model
 6. Paper draft
 7. Expert review

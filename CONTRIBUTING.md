@@ -140,7 +140,6 @@ Completed or substantially advanced:
 
 Still open:
 - final tiered sector specification
-- architecture decision
 - Version 1 scenario model
 - collaborator review and refinement
 
@@ -152,7 +151,7 @@ We are interested in collaborators who can strengthen one or more of the followi
 
 ### Economics and modelling
 - macro / sector modelling
-- CGE / ABM / system dynamics
+- system dynamics / ODE modelling
 - productivity and diffusion economics
 - policy evaluation under uncertainty
 

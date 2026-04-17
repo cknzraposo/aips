@@ -205,22 +205,22 @@ The first version should avoid overclaiming on:
 
 ---
 
-## 11. Architecture decision rule
+## 11. Architecture decision
 
-The modelling architecture should be chosen only after the methods are clear.
+The modelling architecture has been decided.
 
-The choice is not between "simple" and "advanced". It is between structures that best serve the question.
+**Selected approach:** Sector-level system model using bounded ordinary differential equations, adapted from `IlanStrauss/ai-web-economy-simulator`.
 
-### Candidate approaches
-- **Sector-level system model / ODE-style approach** if the goal is transparent mechanism comparison and equilibrium logic
-- **Agent-based model** if firm heterogeneity and emergent dynamics are necessary to answer the question
+**Why it fits:**
+- transparent mechanism comparison and equilibrium logic
+- bounded state variables keep results interpretable
+- one mechanism per layer prevents double counting
+- named scenarios map directly to policy communication
+- sector heterogeneity is expressed through per-sector parameters, not firm-level agents
 
-### Current bias
-Start with the most interpretable architecture that can support:
-- sector heterogeneity
-- scenario comparison
-- sensitivity testing
-- transparent assumptions
+**What is deferred:** An agent-based extension may be added later if firm-level emergence becomes genuinely necessary, but the foundation is the ODE system model.
+
+See `docs/repo-selection.md` for the full rationale and `STATE-VARIABLES.md` for the state-variable specification.
 
 If a simpler structure answers the policy question, prefer it.
 

@@ -309,7 +309,9 @@ If the aggregate scenario excludes too much of the economy, the central result w
 If the project tries to satisfy everyone, it will sound mushy to all of them.
 
 ## Risk 6: Architecture-first thinking
-If the project gets seduced by ODE vs ABM before the methods note is clear, the technical structure will drive the argument instead of serving it.
+~~If the project gets seduced by ODE vs ABM before the methods note is clear, the technical structure will drive the argument instead of serving it.~~
+
+*Update (2026-04-18): Architecture decision now made. Strauss ODE selected as primary reference. See `docs/repo-selection.md`. This risk is retired but the principle remains valid.*
 
 ---
 

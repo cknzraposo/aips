@@ -192,7 +192,7 @@ If evidence is weak, it should be labelled weak. If a parameter is inferred, it 
 
 ### Model deliverables
 8. Tiered sector specification  
-9. Architecture decision note  
+9. Architecture decision note (decided - see `docs/repo-selection.md`)  
 10. Version 1 scenario model  
 11. Sensitivity analysis memo
 
