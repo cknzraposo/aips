@@ -202,7 +202,7 @@ This project is developed under [AI for Good New Zealand](https://www.aiforgood.
 
 ## Authors
 
-- **CK** — co-author, domain expert. Three decades of enterprise technology adoption. Founder, AI for Good NZ. Microsoft ATS for NZ Higher Education.
+- **CK** — co-author, domain expert. Three decades of enterprise technology adoption. Founder, AI for Good NZ. [Blog](https://hello.chandima.net) · [Substack](https://chandima.substack.com)
 
 ---
 
