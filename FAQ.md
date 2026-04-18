@@ -133,7 +133,7 @@ Yes, probably. Especially for economics, sector validation, policy realism, and 
 Economists, sector experts, policy people, data and survey specialists, and technically literate critics who can challenge assumptions hard.
 
 ## 38. What role does CK play in the project?
-CK is not just sponsoring it. He is a domain expert, co-author candidate, and strategic interpreter of where the work should be useful.
+CK is a contributing domain expert and co-author candidate, not a sole lead. The project is led by the AI for Good New Zealand collective.
 
 ## 39. What would make the project genuinely useful?
 If it helps decision-makers ask better questions about AI policy allocation, bottlenecks, sector differences, and public-interest tradeoffs.
