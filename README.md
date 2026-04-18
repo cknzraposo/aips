@@ -1,4 +1,4 @@
-# NZ AI Policy Sandbox (NZAIS)
+# NZ AI Policy Sandbox
 
 **A transparent NZ sector-calibrated policy sandbox for testing AI policy tradeoffs under uncertainty.**
 
