@@ -64,7 +64,9 @@ These differences are not cosmetic. They change how policy works.
 
 ## Whole-economy scope
 
-The model uses a **tiered structure** covering all 19 ANZSIC Level 1 sectors:
+The model uses a **tiered structure** covering all 19 ANZSIC Level 1 sectors.
+
+> **ANZSIC** (Australian and New Zealand Standard Industrial Classification) is the official system used by Stats NZ to classify all economic activity into sectors. When this project says "all 19 ANZSIC Level 1 sectors," it means every part of the economy is represented - from agriculture to healthcare to retail. See [GLOSSARY.md](GLOSSARY.md) for all project terms.
 
 ### Tier 1 - Full explanatory sectors (9)
 Agriculture, Manufacturing, Professional Services, Public Sector, Technology, Healthcare, Construction, Financial Services, Retail & Wholesale
@@ -164,6 +166,8 @@ nzais/
 ├── METHODS.md             # Methods note
 ├── STATE-VARIABLES.md     # Critique-ready state variable specification
 ├── FAQ.md                 # Comprehensive FAQ
+├── GLOSSARY.md            # Plain-language glossary of project terms
+├── SOURCES.md             # Key source documents with URLs
 ├── CONTRIBUTING.md        # Collaborator brief
 ├── docs/
 │   ├── critical-analysis.md
