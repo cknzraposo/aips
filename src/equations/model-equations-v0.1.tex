@@ -1,0 +1,521 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\title{%
+  NZ AI Policy Sandbox -- Model Equations v0.1\\[0.5em]
+  \large Tier 1 Sector Dynamics: Bounded Gain-Loss ODE System\\[0.3em]
+  \normalsize New Zealand Whole-Economy Policy Sandbox
+}
+\author{AI for Good New Zealand}
+\date{Version 0.1 -- April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document specifies the mathematical foundations of the NZ AI Policy Sandbox (NZAIS) for Tier 1 sectors. The sandbox is a sector-calibrated, whole-economy model for comparing AI policy approaches in New Zealand. It is designed for policy comparison, not GDP forecasting.
+
+The model adapts the bounded gain-loss ODE structure from Strauss~\cite{strauss2024} to a 19-sector tiered economy. Each Tier 1 sector carries four state variables: absorptive capability ($K_s$), AI adoption maturity ($A_s$), realised productivity effect ($P_s$), and labour adjustment pressure ($L_s$). A single economy-wide enabling stock ($E$) supports all sectors via the national infrastructure layer.
+
+Design principles from \texttt{STATE-VARIABLES.md}: one mechanism per layer (no double counting), bounded state variables by construction, sector blocks as the unit of analysis, whole-economy denominator honesty, and comparative usefulness over predictive theatre.
+
+This v0.1 document specifies the \emph{form} of the equations for Tier 1 only. Parameter calibration is deferred to v0.2. Tier 2 and Tier 3 sectors are deferred to v0.2 and v0.3 respectively.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Model Structure}
+%% ============================================================
+
+\subsection{Design Principle: One Mechanism Per Layer}
+
+The model follows a strict causal chain where each variable is responsible for one layer. Each arrow in the DAG below represents exactly one mechanism and appears nowhere else in the system.
+
+\begin{center}
+\begin{tabular}{ccccccccc}
+$E$ & $\rightarrow$ & $K_s$ & $\rightarrow$ & $A_s$ & $\rightarrow$ & $P_s$ & $\rightarrow$ & $L_s$ \\
+& & $\uparrow$ & & & & & & \\
+& & \multicolumn{3}{c}{feedback from $A_s$} & & & &
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+  \item $E$ does not act directly on adoption - it acts \emph{through} $K_s$ (enabling capacity raises absorptive capability).
+  \item $K_s$ does not create productivity directly - it enables adoption \emph{through} $A_s$.
+  \item $A_s$ does not create labour pressure directly - it creates productivity \emph{through} $P_s$, and labour pressure emerges \emph{through} $L_s$.
+  \item $P_s$ is driven by adoption; $L_s$ is driven by adoption and sector structure (not by $P_s$ directly, to avoid double counting).
+  \item There is one feedback: adoption $A_s$ reinforces the demand for capability $K_s$ (learning-by-doing, procurement maturity).
+\end{itemize}
+
+No mechanism appears twice. Every causal path is traceable through a single logical chain.
+
+\subsection{State Variables}
+
+\begin{definition}[Tier 1 Sector State Variables]
+For each sector $s \in \mathcal{S}_1$ (Tier 1, $|\mathcal{S}_1| = 9$), the model tracks four state variables, all bounded in $[0,1]$:
+\begin{align}
+K_s(t) &: \text{Absorptive capability -- effective capacity to absorb AI into productive use} \\
+A_s(t) &: \text{AI adoption maturity -- degree of meaningful operational AI deployment} \\
+P_s(t) &: \text{Realised productivity effect -- normalised realisation index, bounded in $[0,1]$} \\
+L_s(t) &: \text{Labour adjustment pressure -- displacement and reconfiguration index}
+\end{align}
+\end{definition}
+
+\begin{definition}[Economy-Wide State Variable]
+There is one economy-wide enabling state:
+\begin{align}
+E(t) &: \text{National enabling capacity -- economy-wide environment for AI adoption}
+\end{align}
+bounded in $[0,1]$.
+\end{definition}
+
+\begin{remark}
+$P_s(t) \in [0,1]$ by normalisation to the sector-specific productivity ceiling $\bar{p}_s$. The raw productivity gain is $\bar{p}_s \cdot P_s(t)$, where $\bar{p}_s$ is a sector parameter calibrated separately (v0.2). In v0.1, only the normalised form is specified.
+\end{remark}
+
+\begin{remark}
+The GDP share $\omega_s$ for each sector is a constant input parameter, not a state variable. It is sourced from \texttt{data/sector-parameter-table.csv} (Stats NZ GDP by Industry). See Section~\ref{sec:aggregation}.
+\end{remark}
+
+\subsubsection*{Tier 1 Sectors}
+
+The nine Tier 1 sectors are:
+
+\begin{center}
+\begin{tabular}{clc}
+\toprule
+Index & Sector & Symbol \\
+\midrule
+1 & Agriculture & $s = \text{ag}$ \\
+2 & Manufacturing & $s = \text{mfg}$ \\
+3 & Professional Services & $s = \text{prof}$ \\
+4 & Public Sector & $s = \text{pub}$ \\
+5 & Technology & $s = \text{tech}$ \\
+6 & Healthcare & $s = \text{hlth}$ \\
+7 & Construction & $s = \text{con}$ \\
+8 & Financial Services & $s = \text{fin}$ \\
+9 & Retail \& Wholesale & $s = \text{ret}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ============================================================
+\section{Core Dynamics}
+%% ============================================================
+
+\begin{assumption}[Nonnegative Rates]
+All rate parameters are nonnegative:
+\[
+\rho_K,\, \rho_A,\, \rho_P,\, \rho_L,\, \rho_E,\, \alpha_s,\, \kappa_s,\, \phi_s,\, \lambda_s,\, \eta_s,\, \theta_s \;\geq\; 0.
+\]
+This ensures the bounded gain-loss forms keep all state variables in $[0,1]$ by construction, without requiring ex-post clamping.
+\end{assumption}
+
+All equations use bounded gain-loss forms:
+\[
+\frac{dX}{dt} = (1 - X)\cdot\rho_X \cdot f(\text{drivers}) \;-\; X\cdot\rho_X \cdot g(\text{drivers})
+\]
+so $X \in [0,1]$ is maintained for all $t \geq 0$. See Section~\ref{sec:boundedness} for the formal proposition.
+
+\subsection{Capability Stock Dynamics -- \texorpdfstring{$K_s(t)$}{Ks(t)}}
+
+Absorptive capability grows when the national enabling environment is strong and when sector-specific support is provided. It decays in the absence of investment and maintenance.
+
+\begin{equation}
+\boxed{
+\frac{dK_s}{dt}
+= (1 - K_s)\cdot\rho_K\cdot\bigl(\phi_s\, E + G_s\bigr)
+- K_s\cdot\rho_K\cdot\mu_s
+}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - K_s)\cdot\rho_K\cdot\phi_s\, E$: national enabling capacity lifts sector capability, at rate proportional to the sector's exposure $\phi_s$ to the national environment.
+  \item $(1 - K_s)\cdot\rho_K\cdot G_s$: sector-specific policy support $G_s$ directly builds capability.
+  \item $K_s\cdot\rho_K\cdot\mu_s$: capability decays at rate $\mu_s$ (skill attrition, technology obsolescence, institutional drift).
+  \item $(1 - K_s)$ saturation prevents $K_s > 1$; $K_s$ decay prevents $K_s < 0$.
+\end{itemize}
+
+\textbf{Feedback from adoption:} Adoption-driven demand reinforces capability building. This is modelled as an additive term in the gain:
+
+\begin{equation}
+\boxed{
+\frac{dK_s}{dt}
+= (1 - K_s)\cdot\rho_K\cdot\bigl(\phi_s\, E + G_s + \eta_s\, A_s\bigr)
+- K_s\cdot\rho_K\cdot\mu_s
+}
+\label{eq:Ks}
+\end{equation}
+
+where $\eta_s \geq 0$ is the adoption feedback parameter: as adoption grows, demand for capability (training, procurement maturity, data infrastructure) reinforces the capability stock. This is the one feedback in the DAG; it does not appear elsewhere.
+
+\begin{remark}
+$G_s$ is a policy control input (exogenous), not a state variable. In the base scenario (no intervention), $G_s = 0$.
+\end{remark}
+
+\subsection{AI Adoption Dynamics -- \texorpdfstring{$A_s(t)$}{As(t)}}
+
+Adoption grows when capability is high and decays in the absence of enabling conditions.
+
+\begin{equation}
+\boxed{
+\frac{dA_s}{dt}
+= (1 - A_s)\cdot\rho_A\cdot\alpha_s\, K_s
+- A_s\cdot\rho_A\cdot(1 - K_s)
+}
+\label{eq:As}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - A_s)\cdot\rho_A\cdot\alpha_s\, K_s$: adoption expands when capability is available. $\alpha_s \geq 0$ is the adoption responsiveness to capability for sector $s$.
+  \item $A_s\cdot\rho_A\cdot(1 - K_s)$: when capability is weak, existing adoption stalls or reverses (firms de-adopt, fail to maintain, or substitute away). The $(1 - K_s)$ driver ensures that low capability creates adoption pressure loss.
+\end{itemize}
+
+\begin{remark}
+$E$ does not appear directly in $\mathrm{d}A_s/\mathrm{d}t$. The national enabling environment acts \emph{only through} $K_s$. This preserves the one-mechanism-per-layer principle.
+\end{remark}
+
+\subsection{Productivity Dynamics -- \texorpdfstring{$P_s(t)$}{Ps(t)}}
+
+Realised productivity grows as adoption matures. It decays slowly when adoption is low (reversal, skill loss, workflow regression).
+
+\begin{equation}
+\boxed{
+\frac{dP_s}{dt}
+= (1 - P_s)\cdot\rho_P\cdot\kappa_s\, A_s
+- P_s\cdot\rho_P\cdot(1 - A_s)
+}
+\label{eq:Ps}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - P_s)\cdot\rho_P\cdot\kappa_s\, A_s$: realised productivity gains accumulate with adoption. $\kappa_s \geq 0$ is the productivity responsiveness to adoption for sector $s$.
+  \item $P_s\cdot\rho_P\cdot(1 - A_s)$: when adoption falls, the realised gain decays back toward zero at rate proportional to $(1 - A_s)$.
+\end{itemize}
+
+\begin{remark}
+$K_s$ does not appear directly in $\mathrm{d}P_s/\mathrm{d}t$. Capability affects productivity \emph{only through} $A_s$. This is the one-mechanism-per-layer constraint.
+\end{remark}
+
+\subsection{Labour Adjustment Pressure -- \texorpdfstring{$L_s(t)$}{Ls(t)}}
+
+Labour adjustment pressure rises as adoption expands, modulated by sector-specific labour sensitivity. It eases when adoption levels off.
+
+\begin{equation}
+\boxed{
+\frac{dL_s}{dt}
+= (1 - L_s)\cdot\rho_L\cdot\lambda_s\, A_s
+- L_s\cdot\rho_L\cdot(1 - A_s)
+}
+\label{eq:Ls}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - L_s)\cdot\rho_L\cdot\lambda_s\, A_s$: pressure rises with adoption. $\lambda_s \geq 0$ captures sector-specific labour sensitivity (displacement exposure, role reconfiguration, skills mismatch risk).
+  \item $L_s\cdot\rho_L\cdot(1 - A_s)$: pressure eases as adoption plateaus or reverses (labour market adjusts, redeployment occurs, skills rebalance).
+\end{itemize}
+
+\begin{remark}
+$P_s$ does not appear in $\mathrm{d}L_s/\mathrm{d}t$. Labour pressure is driven by adoption, not directly by productivity gains - consistent with the design principle that adoption and productivity are causally separated. This avoids double counting.
+\end{remark}
+
+\subsection{National Enabling Capacity -- \texorpdfstring{$E(t)$}{E(t)}}
+
+$E(t)$ is the single economy-wide state. It grows with national investment $G_E$ and decays with depreciation.
+
+\begin{equation}
+\boxed{
+\frac{dE}{dt}
+= (1 - E)\cdot\rho_E\cdot G_E
+- E\cdot\rho_E\cdot\delta_E
+}
+\label{eq:E}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - E)\cdot\rho_E\cdot G_E$: national enabling investment $G_E$ lifts the economy-wide enabling stock (skills pipeline, digital public infrastructure, diffusion mechanisms).
+  \item $E\cdot\rho_E\cdot\delta_E$: the enabling environment depreciates at rate $\delta_E$ (skills attrition, infrastructure ageing, policy reversal).
+\end{itemize}
+
+\begin{remark}
+$E$ acts on the whole economy simultaneously. In the base scenario (no supply-side intervention), $G_E = G_E^{\text{base}} \geq 0$, representing existing background enabling investment (e.g., existing government digital programmes).
+\end{remark}
+
+%% ============================================================
+\section{Policy Scenarios}
+%% ============================================================
+
+All three scenarios share the same equal budget $\Delta \geq 0$:
+\[
+\Delta_A = \Delta_B = \Delta_C = \Delta.
+\]
+This is required for like-for-like comparison. Let $n = |\mathcal{S}_1| = 9$.
+
+\subsection{Scenario A -- Aggregate Policy}
+
+Policy support is distributed uniformly across all Tier 1 sectors by equal per-sector allocation.
+
+\textbf{Perturbation:} Add $\Delta_A / n$ to the capability gain term for every sector $s \in \mathcal{S}_1$:
+
+\begin{equation}
+G_s^{(A)} = \frac{\Delta_A}{n}, \qquad \forall\, s \in \mathcal{S}_1.
+\label{eq:scenA}
+\end{equation}
+
+The capability equation under Scenario A becomes:
+\[
+\frac{dK_s}{dt}
+= (1 - K_s)\cdot\rho_K\cdot\Bigl(\phi_s\, E + \frac{\Delta_A}{n} + \eta_s\, A_s\Bigr)
+- K_s\cdot\rho_K\cdot\mu_s.
+\]
+
+\subsection{Scenario B -- Targeted Demand-Side Policy}
+
+Policy support is weighted toward sectors with greater adoption gaps, reflecting demand-side targeting.
+
+\textbf{Perturbation:} Add $\Delta_B \cdot w_s^{\text{demand}}$ to the capability gain term, where the demand weight is:
+
+\begin{equation}
+w_s^{\text{demand}} = \frac{1 - A_s(0)}{\displaystyle\sum_{s' \in \mathcal{S}_1}(1 - A_{s'}(0))}, \qquad \forall\, s \in \mathcal{S}_1.
+\label{eq:demandweight}
+\end{equation}
+
+so that $\sum_s w_s^{\text{demand}} = 1$ and the total budget is exactly $\Delta_B$.
+
+The capability equation under Scenario B becomes:
+\[
+\frac{dK_s}{dt}
+= (1 - K_s)\cdot\rho_K\cdot\Bigl(\phi_s\, E + \Delta_B\cdot w_s^{\text{demand}} + \eta_s\, A_s\Bigr)
+- K_s\cdot\rho_K\cdot\mu_s.
+\]
+
+\begin{remark}
+$w_s^{\text{demand}}$ is evaluated at the initial condition $A_s(0)$ and held constant over the scenario horizon. This represents a one-off policy allocation decision, not a continuously adaptive rule.
+\end{remark}
+
+\subsection{Scenario C -- Targeted Supply-Side Policy}
+
+Policy support is concentrated entirely on the national enabling stock, on the theory that lifting $E$ creates spillover benefits across all sectors simultaneously.
+
+\textbf{Perturbation:} Add $\Delta_C$ to the $E$ gain term. No direct sector capability support.
+
+\begin{equation}
+G_E^{(C)} = G_E^{\text{base}} + \Delta_C, \qquad G_s^{(C)} = 0\;\; \forall\, s \in \mathcal{S}_1.
+\label{eq:scenC}
+\end{equation}
+
+The enabling stock equation under Scenario C becomes:
+\[
+\frac{dE}{dt}
+= (1 - E)\cdot\rho_E\cdot\bigl(G_E^{\text{base}} + \Delta_C\bigr)
+- E\cdot\rho_E\cdot\delta_E.
+\]
+
+\begin{remark}
+Scenario C does not directly fund any sector. It invests in the enabling environment - skills pipeline, digital public infrastructure, diffusion mechanisms. Sector capability responds to $E$ via the $\phi_s\, E$ term in Equation~\eqref{eq:Ks}. Sectors with higher $\phi_s$ benefit more from supply-side investment.
+\end{remark}
+
+\begin{remark}
+The central analytical question - aggregate versus targeted, and direct support versus enabling investment - is precisely the comparison between Scenarios A, B, and C under the equal budget constraint $\Delta_A = \Delta_B = \Delta_C = \Delta$.
+\end{remark}
+
+%% ============================================================
+\section{Aggregation}
+\label{sec:aggregation}
+%% ============================================================
+
+\subsection{Tier 1 Productivity Aggregate}
+
+The GDP-weighted Tier 1 productivity aggregate is:
+
+\begin{equation}
+\bar{P}_{T1}(t) = \sum_{s \in \mathcal{S}_1} \omega_s\, P_s(t)
+\label{eq:Pt1}
+\end{equation}
+
+where $\omega_s$ is sector $s$'s share of total GDP (sourced from \texttt{data/sector-parameter-table.csv}, Stats NZ GDP by Industry Dec 2025).
+
+\textbf{Whole-economy denominator honesty:} The Tier 1 sectors cover approximately 61\% of New Zealand GDP. $\bar{P}_{T1}(t)$ is therefore \emph{not} a full-economy productivity aggregate. It is an aggregate only over the nine Tier 1 sectors modelled here.
+
+The full whole-economy aggregate will be:
+\begin{equation}
+\bar{P}(t) = \sum_{s \in \mathcal{S}} \omega_s\, P_s(t)
+\end{equation}
+where $\mathcal{S} = \mathcal{S}_1 \cup \mathcal{S}_2 \cup \mathcal{S}_3$ spans all 19 sectors. This requires Tier 2 (v0.2) and Tier 3 (v0.3).
+
+\subsection{GDP Share Parameters}
+
+Sector GDP shares $\omega_s$ are normalised such that $\sum_{s \in \mathcal{S}} \omega_s = 1$ across all 19 sectors. Within Tier 1 only, the shares are re-normalised for the partial aggregate $\bar{P}_{T1}(t)$ - but the v0.1 document preserves the raw $\omega_s$ from the parameter table so that Tier 2/3 extension is additive, not a re-weighting exercise.
+
+%% ============================================================
+\section{Boundedness}
+\label{sec:boundedness}
+%% ============================================================
+
+\begin{proposition}[State Variables Remain Bounded]
+If all state variables satisfy their initial conditions $K_s(0), A_s(0), P_s(0), L_s(0), E(0) \in [0,1]$, and all rate parameters satisfy Assumption~1, then for all $t \geq 0$:
+\[
+K_s(t),\; A_s(t),\; P_s(t),\; L_s(t),\; E(t) \;\in\; [0,1].
+\]
+\end{proposition}
+
+\begin{proof}
+Each equation is of the bounded gain-loss form $\dot{X} = (1-X)\cdot f^+(X) - X\cdot f^-(X)$ where $f^+, f^- \geq 0$ by Assumption~1. When $X = 1$, the gain term vanishes and the loss term is $-f^-(1) \leq 0$, so $\dot{X} \leq 0$ at $X = 1$: the variable cannot increase above 1. When $X = 0$, the loss term vanishes and the gain term is $(1)\cdot f^+(0) \geq 0$, so $\dot{X} \geq 0$ at $X = 0$: the variable cannot decrease below 0. Together, $\{[0,1]\}$ is a positively invariant set for each equation. Since the equations are coupled through bounded terms, and each individual state variable cannot leave $[0,1]$, the joint state space $[0,1]^{4n+1}$ (for $n$ Tier 1 sectors plus $E$) is positively invariant.
+\end{proof}
+
+%% ============================================================
+\section{Sign Correctness}
+%% ============================================================
+
+Each partial derivative should have an economically sensible sign. The table below summarises the key signs for the Tier 1 dynamics.
+
+\begin{center}
+\begin{tabular}{llcc}
+\toprule
+Equation & Partial derivative & Sign & Interpretation \\
+\midrule
+$\mathrm{d}K_s/\mathrm{d}t$ & $\partial/\partial E$ & $+$ & More enabling capacity lifts capability \\
+$\mathrm{d}K_s/\mathrm{d}t$ & $\partial/\partial G_s$ & $+$ & More sector support builds capability \\
+$\mathrm{d}K_s/\mathrm{d}t$ & $\partial/\partial A_s$ & $+$ & Adoption reinforces capability demand \\
+$\mathrm{d}K_s/\mathrm{d}t$ & $\partial/\partial K_s$ & $-$ (net) & Saturation and decay dominate at high $K_s$ \\
+$\mathrm{d}A_s/\mathrm{d}t$ & $\partial/\partial K_s$ & $+$ & Higher capability enables more adoption \\
+$\mathrm{d}A_s/\mathrm{d}t$ & $\partial/\partial A_s$ & $-$ (net) & Saturation dominates at high $A_s$ \\
+$\mathrm{d}P_s/\mathrm{d}t$ & $\partial/\partial A_s$ & $+$ & More adoption realises more productivity \\
+$\mathrm{d}P_s/\mathrm{d}t$ & $\partial/\partial P_s$ & $-$ (net) & Saturation dominates at high $P_s$ \\
+$\mathrm{d}L_s/\mathrm{d}t$ & $\partial/\partial A_s$ & $+$ & More adoption raises labour pressure \\
+$\mathrm{d}L_s/\mathrm{d}t$ & $\partial/\partial L_s$ & $-$ (net) & Saturation: pressure cannot exceed 1 \\
+$\mathrm{d}E/\mathrm{d}t$   & $\partial/\partial G_E$ & $+$ & More national investment lifts enabling stock \\
+$\mathrm{d}E/\mathrm{d}t$   & $\partial/\partial E$ & $-$ (net) & Saturation and depreciation dominate at high $E$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All signs are economically sensible and consistent with the causal DAG.
+
+%% ============================================================
+\section{Calibration Pointers}
+%% ============================================================
+
+Version 0.1 specifies the \emph{form} of the equations. Numerical parameter values are deferred to v0.2. This section notes what each parameter class requires.
+
+\textbf{Source:} All baseline parameter values will be drawn from \texttt{data/sector-parameter-table.csv} (348-cell parameter table, 35\% pre-populated as of v0.1 release). Evidence quality is classified as observed, derived, or assumed per the data philosophy in \texttt{METHODS.md}.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Parameter & Description & Evidence class \\
+\midrule
+$\omega_s$ & Sector GDP share & Observed (Stats NZ) \\
+$A_s(0)$ & Initial adoption state & Derived / assumed (sector research) \\
+$K_s(0)$ & Initial capability state & Assumed (digital maturity proxies) \\
+$P_s(0)$ & Initial productivity state & Assumed (sector productivity evidence) \\
+$L_s(0)$ & Initial labour pressure & Assumed (automation exposure logic) \\
+$E(0)$ & Initial enabling stock & Assumed (NZ digital infrastructure signals) \\
+$\rho_K, \rho_A, \rho_P, \rho_L, \rho_E$ & Adjustment speeds & Assumed (tuned for plausibility) \\
+$\alpha_s$ & Adoption responsiveness to $K_s$ & Derived (sector archetype) \\
+$\kappa_s$ & Productivity responsiveness & Derived (OECD productivity range) \\
+$\lambda_s$ & Labour sensitivity & Derived (automation exposure) \\
+$\phi_s$ & Enabling exposure & Assumed (sector digital openness) \\
+$\eta_s$ & Adoption feedback to $K_s$ & Assumed (learning-by-doing proxy) \\
+$\mu_s$ & Capability decay rate & Assumed \\
+$\delta_E$ & Enabling stock decay & Assumed \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{remark}
+Do not interpret any specific numerical values in v0.1 as calibrated. Parameter values shown in any illustrative computations are placeholders. The v0.2 calibration note will provide sector-specific fitted values anchored to the evidence in \texttt{data/sector-parameter-table.csv}.
+\end{remark}
+
+%% ============================================================
+\section{Known Limits of v0.1}
+%% ============================================================
+
+This document is explicit about what it does and does not claim.
+
+\begin{enumerate}[label=\arabic*.]
+
+  \item \textbf{Tier 1 only -- partial economy coverage.}
+  The nine Tier 1 sectors modelled here cover approximately 61\% of New Zealand GDP and approximately 70\% of employment. The Tier 1 aggregate $\bar{P}_{T1}(t)$ is not a whole-economy aggregate. Tiers 2 and 3 are deferred to v0.2 and v0.3.
+
+  \item \textbf{Parameter values not calibrated.}
+  Only the functional form of each equation is specified in v0.1. No sector-specific parameter values have been fitted to data. Calibration is v0.2 work.
+
+  \item \textbf{Deterministic ODE only.}
+  This is a deterministic, continuous-time ODE system. No stochastic shocks, no uncertainty propagation, no Monte Carlo. Stochastic extensions are deferred to a later version.
+
+  \item \textbf{Single-country model.}
+  The model represents New Zealand only. There are no trade terms, international spillovers, or cross-border adoption dynamics. NZ's small-open-economy characteristics are not yet modelled.
+
+  \item \textbf{No sector-pair interactions.}
+  Each sector block in v0.1 is diagonal - sectors interact only through the shared enabling stock $E(t)$. Direct sector-pair linkages (e.g., Technology enabling Manufacturing; Financial Services intermediating Construction) are not yet in the system. This is the principal structural simplification in v0.1.
+
+  \item \textbf{Labour pressure is a reduced-form index.}
+  $L_s(t)$ is not a labour market model. It does not produce job counts, wage forecasts, or distributional effects. It is a bounded pressure index designed to capture the direction and relative severity of labour adjustment, not its precise magnitude.
+
+  \item \textbf{Policy controls are constant within a scenario.}
+  $G_s$ and $G_E$ are treated as fixed scenario parameters, not adaptive policies that respond to system state. An adaptive or feedback policy formulation is deferred.
+
+\end{enumerate}
+
+%% ============================================================
+\section{References}
+%% ============================================================
+
+\begin{thebibliography}{99}
+
+\bibitem{strauss2024}
+Strauss, I. (2024). \textit{AI Web Economy Simulator: Mathematical Foundations (v3)}. AI Disclosures Project. Available at: \url{https://github.com/IlanStrauss/ai-web-economy-simulator}.
+
+\bibitem{oecd2024}
+OECD (2024). \textit{Miracle or Myth? Assessing the Macroeconomic Productivity Gains from Artificial Intelligence}. OECD Publishing. Available at project research collection.
+
+\bibitem{nztreasury2024}
+New Zealand Treasury (2024). \textit{Artificial Intelligence and New Zealand's Economic Future: Analytical Note AN 24/06}. New Zealand Treasury. Available at project research collection.
+
+\bibitem{aiforum2024}
+AI Forum New Zealand (2024). \textit{AI Business Productivity Report, September 2024}. AI Forum New Zealand. Available at project research collection.
+
+\bibitem{datacom2024}
+Datacom (2024). \textit{State of AI Index: AI Attitudes in New Zealand}. Datacom New Zealand. Available at: \url{https://datacom.com/nz/en/solutions/experience/insights/state-of-ai-index-ai-attitudes}.
+
+\bibitem{pmcsa2023}
+Prime Minister's Chief Science Advisor (2023). \textit{AI in Healthcare: Long Report}. Office of the Prime Minister's Chief Science Advisor. Available at: \url{https://www.pmcsa.ac.nz/artificial-intelligence-2/ai-in-healthcare/}.
+
+\bibitem{rbnz2025}
+Reserve Bank of New Zealand (2025). \textit{Rise of the Machines: Special Topic}. RBNZ Financial Stability Report. Available at project research collection.
+
+\bibitem{nztech2026}
+NZTech (2026). \textit{Tech Sector Manifesto v2.2}. NZTech. Available at project research collection.
+
+\bibitem{statsnz2025}
+Stats NZ (2025). \textit{GDP by Industry (December 2025 quarter); Household Labour Force Survey (December 2025); Business Demography Statistics (February 2025)}. Statistics New Zealand. Available at: \url{https://www.stats.govt.nz}.
+
+\bibitem{gcdo2025}
+Government Chief Digital Officer (2025). \textit{Public Service AI Framework}. Department of Internal Affairs. Available at: \url{https://docref.digital.govt.nz/nz/generative-ai-guidance-gcdo/public-service-ai-framework/2025/en}.
+
+\bibitem{mbie2025}
+Ministry of Business, Innovation and Employment (2025). \textit{New Zealand AI Strategy: State of Play}. MBIE. Available at: \url{https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/new-zealands-state-of-play}.
+
+\end{thebibliography}
+
+\end{document}
