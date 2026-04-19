@@ -2,6 +2,8 @@
 
 **A transparent NZ sector-calibrated policy sandbox for testing AI policy tradeoffs under uncertainty.**
 
+[Model Equations (PDF)](src/equations/model-equations-v0.1.pdf) | [LaTeX source](src/equations/model-equations-v0.1.tex)
+
 ---
 
 ## What this is
@@ -147,7 +149,7 @@ Tech stack is not yet decided. The methods and scope come first.
 - [x] Primary reference repo selected (Strauss)
 - [x] Architecture adaptation brief written
 - [x] State-variable specification drafted
-- [ ] First-pass equations
+- [x] First-pass equations (v0.1 - Tier 1, 9 sectors)
 - [ ] Tech stack decision
 - [ ] Version 1 model build
 - [ ] Paper draft
