@@ -1,0 +1,1321 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
+
+\geometry{margin=1in}
+
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\title{%
+  NZ AI Policy Sandbox -- Model Equations v0.3\\[0.5em]
+  \large All 19 ANZSIC Sectors: Calibrated Parameter Values\\[0.3em]
+  \normalsize New Zealand Whole-Economy Policy Sandbox
+}
+\author{AI for Good New Zealand}
+\date{Version 0.3 -- April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document extends the NZ AI Policy Sandbox (NZAIS) model equations from v0.2 (structural specification, all 19 sectors) to v0.3 (calibrated specification). Every parameter introduced in v0.1 and v0.2 now carries a numerical value, an evidence class (observed, derived, or assumed), a primary source, and a confidence level (high, medium, or low).
+
+v0.3 does not build or simulate the model. The output is a calibrated mathematical specification suitable for implementation. Equation forms are unchanged from v0.2. The new material in v0.3 consists entirely of Sections~\ref{sec:cal_approach}--\ref{sec:cal_agg}: parameter tables for GDP share weights, the economy-wide enabling stock, all nine Tier~1 sectors, all six Tier~2 sectors, all four Tier~3 sectors, and the confidence-adjusted aggregate.
+
+Where evidence is weak, transparent assumptions are used with explicit sensitivity ranges rather than spurious point estimates. Every parameter without an observed NZ source is labelled assumed or derived and carries a confidence tag. No parameter is hidden or silent.
+
+The underlying equation structure is inherited from v0.2 and is unchanged. Sections~\ref{sec:structure}--\ref{sec:limits_v02} of this document reproduce the v0.2 structural specification verbatim for self-contained reference.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Model Structure}
+\label{sec:structure}
+%% ============================================================
+
+\subsection{Design Principle: One Mechanism Per Layer}
+
+The model follows a strict causal chain where each variable is responsible for one layer. Each arrow in the DAG below represents exactly one mechanism and appears nowhere else in the system.
+
+\begin{center}
+\begin{tabular}{ccccccccc}
+$E$ & $\rightarrow$ & $K_s$ & $\rightarrow$ & $A_s$ & $\rightarrow$ & $P_s$ & $\rightarrow$ & $L_s$ \\
+& & $\uparrow$ & & & & & & \\
+& & \multicolumn{3}{c}{feedback from $A_s$} & & & &
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+  \item $E$ does not act directly on adoption -- it acts \emph{through} $K_s$ (enabling capacity raises absorptive capability) for Tier~1, or through the fixed absorptive multiplier $\beta_s$ for Tier~2 and Tier~3.
+  \item $K_s$ (Tier~1) or $\beta_s E$ (Tier~2/3) does not create productivity directly -- it enables adoption \emph{through} $A_s$.
+  \item $A_s$ does not create labour pressure directly in Tier~1 -- it creates productivity \emph{through} $P_s$, and labour pressure emerges \emph{through} $L_s$.
+  \item $P_s$ is driven by adoption; $L_s$ is driven by adoption and sector structure (not by $P_s$ directly, to avoid double counting).
+  \item There is one feedback in Tier~1: adoption $A_s$ reinforces the demand for capability $K_s$ (learning-by-doing, procurement maturity). This feedback does not appear in Tier~2 or Tier~3.
+\end{itemize}
+
+No mechanism appears twice. Every causal path is traceable through a single logical chain.
+
+%% ------------------------------------------------------------
+\subsection{Tier Structure and State Reduction}
+\label{sec:tiers}
+%% ------------------------------------------------------------
+
+The 19 ANZSIC Level~1 sectors are organised into three tiers, each with a different level of modelling fidelity. This tiering is a modelling decision, not an empirical finding. It reflects data availability, analytical priority, and the principle of tractability over false precision.
+
+\begin{center}
+\begin{tabular}{lllp{5.5cm}}
+\toprule
+Tier & Sectors & State & Rationale \\
+\midrule
+Tier~1 & 9 sectors & $(K_s, A_s, P_s, L_s)$ & Full causal chain. Evidence base sufficient for sector archetypes. Covers approximately 61\% of GDP. \\
+Tier~2 & 6 sectors & $(A_s, P_s)$ & Reduced fidelity. Absorptive capability replaced by fixed multiplier. Labour reported ex-post only. \\
+Tier~3 & 4 sectors & $A_s$ & Minimal state. Included for denominator completeness. Productivity and labour are ex-post only. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The tier reductions make three structural choices, each a modelling decision:
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{Tier~2 capability reduction.} The dynamic $K_s$ equation is replaced by a fixed sector absorptive multiplier $\beta_s \in [0,1]$ applied to the shared enabling stock $E$. This collapses the two-layer $E \to K_s \to A_s$ path into a one-layer $E \to A_s$ path for Tier~2. The structural coupling to $E$ is preserved; the dynamic accumulation is dropped.
+  \item \textbf{Tier~2 labour reporting.} $L_s$ is not a dynamic state for Tier~2. Labour adjustment pressure is reported ex-post as $L_s^{T2} = \phi_s A_s$ where $\phi_s \in [0,1]$ is a sector labour-exposure coefficient. It does not feed back into any dynamic equation.
+  \item \textbf{Tier~3 state minimisation.} Only adoption $A_s$ is dynamic. Productivity is reported ex-post as $P_s^{T3} = \psi_s A_s$ where $\psi_s \in [0,1]$. No labour reporting. Tier~3 sectors are included solely for denominator honesty in the whole-economy aggregate.
+\end{enumerate}
+
+The AGENTS-level principle that sector blocks -- not firm microstates -- are the unit of analysis applies at all tiers. Each tier-block is diagonal: sectors interact only through the shared $E(t)$. No sector-pair spillovers are modelled at any tier.
+
+%% ------------------------------------------------------------
+\subsection{State Variables}
+\label{sec:statevars}
+%% ------------------------------------------------------------
+
+\begin{definition}[Tier~1 Sector State Variables]
+For each sector $s \in \mathcal{S}_1$ (Tier~1, $|\mathcal{S}_1| = 9$), the model tracks four state variables, all bounded in $[0,1]$:
+\begin{align}
+K_s(t) &: \text{Absorptive capability -- effective capacity to absorb AI into productive use} \\
+A_s(t) &: \text{AI adoption maturity -- degree of meaningful operational AI deployment} \\
+P_s(t) &: \text{Realised productivity effect -- normalised realisation index, bounded in $[0,1]$} \\
+L_s(t) &: \text{Labour adjustment pressure -- displacement and reconfiguration index}
+\end{align}
+\end{definition}
+
+\begin{definition}[Tier~2 Sector State Variables]
+For each sector $s \in \mathcal{S}_2$ (Tier~2, $|\mathcal{S}_2| = 6$), the model tracks two dynamic state variables:
+\begin{align}
+A_s(t) &: \text{AI adoption maturity -- bounded in $[0,1]$} \\
+P_s(t) &: \text{Realised productivity effect -- bounded in $[0,1]$}
+\end{align}
+Two additional quantities are reported ex-post but are not dynamic states:
+\begin{align}
+L_s^{T2}(t) &= \phi_s\, A_s(t) : \text{Labour adjustment pressure (reported only)} \\
+\beta_s &\in [0,1] : \text{Fixed absorptive multiplier (parameter, not a state)}
+\end{align}
+\end{definition}
+
+\begin{definition}[Tier~3 Sector State Variables]
+For each sector $s \in \mathcal{S}_3$ (Tier~3, $|\mathcal{S}_3| = 4$), the model tracks one dynamic state variable:
+\begin{align}
+A_s(t) &: \text{AI adoption maturity -- bounded in $[0,1]$}
+\end{align}
+One additional quantity is reported ex-post:
+\begin{align}
+P_s^{T3}(t) &= \psi_s\, A_s(t) : \text{Realised productivity effect (reported only)}
+\end{align}
+$\gamma_s \in [0,1]$ is a fixed adoption multiplier (parameter, not a state). No labour reporting for Tier~3.
+\end{definition}
+
+\begin{definition}[Economy-Wide State Variable]
+There is one economy-wide enabling state, shared across all tiers:
+\begin{align}
+E(t) &: \text{National enabling capacity -- economy-wide environment for AI adoption}
+\end{align}
+bounded in $[0,1]$.
+\end{definition}
+
+\begin{remark}
+$P_s(t) \in [0,1]$ by normalisation to the sector-specific productivity ceiling $\bar{p}_s$. The raw productivity gain is $\bar{p}_s \cdot P_s(t)$, where $\bar{p}_s$ is calibrated in Section~\ref{sec:cal_t1}.
+\end{remark}
+
+\begin{remark}
+The GDP share $\omega_s$ for each sector is a constant input parameter, not a state variable. It is sourced from \texttt{data/sector-parameter-table.csv} (Stats NZ GDP by Industry). $\sum_{s \in \mathcal{S}} \omega_s = 1$ across all 19 sectors. Numerical values are provided in Section~\ref{sec:cal_gdp}.
+\end{remark}
+
+\subsubsection*{Tier~1 Sectors}
+
+The nine Tier~1 sectors are:
+
+\begin{center}
+\begin{tabular}{clc}
+\toprule
+Index & Sector & Symbol \\
+\midrule
+1 & Agriculture & $s = \text{ag}$ \\
+2 & Manufacturing & $s = \text{mfg}$ \\
+3 & Professional Services & $s = \text{prof}$ \\
+4 & Public Sector & $s = \text{pub}$ \\
+5 & Technology & $s = \text{tech}$ \\
+6 & Healthcare & $s = \text{hlth}$ \\
+7 & Construction & $s = \text{con}$ \\
+8 & Financial Services & $s = \text{fin}$ \\
+9 & Retail \& Wholesale & $s = \text{ret}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Tier~2 Sectors}
+
+The six Tier~2 sectors are:
+
+\begin{center}
+\begin{tabular}{clc}
+\toprule
+Index & Sector & Symbol \\
+\midrule
+10 & Education \& Training & $s = \text{edu}$ \\
+11 & Transport \& Warehousing & $s = \text{trn}$ \\
+12 & Accommodation \& Food Services & $s = \text{acc}$ \\
+13 & Administrative \& Support Services & $s = \text{adm}$ \\
+14 & Information Media \& Telecommunications & $s = \text{imt}$ \\
+15 & Utilities & $s = \text{utl}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{Tier~3 Sectors}
+
+The four Tier~3 sectors are:
+
+\begin{center}
+\begin{tabular}{clc}
+\toprule
+Index & Sector & Symbol \\
+\midrule
+16 & Mining & $s = \text{min}$ \\
+17 & Rental, Hiring \& Real Estate & $s = \text{rnt}$ \\
+18 & Arts \& Recreation & $s = \text{art}$ \\
+19 & Other Services & $s = \text{oth}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ============================================================
+\section{Tier~1 Core Dynamics}
+\label{sec:tier1}
+%% ============================================================
+
+\textbf{Tier~1 equations are identical to v0.1. Do not modify.}
+
+\begin{assumption}[Nonnegative Rates]
+All rate parameters are nonnegative:
+\[
+\rho_K,\, \rho_A,\, \rho_P,\, \rho_L,\, \rho_E,\, \alpha_s,\, \kappa_s,\, \phi_s,\, \lambda_s,\, \eta_s \;\geq\; 0.
+\]
+This ensures the bounded gain-loss forms keep all state variables in $[0,1]$ by construction, without requiring ex-post clamping.
+\end{assumption}
+
+All equations use bounded gain-loss forms:
+\[
+\frac{dX}{dt} = (1 - X)\cdot\rho_X \cdot f(\text{drivers}) \;-\; X\cdot\rho_X \cdot g(\text{drivers})
+\]
+so $X \in [0,1]$ is maintained for all $t \geq 0$. See Section~\ref{sec:boundedness} for the formal proposition.
+
+\subsection{Capability Stock Dynamics -- \texorpdfstring{$K_s(t)$}{Ks(t)}}
+
+Absorptive capability grows when the national enabling environment is strong and when sector-specific support is provided. It decays in the absence of investment and maintenance.
+
+\begin{equation}
+\boxed{
+\frac{dK_s}{dt}
+= (1 - K_s)\cdot\rho_K\cdot\bigl(\phi_s\, E + G_s + \eta_s\, A_s\bigr)
+- K_s\cdot\rho_K\cdot\mu_s
+}
+\label{eq:Ks}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - K_s)\cdot\rho_K\cdot\phi_s\, E$: national enabling capacity lifts sector capability, at rate proportional to the sector's exposure $\phi_s$ to the national environment.
+  \item $(1 - K_s)\cdot\rho_K\cdot G_s$: sector-specific policy support $G_s$ directly builds capability.
+  \item $(1 - K_s)\cdot\rho_K\cdot\eta_s\, A_s$: adoption-driven demand reinforces capability building (the one feedback in the DAG). $\eta_s \geq 0$ is the adoption feedback parameter.
+  \item $K_s\cdot\rho_K\cdot\mu_s$: capability decays at rate $\mu_s$ (skill attrition, technology obsolescence, institutional drift).
+  \item $(1 - K_s)$ saturation prevents $K_s > 1$; $K_s$ decay prevents $K_s < 0$.
+\end{itemize}
+
+\begin{remark}
+$G_s$ is a policy control input (exogenous), not a state variable. In the base scenario (no intervention), $G_s = 0$.
+\end{remark}
+
+\subsection{AI Adoption Dynamics -- \texorpdfstring{$A_s(t)$}{As(t)}}
+
+Adoption grows when capability is high and decays in the absence of enabling conditions.
+
+\begin{equation}
+\boxed{
+\frac{dA_s}{dt}
+= (1 - A_s)\cdot\rho_A\cdot\alpha_s\, K_s
+- A_s\cdot\rho_A\cdot(1 - K_s)
+}
+\label{eq:As}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - A_s)\cdot\rho_A\cdot\alpha_s\, K_s$: adoption expands when capability is available. $\alpha_s \geq 0$ is the adoption responsiveness to capability for sector $s$.
+  \item $A_s\cdot\rho_A\cdot(1 - K_s)$: when capability is weak, existing adoption stalls or reverses.
+\end{itemize}
+
+\begin{remark}
+$E$ does not appear directly in $\mathrm{d}A_s/\mathrm{d}t$. The national enabling environment acts \emph{only through} $K_s$. This preserves the one-mechanism-per-layer principle.
+\end{remark}
+
+\subsection{Productivity Dynamics -- \texorpdfstring{$P_s(t)$}{Ps(t)}}
+
+Realised productivity grows as adoption matures. It decays slowly when adoption is low.
+
+\begin{equation}
+\boxed{
+\frac{dP_s}{dt}
+= (1 - P_s)\cdot\rho_P\cdot\kappa_s\, A_s
+- P_s\cdot\rho_P\cdot(1 - A_s)
+}
+\label{eq:Ps}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - P_s)\cdot\rho_P\cdot\kappa_s\, A_s$: realised productivity gains accumulate with adoption. $\kappa_s \geq 0$ is the productivity responsiveness to adoption for sector $s$.
+  \item $P_s\cdot\rho_P\cdot(1 - A_s)$: when adoption falls, the realised gain decays back toward zero.
+\end{itemize}
+
+\begin{remark}
+$K_s$ does not appear directly in $\mathrm{d}P_s/\mathrm{d}t$. Capability affects productivity \emph{only through} $A_s$. This is the one-mechanism-per-layer constraint.
+\end{remark}
+
+\subsection{Labour Adjustment Pressure -- \texorpdfstring{$L_s(t)$}{Ls(t)}}
+
+Labour adjustment pressure rises as adoption expands, modulated by sector-specific labour sensitivity.
+
+\begin{equation}
+\boxed{
+\frac{dL_s}{dt}
+= (1 - L_s)\cdot\rho_L\cdot\lambda_s\, A_s
+- L_s\cdot\rho_L\cdot(1 - A_s)
+}
+\label{eq:Ls}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - L_s)\cdot\rho_L\cdot\lambda_s\, A_s$: pressure rises with adoption. $\lambda_s \geq 0$ captures sector-specific labour sensitivity.
+  \item $L_s\cdot\rho_L\cdot(1 - A_s)$: pressure eases as adoption plateaus or reverses.
+\end{itemize}
+
+\begin{remark}
+$P_s$ does not appear in $\mathrm{d}L_s/\mathrm{d}t$. Labour pressure is driven by adoption, not directly by productivity gains. This avoids double counting.
+\end{remark}
+
+\subsection{National Enabling Capacity -- \texorpdfstring{$E(t)$}{E(t)}}
+
+$E(t)$ is the single economy-wide state. It grows with national investment $G_E$ and decays with depreciation.
+
+\begin{equation}
+\boxed{
+\frac{dE}{dt}
+= (1 - E)\cdot\rho_E\cdot G_E
+- E\cdot\rho_E\cdot\delta_E
+}
+\label{eq:E}
+\end{equation}
+
+\textbf{Interpretation:}
+\begin{itemize}
+  \item $(1 - E)\cdot\rho_E\cdot G_E$: national enabling investment $G_E$ lifts the economy-wide enabling stock.
+  \item $E\cdot\rho_E\cdot\delta_E$: the enabling environment depreciates at rate $\delta_E$.
+\end{itemize}
+
+\begin{remark}
+$E$ acts on the whole economy simultaneously -- on all 19 sectors across all three tiers. In the base scenario (no supply-side intervention), $G_E = G_E^{\text{base}} \geq 0$.
+\end{remark}
+
+%% ============================================================
+\section{Tier~2 Dynamics}
+\label{sec:tier2}
+%% ============================================================
+
+Tier~2 sectors use a reduced state $(A_s, P_s)$. The dynamic $K_s$ equation from Tier~1 is replaced by a fixed sector absorptive multiplier $\beta_s \in [0,1]$ applied to the economy-wide enabling stock. $L_s$ is reported ex-post as a linear function of adoption; it is not a dynamic state.
+
+\begin{assumption}[Tier~2 Nonnegative Parameters]
+All Tier~2 rate parameters are nonnegative:
+\[
+\rho_A,\, \rho_P \;\geq\; 0, \qquad \beta_s,\, \kappa_s,\, \phi_s \;\in\; [0,1].
+\]
+\end{assumption}
+
+\subsection{Tier~2 Causal Structure}
+
+The Tier~2 DAG collapses the $E \to K_s \to A_s$ two-step into a single $E \to A_s$ step:
+
+\begin{center}
+\begin{tabular}{ccccc}
+$E$ & $\rightarrow$ & $A_s$ & $\rightarrow$ & $P_s$ \\
+\end{tabular}
+\end{center}
+
+The absorptive multiplier $\beta_s$ captures the sector's structural coupling to the national enabling environment. It is a fixed parameter, not a dynamic state, and does not accumulate or decay over time.
+
+\subsection{Tier~2 AI Adoption Dynamics -- \texorpdfstring{$A_s(t)$}{As(t)}}
+
+For Tier~2 sectors, the enabling environment $E$ acts directly on adoption, scaled by the sector absorptive multiplier $\beta_s$:
+
+\begin{equation}
+\boxed{
+\frac{dA_s}{dt}
+= (1 - A_s)\cdot\rho_A\cdot\beta_s\, E
+- A_s\cdot\rho_A\cdot(1 - \beta_s\, E)
+}
+\label{eq:As_T2}
+\end{equation}
+
+\begin{remark}
+Since $\beta_s \in [0,1]$ and $E \in [0,1]$, the product $\beta_s E \in [0,1]$ by construction. This ensures the loss driver $(1 - \beta_s E) \in [0,1]$, which is required for the bounded gain-loss form to maintain $A_s \in [0,1]$.
+\end{remark}
+
+\subsection{Tier~2 Productivity Dynamics -- \texorpdfstring{$P_s(t)$}{Ps(t)}}
+
+Tier~2 productivity follows the same form as Tier~1, driven by adoption:
+
+\begin{equation}
+\boxed{
+\frac{dP_s}{dt}
+= (1 - P_s)\cdot\rho_P\cdot\kappa_s\, A_s
+- P_s\cdot\rho_P\cdot(1 - A_s)
+}
+\label{eq:Ps_T2}
+\end{equation}
+
+\subsection{Tier~2 Labour Reporting (Ex-Post)}
+
+Labour adjustment pressure for Tier~2 sectors is \emph{not} a dynamic state. It is reported ex-post as a linear function of adoption:
+
+\begin{equation}
+L_s^{T2}(t) = \phi_s\cdot A_s(t), \qquad s \in \mathcal{S}_2
+\label{eq:Ls_T2}
+\end{equation}
+
+where $\phi_s \in [0,1]$ is the sector labour-exposure coefficient.
+
+\begin{remark}
+In Tier~1, $\phi_s$ denotes the enabling exposure of sector $s$ to the national environment (coefficient on $E$ in Equation~\eqref{eq:Ks}). In Tier~2, $\phi_s$ denotes the sector labour-exposure coefficient in the ex-post expression~\eqref{eq:Ls_T2}. Because Tier~1 and Tier~2 sectors are disjoint, the symbol $\phi_s$ is unambiguous for any given sector $s$.
+\end{remark}
+
+%% ============================================================
+\section{Tier~3 Dynamics}
+\label{sec:tier3}
+%% ============================================================
+
+Tier~3 sectors use a minimal state: adoption $A_s$ only. These sectors are included for denominator honesty in the whole-economy aggregate.
+
+\begin{assumption}[Tier~3 Nonnegative Parameters]
+All Tier~3 parameters are nonnegative:
+\[
+\rho_A \;\geq\; 0, \qquad \gamma_s,\, \psi_s \;\in\; [0,1].
+\]
+\end{assumption}
+
+\subsection{Tier~3 AI Adoption Dynamics -- \texorpdfstring{$A_s(t)$}{As(t)}}
+
+\begin{equation}
+\boxed{
+\frac{dA_s}{dt}
+= (1 - A_s)\cdot\rho_A\cdot\gamma_s\, E
+- A_s\cdot\rho_A\cdot(1 - \gamma_s\, E)
+}
+\label{eq:As_T3}
+\end{equation}
+
+\subsection{Tier~3 Productivity Reporting (Ex-Post)}
+
+Productivity for Tier~3 sectors is \emph{not} dynamic. It is reported ex-post as:
+
+\begin{equation}
+P_s^{T3}(t) = \psi_s\cdot A_s(t), \qquad s \in \mathcal{S}_3
+\label{eq:Ps_T3}
+\end{equation}
+
+where $\psi_s \in [0,1]$ is the sector productivity coefficient.
+
+\textbf{No labour reporting for Tier~3.} These sectors are included in the model for denominator honesty only.
+
+%% ============================================================
+\section{Policy Scenarios}
+\label{sec:scenarios}
+%% ============================================================
+
+All three scenarios share the same equal budget $\Delta \geq 0$:
+\[
+\Delta_A = \Delta_B = \Delta_C = \Delta.
+\]
+This is required for like-for-like comparison. Let $n = |\mathcal{S}| = 19$ (all sectors across all tiers).
+
+\subsection{Scenario A -- Aggregate Policy}
+
+Policy support is distributed uniformly across all 19 sectors by equal per-sector allocation.
+
+\begin{equation}
+\begin{aligned}
+&\text{Tier~1:} &\frac{dK_s}{dt} &= (1 - K_s)\cdot\rho_K\cdot\Bigl(\phi_s E + \frac{\Delta_A}{n} + \eta_s A_s\Bigr) - K_s\cdot\rho_K\cdot\mu_s \\[6pt]
+&\text{Tier~2:} &\frac{dA_s}{dt} &= \Bigl(1 - A_s\Bigr)\cdot\rho_A\cdot\Bigl(\beta_s E + \frac{\Delta_A}{n}\Bigr) - A_s\cdot\rho_A\cdot(1 - \beta_s E) \\[6pt]
+&\text{Tier~3:} &\frac{dA_s}{dt} &= \Bigl(1 - A_s\Bigr)\cdot\rho_A\cdot\Bigl(\gamma_s E + \frac{\Delta_A}{n}\Bigr) - A_s\cdot\rho_A\cdot(1 - \gamma_s E)
+\end{aligned}
+\label{eq:scenA}
+\end{equation}
+
+\subsection{Scenario B -- Targeted Demand-Side Policy}
+
+Policy support is weighted toward sectors with greater adoption gaps.
+
+\begin{equation}
+w_s^{\text{demand}} = \frac{1 - A_s(0)}{\displaystyle\sum_{s' \in \mathcal{S}}(1 - A_{s'}(0))}, \qquad \forall\, s \in \mathcal{S}
+\label{eq:demandweight}
+\end{equation}
+
+so that $\sum_{s \in \mathcal{S}} w_s^{\text{demand}} = 1$ and the total budget is exactly $\Delta_B$.
+
+\subsection{Scenario C -- Targeted Supply-Side Policy}
+
+Policy support is concentrated entirely on the national enabling stock:
+
+\begin{equation}
+G_E^{(C)} = G_E^{\text{base}} + \Delta_C, \qquad G_s^{(C)} = 0\;\; \forall\, s \in \mathcal{S}.
+\label{eq:scenC}
+\end{equation}
+
+%% ============================================================
+\section{Aggregation}
+\label{sec:aggregation}
+%% ============================================================
+
+\subsection{Whole-Economy Productivity Aggregate}
+
+\begin{equation}
+\bar{P}(t)
+= \sum_{s \in \mathcal{S}_1} \omega_s\, P_s(t)
++ \sum_{s \in \mathcal{S}_2} \omega_s\, P_s(t)
++ \sum_{s \in \mathcal{S}_3} \omega_s\, \psi_s\, A_s(t)
+\label{eq:Ptotal}
+\end{equation}
+
+where $\omega_s$ is the sector's share of whole-economy GDP, with $\sum_{s \in \mathcal{S}} \omega_s = 1$.
+
+%% ============================================================
+\section{Boundedness}
+\label{sec:boundedness}
+%% ============================================================
+
+\begin{proposition}[State Variables Remain Bounded Across All Tiers]
+\label{prop:boundedness_all}
+Suppose all parameters satisfy Assumptions~1, 2, and 3 (nonnegative rates; $\beta_s, \gamma_s, \psi_s, \phi_s \in [0,1]$). If all dynamic state variables satisfy their initial conditions in $[0,1]$:
+\[
+K_s(0),\; A_s(0),\; P_s(0),\; L_s(0),\; E(0) \;\in\; [0,1] \quad \forall\, s \in \mathcal{S}_1,
+\]
+\[
+A_s(0),\; P_s(0) \;\in\; [0,1] \quad \forall\, s \in \mathcal{S}_2,
+\]
+\[
+A_s(0) \;\in\; [0,1] \quad \forall\, s \in \mathcal{S}_3,
+\]
+then for all $t \geq 0$ all state variables remain in $[0,1]$. Furthermore, the ex-post quantities $L_s^{T2}(t) = \phi_s A_s(t)$ and $P_s^{T3}(t) = \psi_s A_s(t)$ are also in $[0,1]$ for all $t \geq 0$.
+\end{proposition}
+
+\begin{proof}
+Each equation has the bounded gain-loss form $\dot{X} = (1-X) f^+(X) - X f^-(X)$ where $f^+, f^- \geq 0$ by the nonnegative parameter assumptions. At $X = 1$: $\dot{X} = -f^-(1) \leq 0$. At $X = 0$: $\dot{X} = f^+(0) \geq 0$. Hence $[0,1]$ is positively invariant for each equation. The ex-post quantities are products of two $[0,1]$-valued quantities and are therefore also in $[0,1]$. The full argument is given in the v0.2 proof.
+\end{proof}
+
+%% ============================================================
+\section{Known Limits Inherited from v0.2}
+\label{sec:limits_v02}
+%% ============================================================
+
+The following structural limits from v0.2 carry over unchanged to v0.3.
+
+\begin{enumerate}[label=\arabic*.]
+
+  \item \textbf{Tier~2 and Tier~3 state reductions are modelling choices, not empirical findings.}
+
+  \item \textbf{No sector-pair spillovers.}
+  Sectors interact only through the shared enabling stock $E(t)$.
+
+  \item \textbf{Deterministic ODE only.}
+  No stochastic shocks, no uncertainty propagation, no Monte Carlo.
+
+  \item \textbf{Single-country model.}
+  No trade terms, international spillovers, or cross-border adoption dynamics.
+
+  \item \textbf{Tier~2 and Tier~3 labour effects are reported-only, not dynamic.}
+
+  \item \textbf{Policy controls are constant within a scenario.}
+  $G_s$ and $G_E$ are treated as fixed scenario parameters, not adaptive policies.
+
+\end{enumerate}
+
+%% ============================================================
+%% ============================================================
+%% ============================================================
+%%
+%%  v0.3 CALIBRATION -- NEW CONTENT BELOW THIS LINE
+%%
+%% ============================================================
+%% ============================================================
+%% ============================================================
+
+%% ============================================================
+\section{v0.3 Calibration: Approach and Evidence Classes}
+\label{sec:cal_approach}
+%% ============================================================
+
+Every numerical value introduced in v0.3 carries three mandatory tags:
+
+\begin{center}
+\begin{tabular}{lp{10cm}}
+\toprule
+Tag & Meaning \\
+\midrule
+\textbf{Evidence class} & \textbf{observed}: directly supported by NZ data. \textbf{derived}: estimated from multiple sources or international benchmarks. \textbf{assumed}: transparent placeholder, no direct evidence base. \\[4pt]
+\textbf{Source} & Primary source citation for the value or the reasoning behind it. \\[4pt]
+\textbf{Confidence} & \textbf{high}: narrow uncertainty range, strong NZ evidence. \textbf{medium}: reasonable but imprecise NZ evidence or good international evidence. \textbf{low}: sparse evidence, wide sensitivity range. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Calibration philosophy.} Where NZ-specific evidence exists (observed or derived), it is used. Where it does not, international benchmarks from the OECD, AI Forum NZ, Datacom, and sector-specific sources are used to derive plausible ranges. Parameters that remain unsupported are labelled assumed and carry a stated sensitivity range. No parameter is spuriously precise.
+
+\textbf{No time-series fitting.} v0.3 calibration uses cross-sectional evidence per sector. It does not fit parameters to historical time series. That is v0.4 or later work.
+
+\textbf{Shared global rates.} The rate parameters $\rho_K$, $\rho_A$, $\rho_P$, $\rho_L$ are shared across sectors within each tier. Sector heterogeneity is captured entirely by the sector-specific structural parameters ($\alpha_s$, $\kappa_s$, $\lambda_s$, $\phi_s$, $\eta_s$, $\mu_s$ for Tier~1; $\beta_s$, $\kappa_s$, $\phi_s$ for Tier~2; $\gamma_s$, $\psi_s$ for Tier~3). This maintains model parsimony.
+
+%% ============================================================
+\section{v0.3 Calibration: GDP Share Weights}
+\label{sec:cal_gdp}
+%% ============================================================
+
+GDP shares $\omega_s$ are the primary weighting mechanism for the whole-economy aggregate $\bar{P}(t)$. They must sum to exactly 1.
+
+\subsection{Sector GDP Mapping}
+
+The model's 19 sectors do not correspond one-to-one to the 19 ANZSIC Level~1 categories. Three mapping adjustments are required:
+
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{S03 Professional Services} in the parameter table uses a combined GDP figure that includes the ANZSIC Administrative and Support Services category. For non-overlapping allocation, the combined value (\$32,757M) is split into S03 (Professional, Scientific and Technical Services portion: \$21,000M) and S13 (Administrative and Support Services portion: \$11,757M) based on ANZSIC relative shares.
+
+  \item \textbf{S05 Technology} is a cross-sectoral category (NZTech definition: ICT + hi-tech manufacturing + biotech). The allocated GDP (\$12,434M) is derived as NZTech sector total (\$24,000M) minus the ANZSIC Information Media and Telecommunications sector (\$11,566M, captured in S14). This removes the primary telecomm overlap.
+
+  \item \textbf{S18 Arts and Recreation} and \textbf{S19 Other Services} are split equally from the combined parameter table value (\$8,778M), each receiving \$4,389M, consistent with ANZSIC relative proportions.
+\end{enumerate}
+
+All other sectors use the GDP values directly from \texttt{data/sector-parameter-table.csv} (Stats NZ GDP by Industry, chain-volume, YE March~2025).
+
+\subsection{GDP Share Table}
+
+The model-consistent total GDP used as the denominator is \$281,020M. This is the sum of the 19 allocated sector GDPs defined above.
+
+\begin{center}
+\begin{longtable}{lrrrll}
+\toprule
+Sector & GDP (NZD M) & $\omega_s$ & Class & Source & Conf.\\
+\midrule
+\endhead
+S01 Agriculture & 14,396 & 0.0512 & observed & Stats NZ GDP by Industry & high \\
+S02 Manufacturing & 22,147 & 0.0788 & observed & Stats NZ GDP by Industry & high \\
+S03 Professional Services & 21,000 & 0.0747 & derived & Stats NZ ANZSIC split & medium \\
+S04 Public Sector & 13,499 & 0.0480 & observed & Stats NZ GDP by Industry & high \\
+S05 Technology & 12,434 & 0.0442 & derived & NZTech minus S14 overlap & medium \\
+S06 Healthcare & 19,175 & 0.0682 & observed & Stats NZ GDP by Industry & high \\
+S07 Construction & 18,085 & 0.0643 & observed & Stats NZ GDP by Industry & high \\
+S08 Financial Services & 15,937 & 0.0567 & observed & Stats NZ GDP by Industry & high \\
+S09 Retail \& Wholesale & 32,376 & 0.1152 & observed & Stats NZ GDP by Industry & high \\
+S10 Education & 10,127 & 0.0360 & observed & Stats NZ GDP by Industry & high \\
+S11 Transport/Warehousing & 11,651 & 0.0415 & observed & Stats NZ GDP by Industry & high \\
+S12 Accommodation/Food & 8,720 & 0.0310 & derived & Stats NZ ANZSIC est.\ & medium \\
+S13 Admin/Support Services & 11,757 & 0.0418 & derived & Stats NZ ANZSIC split & medium \\
+S14 Info Media/Telecomms & 11,566 & 0.0412 & observed & Stats NZ GDP by Industry & high \\
+S15 Utilities & 7,032 & 0.0250 & observed & Stats NZ GDP by Industry & high \\
+S16 Mining & 2,024 & 0.0072 & observed & Stats NZ GDP by Industry & high \\
+S17 Rental/Real Estate & 40,316 & 0.1435 & observed & Stats NZ GDP by Industry & high \\
+S18 Arts \& Recreation & 4,389 & 0.0156 & derived & Stats NZ ANZSIC split & medium \\
+S19 Other Services & 4,389 & 0.0156 & derived & Stats NZ ANZSIC split & medium \\
+\midrule
+\textbf{Total} & \textbf{281,020} & \textbf{1.0000} & & & \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\begin{remark}
+Tier~1 sectors (S01--S09) account for $\sum_{s \in \mathcal{S}_1} \omega_s = 0.506$ (50.6\% of the model-consistent GDP). Tier~2 (S10--S15) accounts for 0.217 (21.7\%), and Tier~3 (S16--S19) accounts for 0.282 (28.2\%). The Tier~3 weight is elevated by the large Rental and Real Estate sector (S17, $\omega = 0.1435$), which reflects the dominance of imputed owner-occupied rent in NZ national accounts.
+\end{remark}
+
+%% ============================================================
+\section{v0.3 Calibration: Economy-Wide Enabling Stock}
+\label{sec:cal_E}
+%% ============================================================
+
+The enabling stock $E(t)$ is the single economy-wide state variable shared across all 19 sectors. Its initial value and dynamics reflect NZ's current enabling environment for AI adoption: infrastructure, skills, policy, digital connectivity.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Unit & Class & Source & Conf. \\
+\midrule
+$E(0)$ & 0.38 & $[0,1]$ & assumed & NZ mid-tier OECD positioning~\cite{oecd2024,nztreasury2024} & low \\
+$\rho_E$ & 0.25 & yr$^{-1}$ & assumed & Consistent with 4-year adjustment horizon & low \\
+$\delta_E$ & 0.05 & yr$^{-1}$ & assumed & Enabling stock depreciates slowly & low \\
+$G_E^{\text{base}}$ & 0.05 & -- & assumed & Baseline national investment rate & low \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Calibration note.} $E(0) = 0.38$ reflects NZ's position as a mid-tier digital economy. The OECD analysis identifies NZ as lagging behind advanced economies in technology diffusion speed, intangible capital investment, and AI talent supply~\cite{oecd2024}. International comparators with strong enabling environments (US, Singapore, South Korea) would be estimated at $E(0) \approx 0.55$--$0.65$. NZ's known structural weaknesses -- R\&D at 0.8\% of GDP (OECD average 1.8\%), slow technology diffusion, ICT skills shortage -- justify the below-OECD-average initial value.
+
+\textbf{Sensitivity range:} $E(0) \in [0.28, 0.48]$.
+
+At steady state with no intervention ($G_s = 0$, $G_E = G_E^{\text{base}}$), the long-run enabling stock converges to:
+\[
+E^* = \frac{G_E^{\text{base}}}{G_E^{\text{base}} + \delta_E} = \frac{0.05}{0.10} = 0.50.
+\]
+This places the NZ enabling environment at approximately 50\% of its theoretical maximum under current policy, consistent with the medium-term potential identified in the NZ Treasury analysis.
+
+%% ============================================================
+\section{v0.3 Calibration: Tier~1 Parameters}
+\label{sec:cal_t1}
+%% ============================================================
+
+\subsection{Tier~1 Global Rates}
+
+The following rates apply to all nine Tier~1 sectors. Sector heterogeneity is captured by the sector-specific structural parameters.
+
+\begin{center}
+\begin{tabular}{lllll}
+\toprule
+Parameter & Value & Unit & Class & Conf. \\
+\midrule
+$\rho_K$ & 0.30 & yr$^{-1}$ & assumed & low \\
+$\rho_A$ & 0.35 & yr$^{-1}$ & assumed & low \\
+$\rho_P$ & 0.25 & yr$^{-1}$ & assumed & low \\
+$\rho_L$ & 0.35 & yr$^{-1}$ & assumed & low \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Rate calibration note.} The rate $\rho_X = 0.30$ implies a time constant of approximately 3.3 years for a half-saturation response when the driving term is held constant. This is consistent with the Treasury finding that AI diffusion in advanced economies typically takes 3--10 years for material productivity effects to emerge~\cite{nztreasury2024}. The 20--30 year full diffusion timeline noted in the Treasury analysis is captured by the system reaching higher adoption states over multiple time periods, not by setting lower rates.
+
+\subsection{Tier~1 Sector Calibration Notes}
+
+\paragraph{Agriculture ($s = \text{ag}$).} The most evidentially constrained Tier~1 sector. No published NZ AI adoption rate exists. Halter (precision dairy AI, \$1.55B valuation, 1,000+ farmers) is the leading commercial deployment but represents a small fraction of the sector's 61,593 enterprises~\cite{statsnz2025}. Long diffusion timelines (5--10 years to scale) and low baseline digital maturity justify the lowest initial conditions of any Tier~1 sector. The OECD breakthrough pathway -- AI-robotics integration in primary industries -- is represented by the sector's upside sensitivity range.
+
+\paragraph{Manufacturing ($s = \text{mfg}$).} 58\% adoption in large firms (Datacom 2024, 100+ employee firms)~\cite{datacom2024}, but economy-wide adoption including SMEs is substantially lower. Callaghan Innovation's Industry 4.0 framework and the Investment Boost (20\% tax deduction) are active enablers. Productivity potential of 15--30\% per the OECD analysis~\cite{oecd2024}. Second-highest $\alpha_s$ after Technology.
+
+\paragraph{Professional Services ($s = \text{prof}$).} Highest current adoption of any sector. Thomson Reuters 2025 reports GenAI active use doubled from 12\% to 22\% in 12 months. RBNZ identifies professional and managerial occupations as the highest AI exposure group~\cite{rbnz2025}. The sector faces diminishing returns from further investment given the already-high adoption base: $\kappa_{\text{prof}}$ is set lower than manufacturing despite the higher $A_s(0)$.
+
+\paragraph{Public Sector ($s = \text{pub}$).} Lowest adoption base but fastest acceleration trajectory. GCDO AI Use Case Census 2025 records 272 use cases across 70 agencies, with 55 fully operational (up from 15 the previous year)~\cite{aiforum2024}. Capability gap and risk-averse institutional culture (the ``chilling effect'' from early guidance) are the primary barriers. The Public Service AI Framework (January 2025) provides structural support for accelerating adoption.
+
+\paragraph{Technology ($s = \text{tech}$).} Supply-side enabler sector. Very high initial state ($A_{\text{tech}}(0) = 0.65$, $K_{\text{tech}}(0) = 0.72$) reflects that the Technology sector is both a major AI user and the primary producer of AI capabilities. The highest $\phi_{\text{tech}} = 0.75$ reflects the Technology sector's exceptional structural coupling to the national enabling environment. TIN200 revenue growing 9.9\% indicates continued expansion despite first workforce contraction since the GFC~\cite{nztech2026}.
+
+\paragraph{Healthcare ($s = \text{hlth}$).} 62\% adoption in large firms (Datacom 2024)~\cite{datacom2024} blurs back-office AI and clinical AI. The PMCSA analysis distinguishes between admin AI (low-hanging fruit, faster realisation) and clinical AI (slow deployment due to equity, governance, and interoperability constraints)~\cite{pmcsa2023}. The 85\% of health systems that do not support data sharing is a binding structural constraint on $K_{\text{hlth}}(0)$.
+
+\paragraph{Construction ($s = \text{con}$).} The evidentially weakest Tier~1 sector. No published NZ AI adoption rate. 95\% of firms have fewer than 10 employees, and digital maturity is the lowest of any major sector. However, AI is entering the sector's top-5 concerns for the first time (BDO 2025) and the \$120B government infrastructure pipeline creates demand-side pull. NZ case study: Classic Group (Tauranga) reduced purchase order pricing from 2 hours to 15 seconds using AWS Bedrock + Claude Sonnet.
+
+\paragraph{Financial Services ($s = \text{fin}$).} High adoption constrained by regulation rather than capability. The FMA survey (9/13 respondents using AI)~\cite{fma2024} has an inadequate sample for sector-level inference; confidence is low. Banking is outpacing insurance. RBNZ identifies a regulatory vacuum from 2025--2028 as the primary short-term risk~\cite{rbnz2025}. Productivity potential 15--25\% cost reduction per the OECD.
+
+\paragraph{Retail and Wholesale ($s = \text{ret}$).} Combined sector. Wholesale scored the highest AI adoption rate of any NZ sector in Datacom 2024 (64\%)~\cite{datacom2024}; retail is substantially lower and more politically sensitive (displacement story). The combined initial condition $A_{\text{ret}}(0) = 0.35$ is a weighted average. Labour sensitivity $\lambda_{\text{ret}}$ is set high (0.55) given the large low-wage workforce with automation exposure.
+
+\subsection{Tier~1 Per-Sector Parameter Tables}
+
+For each sector, the table format is:
+\begin{itemize}
+  \item Initial conditions: $K_s(0)$, $A_s(0)$, $P_s(0)$, $L_s(0)$
+  \item Structural parameters: $\alpha_s$, $\kappa_s$, $\lambda_s$, $\phi_s$, $\eta_s$, $\mu_s$, $\bar{p}_s$
+  \item Evidence class: obs = observed, der = derived, asm = assumed
+  \item Confidence: H = high, M = medium, L = low
+\end{itemize}
+
+\subsubsection*{S01 -- Agriculture}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{ag}}(0)$ & 0.12 & [0.07, 0.18] & asm & Digital maturity proxy & L \\
+$A_{\text{ag}}(0)$ & 0.05 & [0.03, 0.10] & asm & No NZ adoption data; Halter proxy & L \\
+$P_{\text{ag}}(0)$ & 0.03 & [0.01, 0.06] & asm & Derived from $A_{\text{ag}}(0)$ & L \\
+$L_{\text{ag}}(0)$ & 0.04 & [0.02, 0.07] & asm & Low automation exposure & L \\
+$\alpha_{\text{ag}}$ & 0.50 & [0.35, 0.65] & der & Sector archetype: medium responsiveness & M \\
+$\kappa_{\text{ag}}$ & 0.15 & [0.10, 0.25] & der & OECD 10--25\% productivity range & M \\
+$\lambda_{\text{ag}}$ & 0.30 & [0.20, 0.42] & asm & Physical work limits automation exposure & L \\
+$\phi_{\text{ag}}$ & 0.20 & [0.12, 0.30] & asm & Limited rural enabling exposure & L \\
+$\eta_{\text{ag}}$ & 0.25 & [0.15, 0.38] & asm & Learning-by-doing (Halter model) & L \\
+$\mu_{\text{ag}}$ & 0.10 & [0.06, 0.15] & asm & Moderate skill attrition & L \\
+$\bar{p}_{\text{ag}}$ & 0.20 & [0.10, 0.25] & der & OECD robotics-integration upside & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S02 -- Manufacturing}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{mfg}}(0)$ & 0.42 & [0.32, 0.52] & asm & Moderate I4.0 digital maturity & M \\
+$A_{\text{mfg}}(0)$ & 0.35 & [0.25, 0.48] & der & 58\% large firms (Datacom); est.\ 35\% economy-wide & M \\
+$P_{\text{mfg}}(0)$ & 0.22 & [0.15, 0.30] & asm & Derived from $A_{\text{mfg}}(0)$ & M \\
+$L_{\text{mfg}}(0)$ & 0.18 & [0.12, 0.25] & asm & Moderate automation exposure & M \\
+$\alpha_{\text{mfg}}$ & 0.70 & [0.55, 0.82] & der & I4.0 pathway high responsiveness & M \\
+$\kappa_{\text{mfg}}$ & 0.22 & [0.15, 0.30] & der & OECD 15--30\% productivity range & M \\
+$\lambda_{\text{mfg}}$ & 0.45 & [0.32, 0.58] & asm & Significant machine-task automation & M \\
+$\phi_{\text{mfg}}$ & 0.40 & [0.28, 0.52] & asm & Moderate enabling exposure & L \\
+$\eta_{\text{mfg}}$ & 0.35 & [0.22, 0.48] & asm & Learning-by-doing in I4.0 deployment & L \\
+$\mu_{\text{mfg}}$ & 0.08 & [0.04, 0.12] & asm & Moderate skill depreciation & L \\
+$\bar{p}_{\text{mfg}}$ & 0.25 & [0.15, 0.30] & der & OECD manufacturing productivity range & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S03 -- Professional Services}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{prof}}(0)$ & 0.58 & [0.48, 0.68] & asm & High digital maturity & M \\
+$A_{\text{prof}}(0)$ & 0.45 & [0.35, 0.55] & der & 22\% active GenAI (Thomson Reuters 2025); est.\ higher overall & M \\
+$P_{\text{prof}}(0)$ & 0.28 & [0.20, 0.36] & asm & Derived from $A_{\text{prof}}(0)$ & M \\
+$L_{\text{prof}}(0)$ & 0.22 & [0.15, 0.30] & asm & High cognitive task exposure (RBNZ) & M \\
+$\alpha_{\text{prof}}$ & 0.80 & [0.65, 0.92] & der & Knowledge work amplification & M \\
+$\kappa_{\text{prof}}$ & 0.18 & [0.12, 0.25] & der & Diminishing returns from high base & M \\
+$\lambda_{\text{prof}}$ & 0.55 & [0.40, 0.68] & asm & High cognitive task exposure (RBNZ) & M \\
+$\phi_{\text{prof}}$ & 0.55 & [0.42, 0.68] & asm & High reliance on digital infrastructure & L \\
+$\eta_{\text{prof}}$ & 0.45 & [0.32, 0.58] & asm & Strong learning-by-doing feedback & L \\
+$\mu_{\text{prof}}$ & 0.07 & [0.04, 0.11] & asm & Low skill attrition in knowledge sector & L \\
+$\bar{p}_{\text{prof}}$ & 0.18 & [0.10, 0.25] & der & OECD moderate; diminishing returns from high base & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S04 -- Public Sector}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{pub}}(0)$ & 0.15 & [0.10, 0.22] & asm & GCDO capability gap evidence & M \\
+$A_{\text{pub}}(0)$ & 0.10 & [0.06, 0.15] & der & GCDO: 55 operational use cases / 272 total & M \\
+$P_{\text{pub}}(0)$ & 0.06 & [0.03, 0.09] & asm & Derived from $A_{\text{pub}}(0)$ & M \\
+$L_{\text{pub}}(0)$ & 0.08 & [0.05, 0.12] & asm & Moderate public service AI exposure & L \\
+$\alpha_{\text{pub}}$ & 0.60 & [0.45, 0.75] & der & Adoption follows capability with governance lag & M \\
+$\kappa_{\text{pub}}$ & 0.12 & [0.05, 0.15] & der & OECD 5--15\% for public sector & M \\
+$\lambda_{\text{pub}}$ & 0.40 & [0.28, 0.52] & asm & Moderate public service exposure & L \\
+$\phi_{\text{pub}}$ & 0.35 & [0.22, 0.48] & asm & Moderate enabling exposure, GCDO-dependent & L \\
+$\eta_{\text{pub}}$ & 0.30 & [0.18, 0.42] & asm & Some learning-by-doing in agency adoption & L \\
+$\mu_{\text{pub}}$ & 0.08 & [0.04, 0.12] & asm & Moderate institutional skill drift & L \\
+$\bar{p}_{\text{pub}}$ & 0.12 & [0.05, 0.15] & der & OECD public sector range & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S05 -- Technology}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{tech}}(0)$ & 0.72 & [0.60, 0.82] & asm & Highest digital maturity; NZTech Key Metrics & M \\
+$A_{\text{tech}}(0)$ & 0.65 & [0.55, 0.78] & der & Supply-side sector: very high internal AI adoption & M \\
+$P_{\text{tech}}(0)$ & 0.40 & [0.30, 0.50] & asm & Derived from $A_{\text{tech}}(0)$ & M \\
+$L_{\text{tech}}(0)$ & 0.30 & [0.20, 0.42] & asm & High AI exposure in tech occupations & M \\
+$\alpha_{\text{tech}}$ & 0.90 & [0.75, 1.00] & der & Technology sector: maximum responsiveness & M \\
+$\kappa_{\text{tech}}$ & 0.25 & [0.18, 0.35] & der & Strong internal productivity gains from AI tools & M \\
+$\lambda_{\text{tech}}$ & 0.60 & [0.45, 0.75] & asm & High cognitive/software task automation exposure & M \\
+$\phi_{\text{tech}}$ & 0.75 & [0.60, 0.90] & asm & Technology IS the enabling sector & M \\
+$\eta_{\text{tech}}$ & 0.60 & [0.45, 0.75] & asm & Strongest learning-by-doing effect & L \\
+$\mu_{\text{tech}}$ & 0.05 & [0.02, 0.09] & asm & Continuous learning maintains capability & L \\
+$\bar{p}_{\text{tech}}$ & 0.30 & [0.20, 0.40] & der & TIN200 growth rates proxy & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S06 -- Healthcare}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{hlth}}(0)$ & 0.38 & [0.28, 0.48] & asm & Moderate; 85\% interop barrier (PMCSA) & M \\
+$A_{\text{hlth}}(0)$ & 0.35 & [0.25, 0.48] & der & 62\% large firms (Datacom); blurs admin/clinical AI & M \\
+$P_{\text{hlth}}(0)$ & 0.20 & [0.14, 0.28] & asm & Derived from $A_{\text{hlth}}(0)$ & M \\
+$L_{\text{hlth}}(0)$ & 0.16 & [0.10, 0.22] & asm & Augmentation-dominant sector & L \\
+$\alpha_{\text{hlth}}$ & 0.55 & [0.40, 0.70] & der & Moderate, constrained by equity/governance & M \\
+$\kappa_{\text{hlth}}$ & 0.15 & [0.10, 0.20] & der & OECD 10--20\%, admin AI higher than clinical & M \\
+$\lambda_{\text{hlth}}$ & 0.35 & [0.22, 0.48] & asm & Augmentation more than displacement & L \\
+$\phi_{\text{hlth}}$ & 0.35 & [0.22, 0.48] & asm & Moderate enabling exposure, governance constraints & L \\
+$\eta_{\text{hlth}}$ & 0.25 & [0.15, 0.38] & asm & Some admin AI learning-by-doing & L \\
+$\mu_{\text{hlth}}$ & 0.08 & [0.04, 0.12] & asm & Moderate skill attrition in health sector & L \\
+$\bar{p}_{\text{hlth}}$ & 0.15 & [0.10, 0.20] & der & OECD constrained by governance & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S07 -- Construction}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{con}}(0)$ & 0.08 & [0.04, 0.14] & asm & Lowest digital maturity of any major sector & L \\
+$A_{\text{con}}(0)$ & 0.06 & [0.03, 0.12] & asm & No NZ adoption data; lowest maturity proxy & L \\
+$P_{\text{con}}(0)$ & 0.03 & [0.01, 0.06] & asm & Derived from $A_{\text{con}}(0)$ & L \\
+$L_{\text{con}}(0)$ & 0.05 & [0.02, 0.09] & asm & Physical work: low near-term automation exposure & L \\
+$\alpha_{\text{con}}$ & 0.40 & [0.25, 0.55] & der & Physical tasks limit AI application & L \\
+$\kappa_{\text{con}}$ & 0.10 & [0.05, 0.18] & der & Low near-term potential; digital maturity constraint & L \\
+$\lambda_{\text{con}}$ & 0.25 & [0.15, 0.38] & asm & Lower automation exposure in physical construction & L \\
+$\phi_{\text{con}}$ & 0.20 & [0.10, 0.32] & asm & Limited enabling exposure; rural/dispersed sector & L \\
+$\eta_{\text{con}}$ & 0.20 & [0.10, 0.32] & asm & Limited learning-by-doing from low base & L \\
+$\mu_{\text{con}}$ & 0.10 & [0.06, 0.15] & asm & High skill turnover; fragmented sector & L \\
+$\bar{p}_{\text{con}}$ & 0.10 & [0.05, 0.18] & der & Low near-term potential per OECD & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S08 -- Financial Services}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{fin}}(0)$ & 0.55 & [0.42, 0.68] & asm & High digital infra; regulatory constraints & M \\
+$A_{\text{fin}}(0)$ & 0.48 & [0.32, 0.62] & der & FMA: 9/13 respondents; small sample (low conf.) & L \\
+$P_{\text{fin}}(0)$ & 0.29 & [0.18, 0.40] & asm & Derived from $A_{\text{fin}}(0)$ & L \\
+$L_{\text{fin}}(0)$ & 0.25 & [0.16, 0.35] & asm & Moderate: regulatory constraints slow displacement & L \\
+$\alpha_{\text{fin}}$ & 0.75 & [0.58, 0.88] & der & High when regulatory constraints permit & M \\
+$\kappa_{\text{fin}}$ & 0.20 & [0.15, 0.25] & der & OECD 15--25\% cost reduction potential & M \\
+$\lambda_{\text{fin}}$ & 0.50 & [0.35, 0.65] & asm & High cognitive task exposure & M \\
+$\phi_{\text{fin}}$ & 0.50 & [0.35, 0.65] & asm & High enabling exposure; digital-native sector & L \\
+$\eta_{\text{fin}}$ & 0.40 & [0.28, 0.52] & asm & Learning-by-doing in analytics & L \\
+$\mu_{\text{fin}}$ & 0.07 & [0.03, 0.11] & asm & Low skill attrition in financial sector & L \\
+$\bar{p}_{\text{fin}}$ & 0.22 & [0.15, 0.25] & der & OECD cost reduction range & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S09 -- Retail and Wholesale}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$K_{\text{ret}}(0)$ & 0.38 & [0.28, 0.48] & asm & Wholesale more mature than retail & M \\
+$A_{\text{ret}}(0)$ & 0.35 & [0.25, 0.48] & der & Wholesale 64\% (Datacom); retail lower; combined est. & M \\
+$P_{\text{ret}}(0)$ & 0.20 & [0.14, 0.28] & asm & Derived from $A_{\text{ret}}(0)$ & M \\
+$L_{\text{ret}}(0)$ & 0.20 & [0.13, 0.28] & asm & Large low-wage workforce with automation exposure & M \\
+$\alpha_{\text{ret}}$ & 0.65 & [0.50, 0.78] & der & Wholesale high; retail moderate; combined & M \\
+$\kappa_{\text{ret}}$ & 0.12 & [0.05, 0.15] & der & OECD 5--15\% range & M \\
+$\lambda_{\text{ret}}$ & 0.55 & [0.40, 0.70] & asm & Large workforce with automation exposure & M \\
+$\phi_{\text{ret}}$ & 0.40 & [0.28, 0.52] & asm & Moderate enabling exposure & L \\
+$\eta_{\text{ret}}$ & 0.30 & [0.18, 0.42] & asm & Moderate learning-by-doing & L \\
+$\mu_{\text{ret}}$ & 0.08 & [0.04, 0.12] & asm & Moderate skill attrition & L \\
+$\bar{p}_{\text{ret}}$ & 0.12 & [0.05, 0.15] & der & OECD retail 5--15\% range & M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ============================================================
+\section{v0.3 Calibration: Tier~2 Parameters}
+\label{sec:cal_t2}
+%% ============================================================
+
+\subsection{Tier~2 Global Rates}
+
+\begin{center}
+\begin{tabular}{lllll}
+\toprule
+Parameter & Value & Unit & Class & Conf. \\
+\midrule
+$\rho_A^{T2}$ & 0.28 & yr$^{-1}$ & assumed & low \\
+$\rho_P^{T2}$ & 0.20 & yr$^{-1}$ & assumed & low \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Tier~2 Calibration Note: $\beta_s$ -- Absorptive Multiplier}
+
+The absorptive multiplier $\beta_s \in [0,1]$ captures the sector's fixed structural coupling to the national enabling environment. It replaces the dynamic $K_s$ equation for Tier~2 sectors. A high $\beta_s$ means the sector responds strongly to improvements in $E(t)$; a low $\beta_s$ means the sector is relatively insulated from (or unresponsive to) the national enabling environment.
+
+\textbf{Calibration drivers for $\beta_s$:}
+\begin{itemize}
+  \item \textbf{Digital maturity}: sectors with higher baseline digital infrastructure have higher $\beta_s$.
+  \item \textbf{Enterprise size distribution}: larger-firm sectors have higher $\beta_s$ (lower adoption barriers per firm).
+  \item \textbf{Technology intensity of core operations}: sectors where digital tools are central to daily operations have higher $\beta_s$.
+  \item \textbf{Regulatory and governance constraints}: regulated sectors may have lower effective $\beta_s$ even if technically capable.
+\end{itemize}
+
+Values are calibrated using sector archetypes derived from AI Forum NZ, Datacom, and OECD cross-sector evidence, applied to each Tier~2 sector's characteristics. All Tier~2 $\beta_s$ values are assumed; no direct NZ observational evidence for this parameter class exists. Sensitivity ranges are wider for Tier~2 than for Tier~1.
+
+\subsection{Tier~2 Per-Sector Parameter Tables}
+
+\subsubsection*{S10 -- Education and Training}
+
+\textbf{Calibration note.} Education is one of the earliest AI adopters in the AI Forum NZ survey (22.4\% of respondents)~\cite{aiforum2024}, with use cases in personalised learning (University of Otago GPT-4 course recommendations) and administrative automation. However, adoption is uneven across institutions, and barriers include academic integrity concerns, uneven digital infrastructure, and variable staff capability. $\beta_{\text{edu}}$ is set at moderate level reflecting a sector that engages with AI but faces structural institutional constraints.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{edu}}(0)$ & 0.25 & [0.18, 0.35] & der & AI Forum NZ: Education largest respondent group & M \\
+$P_{\text{edu}}(0)$ & 0.15 & [0.10, 0.20] & asm & Derived from $A_{\text{edu}}(0)$ & M \\
+$\beta_{\text{edu}}$ & 0.35 & [0.25, 0.45] & asm & Moderate; institutional constraints on digital adoption & L \\
+$\kappa_{\text{edu}}$ & 0.12 & [0.08, 0.18] & der & Moderate productivity gains; admin AI primary driver & L \\
+$\phi_{\text{edu}}$ & 0.30 & [0.20, 0.42] & asm & Moderate labour exposure; augmentation-dominant & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S11 -- Transport and Warehousing}
+
+\textbf{Calibration note.} Route optimisation, logistics AI, and predictive maintenance are primary use cases. The sector spans highly digital logistics operators (large firms) and owner-operator trucking (very low digital maturity). AI Forum NZ shows Transport at 2.2\% of survey respondents -- one of the lowest shares~\cite{aiforum2024}. $\beta_{\text{trn}}$ is set modestly below Education, reflecting the mixed physical-digital nature of the sector.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{trn}}(0)$ & 0.15 & [0.10, 0.22] & asm & Low; 2.2\% of AI Forum respondents & M \\
+$P_{\text{trn}}(0)$ & 0.08 & [0.05, 0.12] & asm & Derived from $A_{\text{trn}}(0)$ & L \\
+$\beta_{\text{trn}}$ & 0.30 & [0.20, 0.40] & asm & Moderate; mixed digital/physical operations & L \\
+$\kappa_{\text{trn}}$ & 0.15 & [0.10, 0.22] & der & Route optimisation and logistics gains & L \\
+$\phi_{\text{trn}}$ & 0.35 & [0.22, 0.48] & asm & Moderate labour exposure; autonomous vehicles on horizon & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S12 -- Accommodation and Food Services}
+
+\textbf{Calibration note.} High labour intensity, small business dominance (26,070 enterprises), and low digital maturity define this sector. AI use is primarily in booking systems, dynamic pricing, and customer service chatbots -- all driven by large chain operators. Most firms are too small to have meaningful AI capability. $\beta_{\text{acc}}$ is the lowest of any Tier~2 sector, reflecting limited structural absorption capacity. Labour exposure $\phi_{\text{acc}}$ is set relatively high given the sector's many routine service tasks.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{acc}}(0)$ & 0.10 & [0.05, 0.16] & asm & Small firms; low digital maturity; limited evidence & L \\
+$P_{\text{acc}}(0)$ & 0.06 & [0.03, 0.10] & asm & Derived from $A_{\text{acc}}(0)$ & L \\
+$\beta_{\text{acc}}$ & 0.22 & [0.15, 0.30] & asm & Low absorptive capacity; fragmented sector & L \\
+$\kappa_{\text{acc}}$ & 0.08 & [0.05, 0.14] & der & Limited AI applicability; physical hospitality work & L \\
+$\phi_{\text{acc}}$ & 0.40 & [0.28, 0.52] & asm & High labour exposure; many routine service tasks & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S13 -- Administrative and Support Services}
+
+\textbf{Calibration note.} Administrative tasks are among the highest AI-applicability use cases globally (AI Forum NZ: 13.8\% of AI deployments are in administration)~\cite{aiforum2024}. The sector provides outsourced admin, facilities management, and business support -- activities with high routine content and strong GenAI applicability. AI Forum NZ survey shows 3.9\% of respondents from this sector. $\beta_{\text{adm}}$ and $\phi_{\text{adm}}$ are set moderately high relative to other Tier~2 sectors.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{adm}}(0)$ & 0.25 & [0.18, 0.35] & asm & Admin tasks highly automatable; early adopters & M \\
+$P_{\text{adm}}(0)$ & 0.15 & [0.10, 0.20] & asm & Derived from $A_{\text{adm}}(0)$ & M \\
+$\beta_{\text{adm}}$ & 0.38 & [0.28, 0.50] & asm & Moderate capacity; routine task AI applicability high & L \\
+$\kappa_{\text{adm}}$ & 0.18 & [0.12, 0.25] & der & Higher productivity gains from automation of admin tasks & L \\
+$\phi_{\text{adm}}$ & 0.55 & [0.40, 0.70] & asm & High labour exposure; many admin tasks automatable & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S14 -- Information Media and Telecommunications}
+
+\textbf{Calibration note.} The ICT sector is a digital-native industry with the highest structural AI absorption capacity of any Tier~2 sector. AI Forum NZ shows Information, Media and Telecommunications at 12.1\% of survey respondents -- second only to Education~\cite{aiforum2024}. The high $\beta_{\text{imt}} = 0.60$ reflects the sector's fundamental digital orientation. This is a sector where $E$ improvements translate efficiently into adoption.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{imt}}(0)$ & 0.50 & [0.40, 0.62] & asm & Digital-native; naturally high AI adoption & M \\
+$P_{\text{imt}}(0)$ & 0.30 & [0.22, 0.38] & asm & Derived from $A_{\text{imt}}(0)$ & M \\
+$\beta_{\text{imt}}$ & 0.60 & [0.45, 0.72] & asm & High absorptive capacity; digital-native sector & M \\
+$\kappa_{\text{imt}}$ & 0.22 & [0.15, 0.30] & der & Moderate-high gains from further AI integration & M \\
+$\phi_{\text{imt}}$ & 0.35 & [0.22, 0.48] & asm & Moderate labour exposure; tech skills augmented & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S15 -- Utilities}
+
+\textbf{Calibration note.} Smart grid AI, demand forecasting, predictive asset maintenance, and outage management are primary AI applications. The sector is capital-intensive and highly regulated, which constrains adoption speed. AI Forum NZ shows Electricity, Gas, Water at 2.2\% of respondents. $\beta_{\text{utl}}$ is set at moderate level; the regulatory constraint moderates what would otherwise be a technically capable sector. NZ's electricity sector has special strategic interest in AI for the transition to 100\% renewable generation.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{utl}}(0)$ & 0.20 & [0.14, 0.28] & asm & Smart grid AI emerging; regulatory constraints & M \\
+$P_{\text{utl}}(0)$ & 0.12 & [0.08, 0.17] & asm & Derived from $A_{\text{utl}}(0)$ & M \\
+$\beta_{\text{utl}}$ & 0.32 & [0.22, 0.42] & asm & Moderate capacity; regulatory friction applies & L \\
+$\kappa_{\text{utl}}$ & 0.18 & [0.12, 0.25] & der & Operational efficiency gains in regulated sector & L \\
+$\phi_{\text{utl}}$ & 0.25 & [0.15, 0.38] & asm & Moderate labour exposure; capital-intensive sector & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ============================================================
+\section{v0.3 Calibration: Tier~3 Parameters}
+\label{sec:cal_t3}
+%% ============================================================
+
+\subsection{Tier~3 Global Rate}
+
+\begin{center}
+\begin{tabular}{lllll}
+\toprule
+Parameter & Value & Unit & Class & Conf. \\
+\midrule
+$\rho_A^{T3}$ & 0.18 & yr$^{-1}$ & assumed & low \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Tier~3 Calibration Note: $\psi_s$ -- Productivity Coefficient}
+
+The productivity coefficient $\psi_s \in [0,1]$ translates adoption $A_s(t)$ directly into a normalised productivity effect for Tier~3 sectors. It captures the structural intensity of AI impact on sector output per unit of adoption.
+
+\textbf{Calibration drivers for $\psi_s$:}
+\begin{itemize}
+  \item \textbf{Nature of work}: cognitive-intensive sectors have higher $\psi_s$ than predominantly physical sectors.
+  \item \textbf{AI applicability}: sectors where AI tools map directly onto core tasks have higher $\psi_s$.
+  \item \textbf{Evidence quality}: where the empirical basis is weaker, $\psi_s$ is set conservatively and carries a wider sensitivity range.
+\end{itemize}
+
+All Tier~3 $\psi_s$ values are assumed. Sensitivity ranges are the widest of any parameter class in the model. These sectors are included for denominator honesty; the productivity contribution of Tier~3 to the whole-economy aggregate should be interpreted with caution.
+
+\subsection{Tier~3 Calibration Note: $\gamma_s$ -- Adoption Multiplier}
+
+The adoption multiplier $\gamma_s \in [0,1]$ plays the same structural role in Tier~3 as $\beta_s$ in Tier~2: it captures the sector's fixed coupling to the national enabling environment. Tier~3 sectors are expected to have lower $\gamma_s$ values than the corresponding Tier~2 sectors with similar characteristics, reflecting the residual nature of these sectors and the paucity of evidence for calibrating their responsiveness.
+
+\subsection{Tier~3 Per-Sector Parameter Tables}
+
+\subsubsection*{S16 -- Mining}
+
+\textbf{Calibration note.} NZ mining is a small sector (2,024 enterprises, \$2B GDP). AI applications include geological survey analysis, predictive equipment maintenance, and safety monitoring. International resource extraction AI exists (Rio Tinto, BHP) but NZ-specific evidence is absent. Parameters are set at the lower end of plausible ranges.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{min}}(0)$ & 0.12 & [0.06, 0.20] & asm & Small sector; international analogues proxy & L \\
+$\gamma_{\text{min}}$ & 0.25 & [0.15, 0.35] & asm & Moderate coupling; physical extraction sector & L \\
+$\psi_{\text{min}}$ & 0.12 & [0.08, 0.18] & asm & Limited productivity gains; physical tasks dominant & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S17 -- Rental, Hiring and Real Estate}
+
+\textbf{Calibration note.} This is the largest Tier~3 sector by GDP (\$40.3B, largely imputed rent from owner-occupied housing). Property technology AI (pricing algorithms, listing optimisation, due diligence automation) applies to the active real estate component. The large GDP weight ($\omega_{\text{rnt}} = 0.1435$) is primarily driven by imputed rent, which does not directly respond to AI adoption. $\psi_{\text{rnt}}$ is set low to reflect that most of this sector's GDP value is in property assets, not AI-responsive activities.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{rnt}}(0)$ & 0.15 & [0.08, 0.22] & asm & Proptech AI emerging; mostly imputed rent sector & L \\
+$\gamma_{\text{rnt}}$ & 0.28 & [0.18, 0.38] & asm & Moderate coupling; large imputed-rent component & L \\
+$\psi_{\text{rnt}}$ & 0.10 & [0.06, 0.15] & asm & Low; imputed rent component does not respond to AI & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S18 -- Arts and Recreation}
+
+\textbf{Calibration note.} Creative AI tools (generative image, audio, text) are directly relevant but face mixed reception in arts communities and potential intellectual property and authenticity concerns. Recreation services (gyms, sports) have limited AI applicability. AI Forum NZ survey shows Other Services (which includes arts) at 4.3\% of respondents. $\psi_{\text{art}}$ is set slightly higher than other Tier~3 sectors to reflect the genuine creative AI applicability, but with a wide sensitivity range.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{art}}(0)$ & 0.18 & [0.10, 0.28] & asm & Creative AI tools emerging; mixed reception & L \\
+$\gamma_{\text{art}}$ & 0.28 & [0.18, 0.38] & asm & Moderate coupling; digital content creation pathway & L \\
+$\psi_{\text{art}}$ & 0.15 & [0.10, 0.22] & asm & Moderate; creative tools boost output in suitable sub-sectors & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection*{S19 -- Other Services}
+
+\textbf{Calibration note.} A residual sector comprising personal services, repair services, religious and civic organisations, and other non-classified activities. Heterogeneous and diffuse. Limited AI applicability for most sub-sectors. Parameters are set at the most conservative values in the model. This sector is included solely to close the denominator; its model contribution should not be interpreted as an economic claim about AI in Other Services.
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+Parameter & Value & Sensitivity & Class & Source & Conf.\\
+\midrule
+$A_{\text{oth}}(0)$ & 0.12 & [0.06, 0.18] & asm & Diverse residual sector; very limited evidence & L \\
+$\gamma_{\text{oth}}$ & 0.22 & [0.12, 0.32] & asm & Lower coupling; heterogeneous personal services & L \\
+$\psi_{\text{oth}}$ & 0.08 & [0.05, 0.12] & asm & Limited productivity gains; physical and personal services & L \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ============================================================
+\section{v0.3 Calibration: Confidence-Adjusted Aggregate}
+\label{sec:cal_agg}
+%% ============================================================
+
+\subsection{Motivation}
+
+The whole-economy aggregate $\bar{P}(t)$ in Equation~\eqref{eq:Ptotal} weights each sector by its GDP share $\omega_s$ but not by the model's confidence in that sector's state representation. Tier~3 sectors contribute to $\bar{P}(t)$ with the same GDP-proportional weight as Tier~1 sectors, despite their substantially lower modelling fidelity and evidential basis.
+
+In v0.3, a confidence-adjusted aggregate is introduced as a complementary output. It is not the primary aggregate; the GDP-weighted $\bar{P}(t)$ remains the canonical whole-economy productivity indicator. The confidence-adjusted variant provides a conservative bound that downweights low-confidence contributions.
+
+\subsection{Tier Confidence Weights}
+
+The modelling confidence weights by tier are:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Tier & Confidence weight $c_s$ & Rationale \\
+\midrule
+Tier~1 & 1.00 & Full state; sector archetypes; direct evidence base \\
+Tier~2 & 0.70 & Reduced state; fixed absorptive multiplier; limited sector evidence \\
+Tier~3 & 0.40 & Minimal state; ex-post only; included for denominator honesty \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Confidence-Adjusted Aggregate Definition}
+
+\begin{equation}
+\bar{P}^c(t)
+= \frac{\displaystyle\sum_{s \in \mathcal{S}_1} \omega_s\, P_s(t)
++ \sum_{s \in \mathcal{S}_2} 0.70\cdot\omega_s\, P_s(t)
++ \sum_{s \in \mathcal{S}_3} 0.40\cdot\omega_s\, \psi_s\, A_s(t)}%
+{\displaystyle\sum_{s \in \mathcal{S}_1} \omega_s
++ \sum_{s \in \mathcal{S}_2} 0.70\cdot\omega_s
++ \sum_{s \in \mathcal{S}_3} 0.40\cdot\omega_s}
+\label{eq:Pconf}
+\end{equation}
+
+The denominator normalises $\bar{P}^c(t)$ so that it remains in $[0,1]$ and is comparable to $\bar{P}(t)$.
+
+\begin{remark}
+The normalised denominator in Equation~\eqref{eq:Pconf} equals:
+\[
+\sum_{s \in \mathcal{S}_1} \omega_s
++ 0.70\sum_{s \in \mathcal{S}_2} \omega_s
++ 0.40\sum_{s \in \mathcal{S}_3} \omega_s
+= 0.506 + 0.70\times 0.217 + 0.40\times 0.282
+= 0.506 + 0.152 + 0.113 = 0.771.
+\]
+The effective GDP coverage in the confidence-adjusted aggregate is 77.1\% of the model-consistent total, compared to 100\% for the unweighted $\bar{P}(t)$.
+\end{remark}
+
+\begin{remark}
+The $\bar{P}^c(t)$ aggregate is expected to be lower than $\bar{P}(t)$ in simulations, because the high-weight Tier~3 sector (S17 Rental/Real Estate, $\omega_{\text{rnt}} = 0.1435$) is down-weighted from its GDP-proportional contribution. For policy comparison purposes, the gap between $\bar{P}(t)$ and $\bar{P}^c(t)$ indicates the sensitivity of scenario conclusions to the modelling of low-confidence sectors.
+\end{remark}
+
+%% ============================================================
+\section{Known Limits of v0.3}
+\label{sec:limits_v03}
+%% ============================================================
+
+This section supplements the structural limits inherited from v0.2 (Section~\ref{sec:limits_v02}) with limits specific to the v0.3 calibration.
+
+\begin{enumerate}[label=\arabic*.]
+
+  \item \textbf{No historical fitting.}
+  All parameters are cross-sectionally calibrated using available survey evidence, sector archetypes, and OECD benchmarks. No parameter has been fitted to NZ historical time series. The implied system dynamics have not been validated against observed NZ adoption or productivity data. This is explicitly deferred to v0.4 or a simulation build phase.
+
+  \item \textbf{Most Tier~1 parameters are assumed, not observed.}
+  Of the 11 structural parameters per Tier~1 sector, only $A_s(0)$ has a partial observed or derived basis for some sectors. The remaining 10 parameters are assumed, though derived from sector archetypes informed by OECD and NZ research. All assumed parameters carry wide sensitivity ranges.
+
+  \item \textbf{All Tier~2 $\beta_s$ and all Tier~3 $\gamma_s$, $\psi_s$ are assumed.}
+  No NZ-specific observational or derived evidence exists for the Tier~2 absorptive multipliers, Tier~3 adoption multipliers, or Tier~3 productivity coefficients. These parameters are the highest-priority targets for evidence improvement in future versions.
+
+  \item \textbf{GDP share weights use model-sector definitions, not pure ANZSIC Level 1.}
+  Three adjustments were made to align the model's 19 sectors with non-overlapping GDP coverage: splitting S03/S13, deriving S05 Technology, and splitting S18/S19. These adjustments introduce derived uncertainty into the $\omega_s$ values for those sectors. The mapping methodology is documented in Section~\ref{sec:cal_gdp}.
+
+  \item \textbf{Confidence tier weights ($c_s$) are assumed.}
+  The values 1.00, 0.70, and 0.40 for Tiers~1, 2, and 3 are transparent assumptions with no formal evidential basis. They serve a directional purpose: to show what happens to the aggregate when low-confidence contributions are reduced. Different reasonable choices of $c_s$ would change $\bar{P}^c(t)$ quantitatively but not qualitatively.
+
+  \item \textbf{Parameter table is partially filled.}
+  Of the 348 cells in \texttt{data/sector-parameter-table.csv}, approximately 120 are filled as of v0.2. v0.3 fills additional Tier~2 and Tier~3 model-calibration cells. The data requirement for a fully validated simulation (especially Tier~1 C2--C7 fields, D1--D7 fields, Tier~2 B2--B3 and C1--C2 fields) remains a gap.
+
+\end{enumerate}
+
+%% ============================================================
+\section{References}
+%% ============================================================
+
+\begin{thebibliography}{99}
+
+\bibitem{strauss2024}
+Strauss, I. (2024). \textit{AI Web Economy Simulator: Mathematical Foundations (v3)}. AI Disclosures Project. Available at: \url{https://github.com/IlanStrauss/ai-web-economy-simulator}.
+
+\bibitem{oecd2024}
+OECD (2024). \textit{Miracle or Myth? Assessing the Macroeconomic Productivity Gains from Artificial Intelligence}. OECD AI Paper No.\ 29, November 2024 (Filippucci, Gal and Schief). OECD Publishing. Available at project research collection.
+
+\bibitem{nztreasury2024}
+New Zealand Treasury (2024). \textit{The Impact of Artificial Intelligence: An Economic Analysis}. Analytical Note AN 24/06 (Nicholls and Mukherjee). New Zealand Treasury. Available at project research collection.
+
+\bibitem{aiforum2024}
+AI Forum New Zealand (2024). \textit{New Zealand's AI Productivity Report, September 2024} (Academic Lead: Dr Andrew Lensen, VUW). AI Forum New Zealand. Available at project research collection.
+
+\bibitem{datacom2024}
+Datacom (2024). \textit{State of AI Index: AI Attitudes in New Zealand}. Datacom New Zealand. Available at: \url{https://datacom.com/nz/en/solutions/experience/insights/state-of-ai-index-ai-attitudes}.
+
+\bibitem{pmcsa2023}
+Prime Minister's Chief Science Advisor (2023). \textit{AI in Healthcare: Long Report}. Office of the Prime Minister's Chief Science Advisor. Available at: \url{https://www.pmcsa.ac.nz/artificial-intelligence-2/ai-in-healthcare/}.
+
+\bibitem{rbnz2025}
+Reserve Bank of New Zealand (2025). \textit{Rise of the Machines: Special Topic}. RBNZ Financial Stability Report, May 2025. Available at project research collection.
+
+\bibitem{fma2024}
+Financial Markets Authority (2024). \textit{AI Research: Initial Findings}. FMA New Zealand, September 2024. Available at project research collection.
+
+\bibitem{nztech2026}
+NZTech (2026). \textit{Tech Sector Manifesto v2.2 and Key Metrics 2024}. NZTech. Available at project research collection.
+
+\bibitem{statsnz2025}
+Statistics New Zealand (2025). \textit{GDP by Industry, December 2025 Quarter; Household Labour Force Survey, December 2025 Quarter; Business Demography, February 2025}. Stats NZ. Available at: \url{https://www.stats.govt.nz}.
+
+\bibitem{gcdo2025}
+Government Chief Digital Officer (2025). \textit{AI Use Case Census 2025}. Department of Internal Affairs, New Zealand. Available at project research collection.
+
+\bibitem{callaghan2025}
+Callaghan Innovation (2025). \textit{Industry 4.0 Report: Manufacturing Sector AI Readiness}. Callaghan Innovation. Available at project research collection.
+
+\end{thebibliography}
+
+\end{document}
