@@ -1,8 +1,9 @@
 # NZ AI Policy Sandbox - State Variable Specification
 
 *Date: 2026-04-18*  
-*Status: Draft v1*  
-*Purpose: define the minimum state structure required for a defensible whole-economy policy sandbox*
+*Status: Locked - consumed by equation versions v0.1 and v0.2*  
+*Purpose: define the minimum state structure required for a defensible whole-economy policy sandbox*  
+*Downstream: [Model Equations v0.2](src/equations/model-equations-v0.2.pdf) (all 19 sectors); [Model Equations v0.1](src/equations/model-equations-v0.1.pdf) (Tier 1, historical)*
 
 ---
 
