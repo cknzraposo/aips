@@ -147,7 +147,7 @@ Tech stack is not yet decided. The methods and scope come first.
 - [x] 10 research analyses completed
 - [x] 38 data sources catalogued
 - [x] 348-cell parameter table created
-- [x] 122/348 cells pre-populated (35%)
+- [x] 120/348 parameter cells filled (34%) - 91 observed, 29 derived
 - [x] Primary reference repo selected (Strauss)
 - [x] Architecture adaptation brief written
 - [x] State-variable specification drafted
