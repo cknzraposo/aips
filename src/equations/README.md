@@ -6,11 +6,32 @@ This directory contains the mathematical specification for the NZ AI Policy Sand
 
 | File | Description |
 |---|---|
-| `model-equations-v0.2.tex` | LaTeX source -- v0.2, all 19 sectors |
-| `model-equations-v0.2.pdf` | Compiled PDF -- v0.2, all 19 sectors |
+| `model-equations-v0.3.tex` | LaTeX source -- v0.3, all 19 sectors, calibrated parameters |
+| `model-equations-v0.3.pdf` | Compiled PDF -- v0.3, all 19 sectors, calibrated parameters |
+| `model-equations-v0.2.tex` | LaTeX source -- v0.2, all 19 sectors (historical) |
+| `model-equations-v0.2.pdf` | Compiled PDF -- v0.2, all 19 sectors (historical) |
 | `model-equations-v0.1.tex` | LaTeX source -- v0.1, Tier 1 only (historical) |
 | `model-equations-v0.1.pdf` | Compiled PDF -- v0.1, Tier 1 only (historical) |
 | `Makefile` | Build script |
+
+## What is in v0.3
+
+v0.3 extends v0.2 from structural specification to calibrated specification. Every parameter introduced in v0.1 and v0.2 now carries a numerical value, an evidence class (observed, derived, or assumed), a primary source, and a confidence level.
+
+### New in v0.3 (over v0.2)
+
+- Section: v0.3 Calibration Approach and Evidence Classes
+- Section: GDP Share Weights -- all 19 sectors, $\omega_s$ summing exactly to 1, sourced from Stats NZ GDP by Industry (Dec 2025)
+- Section: Economy-Wide Enabling Stock -- $E(0)$, $\rho_E$, $\delta_E$, $G_E^{\text{base}}$ with calibration notes
+- Section: Tier 1 Calibration -- per-sector parameter tables for all 9 Tier 1 sectors, including $K_s(0)$, $A_s(0)$, $P_s(0)$, $L_s(0)$, $\alpha_s$, $\kappa_s$, $\lambda_s$, $\phi_s$, $\eta_s$, $\mu_s$, $\bar{p}_s$
+- Section: Tier 2 Calibration -- per-sector tables for all 6 Tier 2 sectors, with calibration notes on $\beta_s$ (absorptive multiplier) choices
+- Section: Tier 3 Calibration -- per-sector tables for all 4 Tier 3 sectors, with calibration notes on $\psi_s$ (productivity coefficient) choices
+- Section: Confidence-Adjusted Aggregate -- formal definition of $\bar{P}^c(t)$ weighting Tier 1/2/3 by modelling confidence (1.00/0.70/0.40)
+- Updated Known Limits section for v0.3
+
+### What v0.3 is not
+
+v0.3 is a calibrated specification. It does not build or simulate the model. Equation forms are unchanged from v0.2. The output is a mathematical specification suitable for implementation.
 
 ## What is in v0.2
 
@@ -41,15 +62,11 @@ Minimal state $A_s$ only. Productivity reported ex-post as $P_s^{T3} = \psi_s A_
 - New Proposition: Boundedness holds across all tiers
 - Updated Section: Known Limits of v0.2
 
-## What v0.2 is not
+## Deferred to v0.4
 
-v0.2 is a structural extension. It specifies equation forms for all 19 sectors. It does not calibrate parameter values -- that is v0.3 work.
-
-## Deferred to v0.3
-
-- Numerical parameter values for all sectors and tiers ($\rho$ rates, initial conditions, sector-specific bounds, GDP share weights $\omega_s$)
-- Sector-specific $\beta_s$, $\gamma_s$, $\psi_s$, $\phi_s$ values for Tier 2 and Tier 3
-- Aggregate uncertainty weighting (confidence-adjusted $\bar{P}(t)$)
+- Simulation and code implementation
+- Historical time-series validation of calibrated parameters
+- Tech stack decision
 
 ## Build
 
@@ -60,11 +77,12 @@ cd src/equations
 make
 ```
 
-This builds `model-equations-v0.2.pdf` by default (three `pdflatex` passes to resolve cross-references).
+This builds `model-equations-v0.3.pdf` by default (three `pdflatex` passes to resolve cross-references).
 
-To build the v0.1 document:
+To build earlier versions:
 
 ```bash
+make v02
 make v01
 ```
 
@@ -79,6 +97,7 @@ make clean
 | Version | Sectors | GDP coverage | Status |
 |---|---|---|---|
 | v0.1 | 9 (Tier 1) | approximately 61% | Locked |
-| v0.2 | 19 (all tiers) | 100% | Current |
-| v0.3 | 19 (all tiers) | 100% | Deferred - parameter calibration |
+| v0.2 | 19 (all tiers) | 100% | Locked |
+| v0.3 | 19 (all tiers) | 100% | Current -- calibrated parameters |
+| v0.4 | 19 (all tiers) | 100% | Deferred -- simulation build |
 
