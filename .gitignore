@@ -20,3 +20,9 @@ Thumbs.db
 *.log
 *.out
 *.toc
+
+# Speck kit files
+.specify/
+
+.github/agents/
+.github/prompts/
