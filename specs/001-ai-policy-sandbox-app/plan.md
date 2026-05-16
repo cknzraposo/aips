@@ -15,7 +15,7 @@ The selected technical approach is a mostly static Next.js application with Type
 **Primary Dependencies**: Next.js, React, Tailwind CSS, shadcn/ui, ECharts, Zod, YAML parser, lightweight state/query-string helpers  
 **Storage**: Repo-backed YAML/JSON content under version control; no database for public runs  
 **Testing**: Vitest for schema/model utilities, React Testing Library for components where useful, Playwright for public comparison flows and export behaviour  
-**Target Platform**: Static or mostly static public web app deployable to Vercel free tier for showcase MVP  
+**Target Platform**: Static public web app deployable to Cloudflare Pages using Next.js static export (`output: 'export'`) for showcase MVP  
 **Project Type**: Web application with client-side exploratory sandbox and repo-reviewed content pipeline  
 **Performance Goals**: First meaningful public view in under 2 seconds on typical broadband; public comparison update in under 250 ms for approved controls; static summary export in under 3 seconds after comparison completion; validate with documented Playwright desktop and mobile profiles using explicit network and CPU throttling assumptions  
 **Constraints**: No public saved runs; no public edits to authoritative data; no forecasts or exact GDP/employment claims; all aggregate comparisons cover all 19 ANZSIC Level 1 sectors; all authoritative inputs trace to reviewed repo content  
@@ -100,6 +100,15 @@ No constitution gate violations are introduced. The plan deliberately avoids a d
 ## Phase 0 Research Summary
 
 See [research.md](research.md) for decisions. All technical unknowns from the requested stack are resolved.
+
+Deployment target decision is captured in [ADR 0001](../../docs/adr/0001-deploy-target.md).
+
+## Setup Phase Follow-up Note
+
+Setup tasks T001 to T009 require a small deployment alignment update during implementation:
+
+- T003 should set `output: 'export'` in `next.config.ts`.
+- Build configuration should use `npm run build` producing the `out/` directory for Cloudflare Pages.
 
 ## Phase 1 Design Summary
 

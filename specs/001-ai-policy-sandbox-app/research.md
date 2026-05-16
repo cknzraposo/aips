@@ -1,8 +1,10 @@
 # Research: Interactive AI Policy Sandbox App
 
+Deployment platform selection is recorded in [ADR 0001](../../docs/adr/0001-deploy-target.md).
+
 ## Decision: Use Next.js with TypeScript for the public showcase application
 
-**Rationale**: Next.js provides a strong public showcase shell with routing, metadata, static generation, deploy previews, and mature React ecosystem support. TypeScript gives compile-time safety for policy scenario, sector, evidence, and summary-export structures. The app can be hosted on Vercel as a mostly static site and can later move to another static host if needed.
+**Rationale**: Next.js provides a strong public showcase shell with routing, metadata, static generation, deploy previews, and mature React ecosystem support. TypeScript gives compile-time safety for policy scenario, sector, evidence, and summary-export structures. The app is targeted for Cloudflare Pages using static export (`output: 'export'`), which matches current requirements with no runtime server features.
 
 **Alternatives considered**: SvelteKit would be excellent for interactivity but has a smaller contributor pool. Astro with React islands would be strong for an evidence-heavy site, but the core experience is an interactive comparison workspace. Streamlit would be fast for analyst prototyping but less polished and less suitable for public static showcase hosting.
 
@@ -32,7 +34,7 @@
 
 ## Decision: Keep public comparison runs browser-session-only
 
-**Rationale**: The spec states public runs are not saved by the application. Browser-session-only state avoids user accounts, privacy storage, moderation, database costs, and server-side persistence. It supports the Vercel free-tier showcase path.
+**Rationale**: The spec states public runs are not saved by the application. Browser-session-only state avoids user accounts, privacy storage, moderation, database costs, and server-side persistence. It aligns with a static-export deployment to Cloudflare Pages and keeps operational complexity low.
 
 **Alternatives considered**: Server-saved public runs would require storage, retention policy, moderation, and user identity decisions. Encoded URLs would improve shareability but were not selected. Analyst-only saved runs can be revisited later if needed.
 
