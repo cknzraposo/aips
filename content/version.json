@@ -1,0 +1,7 @@
+{
+  "id": "v0.3.2026-05-22",
+  "sourceRevision": "main",
+  "publishedAt": "2026-05-22T00:00:00Z",
+  "summary": "v0.3 calibrated specification - 19 sectors, GDP weights sum to 1.0, all parameters tagged with evidence class.",
+  "includes": ["global", "sectors", "scenarios", "parameters"]
+}

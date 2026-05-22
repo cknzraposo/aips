@@ -1,0 +1,93 @@
+{
+  "scenarios": [
+    {
+      "id": "status-quo",
+      "name": "Status quo",
+      "archetype": "baseline",
+      "description": "No new AI-specific policy lever. Counterfactual against which other scenarios are measured.",
+      "targeting": "none",
+      "deltaIntensity": 0.0,
+      "leverDurationYears": 0,
+      "assumptions": [
+        "Parameters held at calibrated 2026 values",
+        "Natural dynamics evolve under existing conditions"
+      ],
+      "caveats": [
+        "Reference trajectory, not a forecast",
+        "Required as the like-for-like baseline in every comparison"
+      ]
+    },
+    {
+      "id": "aggregate",
+      "name": "Aggregate policy",
+      "archetype": "aggregate",
+      "description": "Single policy intensity applied uniformly across all 19 sectors (equal per-sector allocation).",
+      "targeting": "uniform",
+      "deltaIntensity": 0.5,
+      "leverDurationYears": 5,
+      "assumptions": [
+        "Equal per-sector allocation Delta / n where n = 19",
+        "No sector differentiation",
+        "Baseline intensity matched to other scenarios"
+      ],
+      "caveats": [
+        "Represents one-size-fits-all approach",
+        "Comparable to targeted scenarios under the same total envelope"
+      ]
+    },
+    {
+      "id": "targeted-demand",
+      "name": "Targeted demand-side",
+      "archetype": "targeted-demand",
+      "description": "Support weighted toward sectors with the largest adoption gap (1 - A_s(0)).",
+      "targeting": "adoption-gap",
+      "deltaIntensity": 0.5,
+      "leverDurationYears": 5,
+      "assumptions": [
+        "Weights w_s = (1 - A_s(0)) normalised to sum 1",
+        "Direct support concentrated on demand-limited sectors",
+        "Same total envelope as Aggregate"
+      ],
+      "caveats": [
+        "Targeting rule is observable and reproducible from initial conditions",
+        "Does not adjust as adoption evolves within the run"
+      ]
+    },
+    {
+      "id": "targeted-supply",
+      "name": "Targeted supply-side",
+      "archetype": "targeted-supply",
+      "description": "All policy investment goes to the national enabling stock E. No direct sector subsidy.",
+      "targeting": "enabling-stock",
+      "deltaIntensity": 0.5,
+      "leverDurationYears": 5,
+      "assumptions": [
+        "G_E^(C) = G_E^base + Delta for duration",
+        "G_s = 0 for all sectors",
+        "Same total envelope as Aggregate"
+      ],
+      "caveats": [
+        "Whole-economy effect mediated through E",
+        "Slower onset; broader reach across all 19 sectors"
+      ]
+    },
+    {
+      "id": "mixed",
+      "name": "Mixed targeted (B + C)",
+      "archetype": "mixed",
+      "description": "Half-intensity demand-side targeting plus half-intensity supply-side targeting under the same envelope.",
+      "targeting": "mixed",
+      "deltaIntensity": 0.5,
+      "leverDurationYears": 5,
+      "assumptions": [
+        "Half of Delta allocated by adoption-gap weights (G_s)",
+        "Half of Delta added to G_E",
+        "Same total envelope as other scenarios"
+      ],
+      "caveats": [
+        "Tests whether hybrid targeting beats pure targeting",
+        "Same like-for-like comparability conditions apply"
+      ]
+    }
+  ]
+}

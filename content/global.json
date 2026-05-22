@@ -1,0 +1,19 @@
+{
+  "E0": { "value": 0.38, "evidenceClass": "assumed", "confidence": "low", "source": "NZ mid-tier OECD positioning (oecd2024, nztreasury2024)" },
+  "rhoE": { "value": 0.25, "evidenceClass": "assumed", "confidence": "low", "source": "Consistent with 4-year adjustment horizon" },
+  "deltaE": { "value": 0.05, "evidenceClass": "assumed", "confidence": "low", "source": "Enabling stock depreciates slowly" },
+  "GEbase": { "value": 0.05, "evidenceClass": "assumed", "confidence": "low", "source": "Baseline national investment rate" },
+  "tier1Rates": {
+    "rhoK": { "value": 0.30, "evidenceClass": "assumed", "confidence": "low", "source": "Treasury 3-10y diffusion timeline" },
+    "rhoA": { "value": 0.35, "evidenceClass": "assumed", "confidence": "low", "source": "Treasury 3-10y diffusion timeline" },
+    "rhoP": { "value": 0.25, "evidenceClass": "assumed", "confidence": "low", "source": "Treasury 3-10y diffusion timeline" },
+    "rhoL": { "value": 0.35, "evidenceClass": "assumed", "confidence": "low", "source": "Treasury 3-10y diffusion timeline" }
+  },
+  "tier2Rates": {
+    "rhoA": { "value": 0.28, "evidenceClass": "assumed", "confidence": "low", "source": "v0.3 Tier 2 calibration" },
+    "rhoP": { "value": 0.20, "evidenceClass": "assumed", "confidence": "low", "source": "v0.3 Tier 2 calibration" }
+  },
+  "tier3Rates": {
+    "rhoA": { "value": 0.18, "evidenceClass": "assumed", "confidence": "low", "source": "v0.3 Tier 3 calibration" }
+  }
+}

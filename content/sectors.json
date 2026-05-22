@@ -1,0 +1,23 @@
+{
+  "sectors": [
+    { "id": "ag",   "code": "S01", "name": "Agriculture",                              "anzsic": "A", "tier": 1, "gdpWeight": 0.0512, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "mfg",  "code": "S02", "name": "Manufacturing",                            "anzsic": "C", "tier": 1, "gdpWeight": 0.0788, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "prof", "code": "S03", "name": "Professional Services",                    "anzsic": "M", "tier": 1, "gdpWeight": 0.0747, "weightEvidence": { "evidenceClass": "derived",  "confidence": "medium", "source": "Stats NZ ANZSIC split" } },
+    { "id": "pub",  "code": "S04", "name": "Public Sector",                            "anzsic": "O", "tier": 1, "gdpWeight": 0.0480, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "tech", "code": "S05", "name": "Technology",                               "anzsic": "J*","tier": 1, "gdpWeight": 0.0442, "weightEvidence": { "evidenceClass": "derived",  "confidence": "medium", "source": "NZTech minus S14 overlap" } },
+    { "id": "hlth", "code": "S06", "name": "Healthcare",                               "anzsic": "Q", "tier": 1, "gdpWeight": 0.0682, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "con",  "code": "S07", "name": "Construction",                             "anzsic": "E", "tier": 1, "gdpWeight": 0.0643, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "fin",  "code": "S08", "name": "Financial Services",                       "anzsic": "K", "tier": 1, "gdpWeight": 0.0567, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "ret",  "code": "S09", "name": "Retail & Wholesale",                       "anzsic": "F/G","tier": 1, "gdpWeight": 0.1152, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "edu",  "code": "S10", "name": "Education & Training",                     "anzsic": "P", "tier": 2, "gdpWeight": 0.0360, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "trn",  "code": "S11", "name": "Transport & Warehousing",                  "anzsic": "I", "tier": 2, "gdpWeight": 0.0415, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "acc",  "code": "S12", "name": "Accommodation & Food Services",            "anzsic": "H", "tier": 2, "gdpWeight": 0.0310, "weightEvidence": { "evidenceClass": "derived",  "confidence": "medium", "source": "Stats NZ ANZSIC est." } },
+    { "id": "adm",  "code": "S13", "name": "Administrative & Support Services",        "anzsic": "N", "tier": 2, "gdpWeight": 0.0418, "weightEvidence": { "evidenceClass": "derived",  "confidence": "medium", "source": "Stats NZ ANZSIC split" } },
+    { "id": "imt",  "code": "S14", "name": "Information Media & Telecommunications",   "anzsic": "J", "tier": 2, "gdpWeight": 0.0412, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "utl",  "code": "S15", "name": "Utilities",                                "anzsic": "D", "tier": 2, "gdpWeight": 0.0250, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "min",  "code": "S16", "name": "Mining",                                   "anzsic": "B", "tier": 3, "gdpWeight": 0.0072, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "rnt",  "code": "S17", "name": "Rental, Hiring & Real Estate",             "anzsic": "L", "tier": 3, "gdpWeight": 0.1435, "weightEvidence": { "evidenceClass": "observed", "confidence": "high", "source": "Stats NZ GDP by Industry" } },
+    { "id": "art",  "code": "S18", "name": "Arts & Recreation",                        "anzsic": "R", "tier": 3, "gdpWeight": 0.0156, "weightEvidence": { "evidenceClass": "derived",  "confidence": "medium", "source": "Stats NZ ANZSIC split" } },
+    { "id": "oth",  "code": "S19", "name": "Other Services",                           "anzsic": "S", "tier": 3, "gdpWeight": 0.0156, "weightEvidence": { "evidenceClass": "derived",  "confidence": "medium", "source": "Stats NZ ANZSIC split" } }
+  ]
+}
