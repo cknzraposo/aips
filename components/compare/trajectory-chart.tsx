@@ -177,23 +177,28 @@ export default function TrajectoryChart({
       </svg>
 
       <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-steel">
-        {scenarios.map((s, i) => (
-          <li key={s.scenarioId} className="flex items-center gap-2">
-            <span
-              aria-hidden
-              className="inline-block h-0.5 w-5"
-              style={{
-                backgroundColor: PALETTE[i % PALETTE.length],
-                borderTop: s.isReference ? `2px dashed ${PALETTE[i % PALETTE.length]}` : undefined,
-                height: 0,
-              }}
-            />
-            <span>
-              {s.scenarioName}
-              {s.isReference ? " (reference)" : ""}
-            </span>
-          </li>
-        ))}
+        {scenarios.map((s, i) => {
+          const colour = PALETTE[i % PALETTE.length];
+          return (
+            <li key={s.scenarioId} className="flex items-center gap-2">
+              <svg aria-hidden width={20} height={6} className="inline-block">
+                <line
+                  x1={0}
+                  x2={20}
+                  y1={3}
+                  y2={3}
+                  stroke={colour}
+                  strokeWidth={2}
+                  strokeDasharray={s.isReference ? "4 3" : undefined}
+                />
+              </svg>
+              <span>
+                {s.scenarioName}
+                {s.isReference ? " (reference)" : ""}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </figure>
   );

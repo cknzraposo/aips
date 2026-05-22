@@ -127,15 +127,21 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
 
       <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-steel">
         <li className="flex items-center gap-1.5">
-          <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: TIER_COLOUR[1] }} />
+          <svg aria-hidden width={8} height={8} className="inline-block">
+            <rect width={8} height={8} rx={1.5} fill={TIER_COLOUR[1]} />
+          </svg>
           Tier 1 (full state)
         </li>
         <li className="flex items-center gap-1.5">
-          <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: TIER_COLOUR[2] }} />
+          <svg aria-hidden width={8} height={8} className="inline-block">
+            <rect width={8} height={8} rx={1.5} fill={TIER_COLOUR[2]} />
+          </svg>
           Tier 2 (reduced)
         </li>
         <li className="flex items-center gap-1.5">
-          <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: TIER_COLOUR[3] }} />
+          <svg aria-hidden width={8} height={8} className="inline-block">
+            <rect width={8} height={8} rx={1.5} fill={TIER_COLOUR[3]} />
+          </svg>
           Tier 3 (adoption only)
         </li>
       </ul>
