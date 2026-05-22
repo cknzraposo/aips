@@ -96,15 +96,19 @@ export default function ComparePage() {
               scenarios={comparison.scenarios}
               series="pBar"
               title="Whole-economy productivity over time"
-              subtitle="GDP-weighted P-bar(t) across all 19 sectors. Dashed line is the status-quo reference."
+              subtitle="Productivity averaged across all 19 sectors using each sector's share of GDP. The dashed line is the status-quo reference - carrying today's values forward unchanged."
               yLabel="P-bar (0 to 1)"
+              symbol="P-bar(t), GDP-weighted"
+              explainerHref="/how-it-works#equations"
             />
             <TrajectoryChart
               scenarios={comparison.scenarios}
               series="E"
               title="National enabling capacity over time"
-              subtitle="Shared enabling stock E(t). The supply-side scenario lifts E directly; demand-side does not."
+              subtitle="The shared conditions every sector draws on - skills, infrastructure, trust, regulation. Supply-side scenarios lift this directly; demand-side scenarios do not."
               yLabel="E (0 to 1)"
+              symbol="E(t)"
+              explainerHref="/how-it-works#equations"
             />
           </section>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import ChartIntro from "@/components/charts/chart-intro";
 import type { ScenarioOutcomes, SeriesPoint } from "@/lib/model/compare";
 
 type SeriesSelector = "pBar" | "E";
@@ -10,6 +11,8 @@ type Props = {
   title: string;
   subtitle: string;
   yLabel: string;
+  symbol?: string;
+  explainerHref?: string;
 };
 
 const PALETTE = [
@@ -34,6 +37,8 @@ export default function TrajectoryChart({
   title,
   subtitle,
   yLabel,
+  symbol,
+  explainerHref,
 }: Props) {
   if (scenarios.length === 0) return null;
 
@@ -62,10 +67,12 @@ export default function TrajectoryChart({
 
   return (
     <figure className="surface-card p-5">
-      <figcaption className="mb-3">
-        <h3 className="font-display text-xl text-ink">{title}</h3>
-        <p className="text-sm text-steel">{subtitle}</p>
-      </figcaption>
+      <ChartIntro
+        title={title}
+        description={subtitle}
+        symbol={symbol}
+        explainerHref={explainerHref}
+      />
 
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}

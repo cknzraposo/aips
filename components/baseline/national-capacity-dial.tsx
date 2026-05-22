@@ -1,3 +1,5 @@
+import ChartIntro from "@/components/charts/chart-intro";
+
 type Props = {
   value: number; // 0..1
   label: string;
@@ -18,11 +20,13 @@ export default function NationalCapacityDial({ value, label, caption }: Props) {
 
   return (
     <figure className="surface-card p-5">
-      <figcaption className="mb-3">
-        <p className="eyebrow">National enabling capacity</p>
-        <h3 className="mt-1 font-display text-xl text-ink">{label}</h3>
-        <p className="mt-1 text-sm text-steel">{caption}</p>
-      </figcaption>
+      <ChartIntro
+        eyebrow="National enabling capacity"
+        title="National enabling capacity, today"
+        description={caption}
+        symbol={label}
+        explainerHref="/how-it-works#five-things"
+      />
 
       <svg
         viewBox={`0 0 ${W} ${H}`}

@@ -1,5 +1,6 @@
 "use client";
 
+import ChartIntro from "@/components/charts/chart-intro";
 import type { ScenarioOutcomes } from "@/lib/model/compare";
 
 type Props = {
@@ -31,15 +32,13 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
 
   return (
     <figure className="surface-card p-5">
-      <figcaption className="mb-3">
-        <h3 className="font-display text-xl text-ink">
-          Sector adoption at year {horizonYears}
-        </h3>
-        <p className="text-sm text-steel">
-          A_s at the horizon for each of the 19 sectors. Reference scenario
-          shown alongside selected runs. Tier colour band on the left.
-        </p>
-      </figcaption>
+      <ChartIntro
+        eyebrow="Sector adoption at the end of the run"
+        title={`Where each sector lands after ${horizonYears} year${horizonYears === 1 ? "" : "s"}`}
+        description="One row per ANZSIC Level 1 sector. The status-quo run is shown alongside the scenarios you selected so you can see how each option pulls each sector. Colour band on the left marks the tier."
+        symbol="A_s at t = horizon"
+        explainerHref="/how-it-works#five-things"
+      />
 
       <svg
         viewBox={`0 0 ${WIDTH} ${height}`}

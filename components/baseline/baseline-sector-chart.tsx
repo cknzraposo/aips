@@ -1,3 +1,4 @@
+import ChartIntro from "@/components/charts/chart-intro";
 import type { BaselineSectorPoint } from "@/lib/model/baseline";
 
 type Props = {
@@ -32,19 +33,13 @@ export default function BaselineSectorChart({ sectors }: Props) {
 
   return (
     <figure className="surface-card p-5">
-      <figcaption className="mb-3">
-        <p className="eyebrow">Sector adoption today</p>
-        <h3 className="mt-1 font-display text-xl text-ink">
-          Where each sector stands now (A_s at t=0)
-        </h3>
-        <p className="mt-1 max-w-3xl text-sm text-steel">
-          One bar per ANZSIC Level 1 sector, ordered from highest to lowest
-          current AI use. The wide spread is the fragmentation finding from the
-          evidence base — different surveys point to between 32% and 87% national
-          adoption depending on what is counted. Treat each value as a calibrated
-          estimate, not an exact measurement.
-        </p>
-      </figcaption>
+      <ChartIntro
+        eyebrow="Sector adoption today"
+        title="Where each sector stands today"
+        description="One bar per ANZSIC Level 1 sector, ordered from highest to lowest current AI use. The wide spread is the fragmentation finding from the evidence base — different surveys point to between 32% and 87% national adoption depending on what is counted. Treat each value as a calibrated estimate, not an exact measurement."
+        symbol="A_s at t = 0"
+        explainerHref="/how-it-works#five-things"
+      />
 
       <svg
         viewBox={`0 0 ${WIDTH} ${height}`}

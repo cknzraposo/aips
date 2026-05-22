@@ -214,7 +214,7 @@ export default function HowItWorksPage() {
         </article>
       </section>
 
-      <section className="mt-8 surface-card p-6">
+      <section id="why" className="mt-8 surface-card p-6 scroll-mt-24">
         <p className="eyebrow">Why we built it</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
           AI policy is being shaped without a shared picture
@@ -229,7 +229,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="mt-8 surface-card p-6">
+      <section id="big-idea" className="mt-8 surface-card p-6 scroll-mt-24">
         <p className="eyebrow">The big idea</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
           A test kitchen, not a weather forecast
@@ -247,7 +247,7 @@ export default function HowItWorksPage() {
         </p>
       </section>
 
-      <section className="mt-8">
+      <section id="five-things" className="mt-8 scroll-mt-24">
         <header className="mb-3">
           <p className="eyebrow">The five things we track</p>
           <h2 className="mt-1 font-display text-2xl text-ink">
@@ -272,7 +272,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="mt-8 surface-card p-6">
+      <section id="bathtub" className="mt-8 surface-card p-6 scroll-mt-24">
         <p className="eyebrow">How every equation works (one picture)</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
           Think of each quantity as a bathtub
@@ -293,7 +293,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="mt-8">
+      <section id="equations" className="mt-8 scroll-mt-24">
         <header className="mb-3">
           <p className="eyebrow">The equations, in plain English</p>
           <h2 className="mt-1 font-display text-2xl text-ink">
@@ -327,7 +327,7 @@ export default function HowItWorksPage() {
         </p>
       </section>
 
-      <section className="mt-8 surface-card p-6">
+      <section id="tiers" className="mt-8 surface-card p-6 scroll-mt-24">
         <p className="eyebrow">Why three tiers</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
           A road atlas of the economy
@@ -351,7 +351,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="mt-8">
+      <section id="scenarios" className="mt-8 scroll-mt-24">
         <header className="mb-3">
           <p className="eyebrow">The five policy scenarios</p>
           <h2 className="mt-1 font-display text-2xl text-ink">
@@ -375,7 +375,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="mt-8 rounded-2xl border border-datum/25 bg-datum/10 p-6">
+      <section id="limits" className="mt-8 scroll-mt-24 rounded-2xl border border-datum/25 bg-datum/10 p-6">
         <p className="eyebrow">What this cannot tell you</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
           Honest limits, kept in view
