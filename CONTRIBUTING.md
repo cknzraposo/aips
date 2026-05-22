@@ -233,6 +233,27 @@ The framing is now clearer than the original concept, but the model architecture
 
 ---
 
+## Source data contribution workflow
+
+Source provenance is tracked in `data/MANIFEST.csv`.
+
+When adding or updating a source:
+
+1. Classify it as `redistributable`, `fetch-on-demand`, or `manual`.
+2. Add/update its row in `data/MANIFEST.csv` with source URL, retrieval date, SHA256, licence, and notes.
+3. If `redistributable`, place the file under `data/raw/` (current convention: `data/raw/stats-nz/` for Stats NZ).
+4. If `fetch-on-demand`, ensure `scripts/fetch-sources.sh` can download it non-interactively and that SHA256 verifies.
+5. Run:
+   ```bash
+   ./scripts/fetch-sources.sh
+   ./scripts/verify-sources.sh
+   ```
+
+Rules of thumb:
+- Do **not** commit commercial/copyright-restricted third-party reports.
+- For unclear licence status, prefer `fetch-on-demand` or `manual` over committing.
+- Keep `.data-cache/` out of git.
+
 ## Contact / next step
 
 If you're interested in contributing, the most useful next step is a short conversation focused on one of three things:
