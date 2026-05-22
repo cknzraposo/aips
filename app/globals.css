@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.16em] text-steel;
+  }
+
+  .surface-card {
+    @apply rounded-2xl border border-ink/15 bg-white/80;
+  }
+}
+
+:root {
+  --canvas: #f7f3ea;
+  --ink: #17222d;
+  --steel: #42536a;
+  --accent: #ad7f2f;
+  --datum: #234f45;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 84% 14%, rgba(173, 127, 47, 0.16), transparent 32%),
+    radial-gradient(circle at 12% 86%, rgba(35, 79, 69, 0.14), transparent 38%),
+    var(--canvas);
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+.hero-grid {
+  background-image: linear-gradient(rgba(23, 34, 45, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 34, 45, 0.08) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at 50% 20%, black 25%, transparent 78%);
+}
+
+.data-card {
+  animation: lift-in 620ms ease-out;
+}
+
+@keyframes lift-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

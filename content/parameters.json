@@ -1,0 +1,27 @@
+{
+  "tier1": {
+    "ag":   { "K0": 0.12, "A0": 0.05, "P0": 0.03, "L0": 0.04, "alpha": 0.50, "kappa": 0.15, "lambda": 0.30, "phi": 0.20, "eta": 0.25, "mu": 0.10, "pbar": 0.20, "evidenceClass": "assumed",  "confidence": "low",    "notes": "No NZ adoption data; Halter proxy" },
+    "mfg":  { "K0": 0.42, "A0": 0.35, "P0": 0.22, "L0": 0.18, "alpha": 0.70, "kappa": 0.22, "lambda": 0.45, "phi": 0.40, "eta": 0.35, "mu": 0.08, "pbar": 0.25, "evidenceClass": "derived",  "confidence": "medium", "notes": "Datacom 58% large firms; OECD 15-30%" },
+    "prof": { "K0": 0.58, "A0": 0.45, "P0": 0.28, "L0": 0.22, "alpha": 0.80, "kappa": 0.18, "lambda": 0.55, "phi": 0.55, "eta": 0.45, "mu": 0.07, "pbar": 0.18, "evidenceClass": "derived",  "confidence": "medium", "notes": "Thomson Reuters 2025; RBNZ high exposure" },
+    "pub":  { "K0": 0.15, "A0": 0.10, "P0": 0.06, "L0": 0.08, "alpha": 0.60, "kappa": 0.12, "lambda": 0.40, "phi": 0.35, "eta": 0.30, "mu": 0.08, "pbar": 0.12, "evidenceClass": "derived",  "confidence": "medium", "notes": "GCDO 55/272 operational" },
+    "tech": { "K0": 0.72, "A0": 0.65, "P0": 0.40, "L0": 0.30, "alpha": 0.90, "kappa": 0.25, "lambda": 0.60, "phi": 0.75, "eta": 0.60, "mu": 0.05, "pbar": 0.30, "evidenceClass": "derived",  "confidence": "medium", "notes": "Supply-side enabler; TIN200 growth" },
+    "hlth": { "K0": 0.38, "A0": 0.35, "P0": 0.20, "L0": 0.16, "alpha": 0.55, "kappa": 0.15, "lambda": 0.35, "phi": 0.35, "eta": 0.25, "mu": 0.08, "pbar": 0.15, "evidenceClass": "derived",  "confidence": "medium", "notes": "Datacom 62%; PMCSA admin vs clinical" },
+    "con":  { "K0": 0.08, "A0": 0.06, "P0": 0.03, "L0": 0.05, "alpha": 0.40, "kappa": 0.10, "lambda": 0.25, "phi": 0.20, "eta": 0.20, "mu": 0.10, "pbar": 0.10, "evidenceClass": "assumed",  "confidence": "low",    "notes": "No NZ adoption data; lowest digital maturity" },
+    "fin":  { "K0": 0.55, "A0": 0.48, "P0": 0.29, "L0": 0.25, "alpha": 0.75, "kappa": 0.20, "lambda": 0.50, "phi": 0.50, "eta": 0.40, "mu": 0.07, "pbar": 0.22, "evidenceClass": "derived",  "confidence": "low",    "notes": "FMA n=13 weak sample; OECD 15-25%" },
+    "ret":  { "K0": 0.38, "A0": 0.35, "P0": 0.20, "L0": 0.20, "alpha": 0.65, "kappa": 0.12, "lambda": 0.55, "phi": 0.40, "eta": 0.30, "mu": 0.08, "pbar": 0.12, "evidenceClass": "derived",  "confidence": "medium", "notes": "Datacom wholesale 64%; retail lower" }
+  },
+  "tier2": {
+    "edu":  { "A0": 0.25, "P0": 0.15, "beta": 0.35, "kappa": 0.12, "phi": 0.30, "evidenceClass": "derived",  "confidence": "low", "notes": "AI Forum NZ Education largest respondent group" },
+    "trn":  { "A0": 0.15, "P0": 0.08, "beta": 0.30, "kappa": 0.15, "phi": 0.35, "evidenceClass": "assumed",  "confidence": "low", "notes": "AI Forum 2.2%; mixed digital/physical" },
+    "acc":  { "A0": 0.10, "P0": 0.06, "beta": 0.22, "kappa": 0.08, "phi": 0.40, "evidenceClass": "assumed",  "confidence": "low", "notes": "Small firms; low digital maturity" },
+    "adm":  { "A0": 0.25, "P0": 0.15, "beta": 0.38, "kappa": 0.18, "phi": 0.55, "evidenceClass": "assumed",  "confidence": "low", "notes": "Routine tasks highly automatable" },
+    "imt":  { "A0": 0.50, "P0": 0.30, "beta": 0.60, "kappa": 0.22, "phi": 0.35, "evidenceClass": "assumed",  "confidence": "medium", "notes": "Digital-native sector" },
+    "utl":  { "A0": 0.20, "P0": 0.12, "beta": 0.32, "kappa": 0.18, "phi": 0.25, "evidenceClass": "assumed",  "confidence": "low", "notes": "Smart grid AI emerging; regulatory friction" }
+  },
+  "tier3": {
+    "min":  { "A0": 0.12, "gamma": 0.25, "psi": 0.12, "evidenceClass": "assumed", "confidence": "low", "notes": "Small sector; international analogues proxy" },
+    "rnt":  { "A0": 0.15, "gamma": 0.28, "psi": 0.10, "evidenceClass": "assumed", "confidence": "low", "notes": "Proptech emerging; mostly imputed rent" },
+    "art":  { "A0": 0.18, "gamma": 0.28, "psi": 0.15, "evidenceClass": "assumed", "confidence": "low", "notes": "Creative AI tools; mixed reception" },
+    "oth":  { "A0": 0.12, "gamma": 0.22, "psi": 0.08, "evidenceClass": "assumed", "confidence": "low", "notes": "Diverse residual sector" }
+  }
+}

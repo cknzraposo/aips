@@ -15,6 +15,27 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Node.js
+node_modules/
+.next/
+out/
+.turbo/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment overrides
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Deployment and tooling caches
+.vercel/
+
 # LaTeX auxiliary files
 *.aux
 *.log
