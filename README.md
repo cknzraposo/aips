@@ -191,6 +191,23 @@ nzais/
 
 ---
 
+## Reproducible source data
+
+To make calibration inputs reproducible without committing restricted reports:
+
+- `data/MANIFEST.csv` is the authoritative source inventory (URL, SHA256, licence, classification).
+- `data/raw/stats-nz/` contains committed redistributable Stats NZ files (CC BY 4.0).
+- `.data-cache/` (gitignored) stores `fetch-on-demand` files locally.
+
+Setup on a clean clone:
+
+```bash
+./scripts/fetch-sources.sh
+./scripts/verify-sources.sh
+```
+
+`verify-sources.sh` exits 0 when all `redistributable` and `fetch-on-demand` hashes match `MANIFEST.csv`.
+
 ## Contributing
 
 This project is currently private and in foundation phase.
