@@ -123,6 +123,24 @@ The source comparison - showing that adoption figures range from 32% to 87% with
 
 ---
 
+## Reproducible source data
+
+Calibration sources are tracked in `data/MANIFEST.csv` with source URL, classification, retrieval date, checksum, licence, and notes.
+
+- `data/raw/` holds redistributable source files.
+- `.data-cache/` (gitignored) holds local non-redistributable files.
+
+Contributor workflow:
+
+```bash
+./scripts/fetch-sources.sh
+./scripts/verify-sources.sh
+```
+
+Use `./scripts/verify-sources.sh --strict-manual` when you need manual-source presence checks as part of an audit.
+
+---
+
 ## Modelling approach
 
 The primary reference architecture is adapted from [Strauss (ai-web-economy-simulator)](https://github.com/IlanStrauss/ai-web-economy-simulator) - a mechanism-design ODE model with:

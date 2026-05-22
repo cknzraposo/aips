@@ -239,3 +239,33 @@ If you're interested in contributing, the most useful next step is a short conve
 - what the project is missing
 - what it is overclaiming
 - what evidence or structure would make it genuinely more useful
+
+---
+
+## Source data reproducibility
+
+Calibration inputs are tracked through `data/MANIFEST.csv`.
+
+### Adding a new source
+
+1. Add one row to `data/MANIFEST.csv` with:
+   - `filename`
+   - `classification` (`redistributable`, `fetch-on-demand`, or `manual`)
+   - `source_url`
+   - `retrieval_date` (YYYY-MM-DD)
+   - `sha256` (required for `redistributable` and `fetch-on-demand`)
+   - `licence`
+   - `notes`
+2. If `redistributable`, place the file under `data/raw/<subdir>/` and commit it.
+3. If `fetch-on-demand`, confirm `./scripts/fetch-sources.sh` can download it and verify the checksum.
+4. If `manual`, document exact access steps in `notes`.
+5. Run `./scripts/verify-sources.sh` before opening a PR.
+
+### Contributor setup
+
+```bash
+./scripts/fetch-sources.sh
+./scripts/verify-sources.sh
+```
+
+Use `./scripts/verify-sources.sh --strict-manual` for a full audit including manual sources.

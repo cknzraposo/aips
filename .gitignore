@@ -1,5 +1,5 @@
-# Ignore raw data files (too large for git)
-data/raw/
+# Local source cache for non-redistributable documents
+.data-cache/
 
 # Python
 __pycache__/
