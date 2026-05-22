@@ -58,10 +58,14 @@ export default function ComparePage() {
 
       <p className="mt-3 text-sm text-steel">
         New here?{" "}
-        <Link href="/baseline" className="font-medium text-ink underline underline-offset-4">
-          See today&apos;s baseline first →
+        <Link href="/how-it-works" className="font-medium text-ink underline underline-offset-4">
+          ← Read the plain-English explainer
         </Link>{" "}
-        Every scenario below is shown alongside the status-quo run that carries
+        or{" "}
+        <Link href="/baseline" className="font-medium text-ink underline underline-offset-4">
+          see today&apos;s baseline first →
+        </Link>
+        . Every scenario below is shown alongside the status-quo run that carries
         today&apos;s values forward unchanged.
       </p>
 

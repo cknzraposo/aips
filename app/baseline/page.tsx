@@ -67,6 +67,14 @@ export default function BaselinePage() {
         description="Before comparing policy options, see the picture each scenario is reacting to: the country's current AI enabling capacity and each sector's current adoption. Numbers are calibrated estimates with visible confidence, not measurements."
       />
 
+      <p className="mt-3 text-sm text-steel">
+        New here?{" "}
+        <Link href="/how-it-works" className="font-medium text-ink underline underline-offset-4">
+          ← Read the plain-English explainer
+        </Link>{" "}
+        first to see what every number on this page means.
+      </p>
+
       <section className="mt-6 grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
         <NationalCapacityDial
           value={snap.E0}

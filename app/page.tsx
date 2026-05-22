@@ -43,22 +43,22 @@ export default function HomePage() {
 
           <div className="grid gap-3 sm:flex sm:items-center">
             <Link
-              href="/baseline"
+              href="/how-it-works"
               className="rounded-full bg-ink px-6 py-3 text-center text-sm font-semibold text-canvas transition hover:-translate-y-0.5 hover:shadow-brief"
             >
-              Start with today&apos;s baseline
+              Start with how it works
+            </Link>
+            <Link
+              href="/baseline"
+              className="rounded-full border border-ink/25 bg-white/60 px-6 py-3 text-center text-sm font-semibold text-ink transition hover:bg-white"
+            >
+              See today&apos;s baseline
             </Link>
             <Link
               href="/compare"
-              className="rounded-full border border-ink/25 bg-white/60 px-6 py-3 text-center text-sm font-semibold text-ink transition hover:bg-white"
-            >
-              Skip to comparison workspace
-            </Link>
-            <Link
-              href="/methodology"
               className="rounded-full border border-ink/15 bg-white/40 px-6 py-3 text-center text-sm font-semibold text-steel transition hover:bg-white"
             >
-              Methodology summary
+              Skip to comparison workspace
             </Link>
           </div>
         </div>
