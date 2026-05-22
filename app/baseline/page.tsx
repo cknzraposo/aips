@@ -120,25 +120,31 @@ export default function BaselinePage() {
           </p>
         </div>
         <div className="surface-card p-5">
-          <p className="eyebrow">Highest sector</p>
+          <p className="eyebrow">Highest current adoption</p>
           <p className="mt-2 font-display text-2xl text-ink">
             {snap.spread.max.name}
           </p>
-          <p className="mt-1 text-sm text-steel">A₀ ≈ {maxPct}%</p>
+          <p className="mt-1 text-sm text-steel">About {maxPct}% of activity today</p>
           <p className="mt-2 text-xs leading-relaxed text-steel">
             Tier {snap.spread.max.tier} · evidence: {snap.spread.max.evidenceClass} ·
             confidence: {snap.spread.max.confidence}
           </p>
+          <p className="mt-2 text-[11px] text-steel">
+            Technical name: <code className="font-mono text-ink">A_s at t=0 ≈ {maxPct}%</code>
+          </p>
         </div>
         <div className="surface-card p-5">
-          <p className="eyebrow">Lowest sector</p>
+          <p className="eyebrow">Lowest current adoption</p>
           <p className="mt-2 font-display text-2xl text-ink">
             {snap.spread.min.name}
           </p>
-          <p className="mt-1 text-sm text-steel">A₀ ≈ {minPct}%</p>
+          <p className="mt-1 text-sm text-steel">About {minPct}% of activity today</p>
           <p className="mt-2 text-xs leading-relaxed text-steel">
             Tier {snap.spread.min.tier} · evidence: {snap.spread.min.evidenceClass} ·
             confidence: {snap.spread.min.confidence}
+          </p>
+          <p className="mt-2 text-[11px] text-steel">
+            Technical name: <code className="font-mono text-ink">A_s at t=0 ≈ {minPct}%</code>
           </p>
         </div>
       </section>
