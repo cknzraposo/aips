@@ -31,8 +31,8 @@ Non-redistributable or uncertain-licence files are kept in a local cache:
 3. Add any `manual` sources listed in the manifest to `.data-cache/`.
 4. Run `./scripts/verify-sources.sh`.
 
-For strict audits (including manual-file presence), run:
+For strict audits (including manual-file presence and checksum completeness), run:
 
 ```bash
-./scripts/verify-sources.sh --strict-manual
+./scripts/verify-sources.sh --strict-manual --strict-hash
 ```

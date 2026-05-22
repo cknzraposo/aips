@@ -2,9 +2,18 @@
 set -euo pipefail
 
 STRICT_MANUAL=0
-if [[ "${1:-}" == "--strict-manual" ]]; then
-  STRICT_MANUAL=1
-fi
+STRICT_HASH=0
+
+for arg in "$@"; do
+  case "${arg}" in
+    --strict-manual)
+      STRICT_MANUAL=1
+      ;;
+    --strict-hash)
+      STRICT_HASH=1
+      ;;
+  esac
+done
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST_PATH="${MANIFEST_PATH:-${REPO_ROOT}/data/MANIFEST.csv}"
@@ -49,8 +58,8 @@ while IFS=$'\t' read -r filename classification sha256; do
   fi
 
   if [[ -z "${sha256}" ]]; then
-    if [[ "${classification}" == "manual" && ${STRICT_MANUAL} -eq 0 ]]; then
-      echo "! Manual source missing hash (skipped): ${filename}"
+    if [[ ${STRICT_HASH} -eq 0 ]]; then
+      echo "! Missing sha256 in manifest (skipped): ${filename}"
       warnings=$((warnings + 1))
       continue
     fi

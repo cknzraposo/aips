@@ -137,7 +137,7 @@ Contributor workflow:
 ./scripts/verify-sources.sh
 ```
 
-Use `./scripts/verify-sources.sh --strict-manual` when you need manual-source presence checks as part of an audit.
+Use `./scripts/verify-sources.sh --strict-manual --strict-hash` when you need full presence and checksum checks as part of an audit.
 
 ---
 

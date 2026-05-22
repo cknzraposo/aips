@@ -260,6 +260,7 @@ Calibration inputs are tracked through `data/MANIFEST.csv`.
 3. If `fetch-on-demand`, confirm `./scripts/fetch-sources.sh` can download it and verify the checksum.
 4. If `manual`, document exact access steps in `notes`.
 5. Run `./scripts/verify-sources.sh` before opening a PR.
+6. Before merge, fill any blank `sha256` entries you touched and run strict verification.
 
 ### Contributor setup
 
@@ -268,4 +269,4 @@ Calibration inputs are tracked through `data/MANIFEST.csv`.
 ./scripts/verify-sources.sh
 ```
 
-Use `./scripts/verify-sources.sh --strict-manual` for a full audit including manual sources.
+Use `./scripts/verify-sources.sh --strict-manual --strict-hash` for a full audit including manual sources and checksum completeness.

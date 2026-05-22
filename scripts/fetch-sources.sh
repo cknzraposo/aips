@@ -4,6 +4,11 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST_PATH="${MANIFEST_PATH:-${REPO_ROOT}/data/MANIFEST.csv}"
 CACHE_DIR="${CACHE_DIR:-${REPO_ROOT}/.data-cache}"
+STRICT_HASH=0
+
+if [[ "${1:-}" == "--strict-hash" ]]; then
+  STRICT_HASH=1
+fi
 
 if [[ ! -f "${MANIFEST_PATH}" ]]; then
   echo "Manifest not found: ${MANIFEST_PATH}" >&2
@@ -24,6 +29,7 @@ mkdir -p "${CACHE_DIR}"
 failures=0
 fetched=0
 skipped=0
+warnings=0
 
 while IFS=$'\t' read -r filename classification source_url sha256; do
   [[ "${classification}" == "fetch-on-demand" ]] || continue
@@ -34,16 +40,27 @@ while IFS=$'\t' read -r filename classification source_url sha256; do
     continue
   fi
 
+  has_hash=1
   if [[ -z "${sha256}" ]]; then
-    echo "Missing sha256 for fetch-on-demand source: ${filename}" >&2
-    failures=$((failures + 1))
-    continue
+    has_hash=0
+    if [[ ${STRICT_HASH} -eq 1 ]]; then
+      echo "Missing sha256 for fetch-on-demand source: ${filename}" >&2
+      failures=$((failures + 1))
+      continue
+    fi
   fi
 
   target="${CACHE_DIR}/${filename}"
   mkdir -p "$(dirname "${target}")"
 
   if [[ -f "${target}" ]]; then
+    if [[ ${has_hash} -eq 0 ]]; then
+      echo "! Missing sha256 (using existing cached file): ${filename}"
+      warnings=$((warnings + 1))
+      skipped=$((skipped + 1))
+      continue
+    fi
+
     actual_sha256="$(sha256sum "${target}" | awk '{print $1}')"
     if [[ "${actual_sha256}" == "${sha256}" ]]; then
       echo "✓ Already present and verified: ${filename}"
@@ -56,8 +73,14 @@ while IFS=$'\t' read -r filename classification source_url sha256; do
   fi
 
   "${DOWNLOADER[@]}" "${target}" "${source_url}"
-  actual_sha256="$(sha256sum "${target}" | awk '{print $1}')"
+  if [[ ${has_hash} -eq 0 ]]; then
+    echo "! Downloaded without checksum verification: ${filename}"
+    warnings=$((warnings + 1))
+    fetched=$((fetched + 1))
+    continue
+  fi
 
+  actual_sha256="$(sha256sum "${target}" | awk '{print $1}')"
   if [[ "${actual_sha256}" != "${sha256}" ]]; then
     echo "Hash mismatch for ${filename}" >&2
     echo "  expected: ${sha256}" >&2
@@ -85,7 +108,7 @@ with open(sys.argv[1], newline='', encoding='utf-8') as f:
 PY
 )
 
-echo "Fetch summary - downloaded: ${fetched}, cached: ${skipped}, failures: ${failures}"
+echo "Fetch summary - downloaded: ${fetched}, cached: ${skipped}, warnings: ${warnings}, failures: ${failures}"
 
 if [[ ${failures} -gt 0 ]]; then
   exit 1
