@@ -6,7 +6,8 @@ const navItems = [
   { href: "/compare", label: "Compare" },
   { href: "/evidence", label: "Evidence" },
   { href: "/methodology", label: "Methodology" },
-  { href: "/glossary", label: "Glossary" }
+  { href: "/glossary", label: "Glossary" },
+  { href: "/contribute", label: "Contribute" }
 ];
 
 export default function SiteHeader() {
