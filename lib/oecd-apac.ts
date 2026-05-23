@@ -62,7 +62,7 @@ export const OECD_APAC_ROWS: ReadonlyArray<OECDApacRow> = [
         "Responsible AI uptake, National AI Centre, regulator capability",
     },
     evidence: { class: "observed", confidence: "medium" },
-    oecdAiUrl: "https://oecd.ai/en/dashboards/countries/Australia",
+    oecdAiUrl: "https://oecd.ai/en/dashboards/national/australia",
     sourceUrl:
       "https://www.industry.gov.au/news/government-response-safe-and-responsible-ai-australia-consultation",
     sourceLabel: "DISR - Government response: Safe and Responsible AI",
@@ -85,7 +85,7 @@ export const OECD_APAC_ROWS: ReadonlyArray<OECDApacRow> = [
         "Generative AI compute and foundation-model R&D (GENIAC)",
     },
     evidence: { class: "observed", confidence: "medium" },
-    oecdAiUrl: "https://oecd.ai/en/dashboards/countries/Japan",
+    oecdAiUrl: "https://oecd.ai/en/dashboards/national/japan",
     sourceUrl: "https://www.meti.go.jp/english/press/2024/0202_002.html",
     sourceLabel: "METI - GENIAC generative AI development support",
     notes:
@@ -107,7 +107,7 @@ export const OECD_APAC_ROWS: ReadonlyArray<OECDApacRow> = [
         "AI semiconductor R&D, compute infrastructure, talent, public-sector adoption",
     },
     evidence: { class: "observed", confidence: "medium" },
-    oecdAiUrl: "https://oecd.ai/en/dashboards/countries/Korea",
+    oecdAiUrl: "https://oecd.ai/en/dashboards/national/korea",
     sourceUrl: "https://english.president.go.kr/briefing/Speeches/Wb6Q4kFc",
     sourceLabel: "Office of the President - AI G3 Strategy briefing",
     notes:
@@ -142,7 +142,7 @@ export const OECD_APAC_META = {
   lastReviewed: "2026-05-23",
   baseSource: {
     label: "OECD AI Policy Observatory - country dashboards",
-    url: "https://oecd.ai/en/dashboards/countries",
+    url: "https://oecd.ai/en/dashboards/national",
   },
   fxNote:
     "USD equivalents are approximate, using the OECD AI Policy Observatory's reported conversions or central-bank reference rates at announcement date.",
