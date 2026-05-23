@@ -1,8 +1,10 @@
 // Compare module: run multiple scenarios + status-quo, emit qualitative deltas.
 
 import { CONTENT } from "./content";
-import { runScenario, type Trajectory } from "./engine";
+import { runScenario, type RunOverrides, type Trajectory } from "./engine";
 import type { PolicyScenario } from "./schemas";
+
+export type { RunOverrides } from "./engine";
 
 /** Direction qualifier for a delta. */
 export type Direction = "up" | "down" | "flat";
@@ -262,12 +264,17 @@ function computeOutcomes(
 /**
  * Run a comparison across selected scenarios.
  * - Always includes the status-quo scenario as the reference.
- * - All selected scenarios share the same horizon and intensity scale.
+ * - All selected scenarios share the same horizon, budget envelope, and
+ *   user-supplied overrides (rate multipliers, lever duration, mixed split).
+ *   The reference (`status-quo`) deliberately ignores the budget envelope
+ *   but still receives the rate multipliers so the "uncertainty dials"
+ *   move both runs in lock-step.
  */
 export function runComparison(
   scenarioIds: ReadonlyArray<string>,
   horizonYears: number,
   budgetEnvelopeNzdM: number,
+  overrides?: RunOverrides,
 ): ComparisonResult {
   const referenceId = "status-quo";
   const scenarios = CONTENT.scenarios.filter(
@@ -289,7 +296,8 @@ export function runComparison(
       : { ...s, deltaIntensity: intensityFromEnvelope };
 
   const trajectories = new Map<string, Trajectory>();
-  for (const s of scenarios) trajectories.set(s.id, runScenario(apply(s), horizonYears));
+  for (const s of scenarios)
+    trajectories.set(s.id, runScenario(apply(s), horizonYears, overrides));
 
   const reference = trajectories.get(referenceId)!;
 

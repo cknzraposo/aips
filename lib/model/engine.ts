@@ -13,6 +13,33 @@ import type {
 /** Step size for the integrator (years). */
 const DT = 0.1;
 
+/**
+ * Overrides that the Policy lab panel can apply to a single run.
+ * All fields are optional; omitting them reproduces the v0.3 calibrated run.
+ *
+ * - `leverDurationYears`: overrides scenario.leverDurationYears.
+ * - `demandSupplySplit`: in `mixed`, fraction of Delta routed to demand
+ *   (per-sector G_s); the remainder (1 - split) goes to supply (G_E).
+ *   Defaults to 0.5 to preserve current behaviour.
+ * - `rateMultipliers`: dimensionless multipliers (default 1.0) applied to the
+ *   calibrated rate constants. They scale how fast the relevant state moves,
+ *   not the steady-state values.
+ *     - `adoption`  -> rho_A across all three tiers
+ *     - `capability`-> rho_K (Tier 1 absorptive capability)
+ *     - `productivity` -> the productivity gain term in dP/dt (kappa * A)
+ *     - `labour`    -> the labour-pressure gain term in dL/dt (lambda * A)
+ */
+export interface RunOverrides {
+  leverDurationYears?: number;
+  demandSupplySplit?: number;
+  rateMultipliers?: {
+    adoption?: number;
+    capability?: number;
+    productivity?: number;
+    labour?: number;
+  };
+}
+
 /** Result of one trajectory. */
 export interface Trajectory {
   scenarioId: string;
@@ -51,10 +78,11 @@ function gainLoss(X: number, rho: number, gain: number, loss: number): number {
  *
  * Lever is only active while t <= leverDurationYears.
  */
-function buildLevers(scenario: PolicyScenario) {
+function buildLevers(scenario: PolicyScenario, overrides?: RunOverrides) {
   const { sectors, globals } = CONTENT;
   const n = sectors.length;
   const GEbase = globals.GEbase.value;
+  const split = clamp01(overrides?.demandSupplySplit ?? 0.5);
 
   // Pre-compute demand weights from initial A_s(0) across all 19 sectors.
   const initialA = new Map<string, number>();
@@ -71,7 +99,7 @@ function buildLevers(scenario: PolicyScenario) {
   for (const s of sectors) demandWeight.set(s.id, gap(s.id) / totalGap);
 
   const Delta = scenario.deltaIntensity;
-  const D = scenario.leverDurationYears;
+  const D = overrides?.leverDurationYears ?? scenario.leverDurationYears;
   const active = (t: number) => t <= D + 1e-9;
 
   return {
@@ -87,7 +115,7 @@ function buildLevers(scenario: PolicyScenario) {
         case "targeted-supply":
           return 0;
         case "mixed":
-          return 0.5 * Delta * (demandWeight.get(sectorId) ?? 0);
+          return split * Delta * (demandWeight.get(sectorId) ?? 0);
       }
     },
     GE(t: number): number {
@@ -96,12 +124,22 @@ function buildLevers(scenario: PolicyScenario) {
         case "targeted-supply":
           return GEbase + Delta;
         case "mixed":
-          return GEbase + 0.5 * Delta;
+          return GEbase + (1 - split) * Delta;
         default:
           return GEbase;
       }
     },
   };
+}
+
+function clamp01(v: number): number {
+  if (!Number.isFinite(v)) return 0.5;
+  return Math.min(1, Math.max(0, v));
+}
+
+function clampMultiplier(v: number | undefined): number {
+  if (v === undefined || !Number.isFinite(v)) return 1;
+  return Math.min(2, Math.max(0.25, v));
 }
 
 type Levers = ReturnType<typeof buildLevers>;
@@ -157,15 +195,20 @@ function addScaled(target: State, src: State, base: State, k: number): void {
 }
 
 /** Compute derivatives. Returns a fresh State holding dX/dt. */
-function derivatives(s: State, t: number, levers: Levers): State {
+function derivatives(
+  s: State,
+  t: number,
+  levers: Levers,
+  mult: Required<NonNullable<RunOverrides["rateMultipliers"]>>,
+): State {
   const { globals, tier1Ids, tier2Ids, tier3Ids, parameters } = CONTENT;
-  const rhoK = globals.tier1Rates.rhoK.value;
-  const rhoA1 = globals.tier1Rates.rhoA.value;
+  const rhoK = globals.tier1Rates.rhoK.value * mult.capability;
+  const rhoA1 = globals.tier1Rates.rhoA.value * mult.adoption;
   const rhoP1 = globals.tier1Rates.rhoP.value;
   const rhoL = globals.tier1Rates.rhoL.value;
-  const rhoA2 = globals.tier2Rates.rhoA.value;
+  const rhoA2 = globals.tier2Rates.rhoA.value * mult.adoption;
   const rhoP2 = globals.tier2Rates.rhoP.value;
-  const rhoA3 = globals.tier3Rates.rhoA.value;
+  const rhoA3 = globals.tier3Rates.rhoA.value * mult.adoption;
   const rhoE = globals.rhoE.value;
   const deltaE = globals.deltaE.value;
 
@@ -192,10 +235,20 @@ function derivatives(s: State, t: number, levers: Levers): State {
     d.tier1[i * 4 + 0] = gainLoss(K, rhoK, p.phi * s.E + G + p.eta * A, p.mu);
     // dA/dt = (1-A) rho_A alpha K - A rho_A (1-K)
     d.tier1[i * 4 + 1] = gainLoss(A, rhoA1, p.alpha * K, 1 - K);
-    // dP/dt = (1-P) rho_P kappa A - P rho_P (1-A)
-    d.tier1[i * 4 + 2] = gainLoss(P, rhoP1, p.kappa * A, 1 - A);
-    // dL/dt = (1-L) rho_L lambda A - L rho_L (1-A)
-    d.tier1[i * 4 + 3] = gainLoss(L, rhoL, p.lambda * A, 1 - A);
+    // dP/dt = (1-P) rho_P (kappa * mult) A - P rho_P (1-A)
+    d.tier1[i * 4 + 2] = gainLoss(
+      P,
+      rhoP1,
+      p.kappa * mult.productivity * A,
+      1 - A,
+    );
+    // dL/dt = (1-L) rho_L (lambda * mult) A - L rho_L (1-A)
+    d.tier1[i * 4 + 3] = gainLoss(
+      L,
+      rhoL,
+      p.lambda * mult.labour * A,
+      1 - A,
+    );
   });
 
   // Tier 2
@@ -207,8 +260,13 @@ function derivatives(s: State, t: number, levers: Levers): State {
     const drive = p.beta * s.E + G;
     // dA/dt = (1-A) rho_A (beta E + G) - A rho_A (1 - beta E)
     d.tier2[i * 2 + 0] = gainLoss(A, rhoA2, drive, 1 - p.beta * s.E);
-    // dP/dt as Tier 1
-    d.tier2[i * 2 + 1] = gainLoss(P, rhoP2, p.kappa * A, 1 - A);
+    // dP/dt with productivity multiplier on kappa
+    d.tier2[i * 2 + 1] = gainLoss(
+      P,
+      rhoP2,
+      p.kappa * mult.productivity * A,
+      1 - A,
+    );
   });
 
   // Tier 3
@@ -224,15 +282,21 @@ function derivatives(s: State, t: number, levers: Levers): State {
 }
 
 /** Single RK4 step from time t with step h. */
-function rk4Step(s: State, t: number, h: number, levers: Levers): void {
-  const k1 = derivatives(s, t, levers);
+function rk4Step(
+  s: State,
+  t: number,
+  h: number,
+  levers: Levers,
+  mult: Required<NonNullable<RunOverrides["rateMultipliers"]>>,
+): void {
+  const k1 = derivatives(s, t, levers, mult);
   const tmp = cloneState(s);
   addScaled(tmp, k1, s, h / 2);
-  const k2 = derivatives(tmp, t + h / 2, levers);
+  const k2 = derivatives(tmp, t + h / 2, levers, mult);
   addScaled(tmp, k2, s, h / 2);
-  const k3 = derivatives(tmp, t + h / 2, levers);
+  const k3 = derivatives(tmp, t + h / 2, levers, mult);
   addScaled(tmp, k3, s, h);
-  const k4 = derivatives(tmp, t + h, levers);
+  const k4 = derivatives(tmp, t + h, levers, mult);
 
   s.E += (h / 6) * (k1.E + 2 * k2.E + 2 * k3.E + k4.E);
   for (let i = 0; i < s.tier1.length; i++)
@@ -250,8 +314,15 @@ function rk4Step(s: State, t: number, h: number, levers: Levers): void {
 export function runScenario(
   scenario: PolicyScenario,
   horizonYears: number,
+  overrides?: RunOverrides,
 ): Trajectory {
-  const levers = buildLevers(scenario);
+  const levers = buildLevers(scenario, overrides);
+  const mult = {
+    adoption: clampMultiplier(overrides?.rateMultipliers?.adoption),
+    capability: clampMultiplier(overrides?.rateMultipliers?.capability),
+    productivity: clampMultiplier(overrides?.rateMultipliers?.productivity),
+    labour: clampMultiplier(overrides?.rateMultipliers?.labour),
+  };
   const state = makeInitialState();
   const stepsPerYear = Math.round(1 / DT);
   const totalSteps = horizonYears * stepsPerYear;
@@ -292,7 +363,7 @@ export function runScenario(
   snapshot(0);
   for (let step = 1; step <= totalSteps; step++) {
     const t = (step - 1) * DT;
-    rk4Step(state, t, DT, levers);
+    rk4Step(state, t, DT, levers, mult);
     if (step % stepsPerYear === 0) snapshot(step * DT);
   }
   return traj;
