@@ -31,44 +31,45 @@ const STATE_VARIABLES = [
     symbol: "E",
     name: "National enabling capacity",
     story:
-      "The whole-of-nation conditions that every sector draws on: skills, infrastructure, public trust, and regulation.",
+      "The whole-of-nation conditions every sector relies on: skills in the workforce, infrastructure, public trust, and the rules of the road for AI use.",
     analogy:
-      "the tide. It lifts every boat in every harbour at the same time, but it takes years to come in and years to go out.",
+      "the shared road network the whole country drives on - sealed surfaces, signage, rules, fuel stations, and a population that knows how to drive. Every sector's traffic uses it.",
     badge: "shared",
   },
   {
     symbol: "K",
     name: "Absorptive capability",
     story:
-      "How ready a sector is to actually use AI: in-house skills, data maturity, processes that can absorb new tools.",
+      "How ready a sector is to actually use AI: in-house skills, data maturity, and processes that can absorb new tools.",
     analogy:
-      "the on-ramp onto a motorway. If the on-ramp is narrow or closed, cars cannot get on no matter how many drivers want to.",
+      "that sector's on-ramp onto the network. A wide, open on-ramp lets traffic flow on. A narrow or closed on-ramp holds it back, no matter how many drivers want to go.",
     badge: "per sector",
   },
   {
     symbol: "A",
     name: "AI adoption",
-    story: "How much AI is actually in genuine operational use in a sector, not just in pilots or media releases.",
+    story:
+      "How much AI is actually in genuine operational use in a sector - not pilots, not press releases.",
     analogy:
-      "cars actually on the motorway. Adoption needs an open on-ramp; without it, cars idle and back up.",
+      "cars actually out on the network for that sector. Adoption needs an open on-ramp; close it and cars idle and back up.",
     badge: "per sector",
   },
   {
     symbol: "P",
     name: "Realised productivity",
     story:
-      "The productivity gain genuinely delivered. Sits below the theoretical ceiling and grows only as adoption matures.",
+      "The productivity gain genuinely delivered. It sits below the theoretical ceiling and only grows as adoption matures.",
     analogy:
-      "how fast traffic actually moves. More cars using the motorway well makes everyone's trip faster.",
+      "the average speed of that sector's traffic. More cars using the lanes well means everyone's trip gets faster.",
     badge: "per sector",
   },
   {
     symbol: "L",
     name: "Labour adjustment pressure",
     story:
-      "Strain on workers and labour markets from tasks being reorganised, automated, or augmented as AI spreads.",
+      "Strain on workers and labour markets as tasks are reorganised, automated, or augmented when AI spreads.",
     analogy:
-      "stress on drivers and depots when traffic rises. More movement means more retraining, rotation, and reorganisation.",
+      "stress on drivers and depots when traffic rises. Heavier flows mean more rostering, retraining, and reorganising behind the scenes.",
     badge: "per sector",
   },
 ];
@@ -77,12 +78,12 @@ const TIER_RIBBON = [
   {
     label: "Tier 1 - 9 sectors",
     text: "Full picture: capability, adoption, productivity, and labour pressure all tracked. Covers about 61% of GDP.",
-    analogy: "state highways - full signage, full detail.",
+    analogy: "state highways - every lane, ramp, and sign drawn in.",
   },
   {
     label: "Tier 2 - 6 sectors",
     text: "Simpler picture: adoption and productivity, with labour pressure reported alongside.",
-    analogy: "regional roads - drawn on the map, fewer markings.",
+    analogy: "regional roads - on the map with fewer markings.",
   },
   {
     label: "Tier 3 - 4 sectors",
@@ -97,9 +98,9 @@ const EQUATIONS = [
     reference: "dE/dt",
     formula: "dE/dt = (1 - E) * rho_E * G_E   -   E * rho_E * delta_E",
     story:
-      "The shared tide rises when the country invests in skills, infrastructure, trust, and rules. It ebbs slowly on its own through wear and obsolescence.",
+      "The shared road network gets better when the country invests in skills, infrastructure, trust, and rules. It degrades slowly on its own through wear and obsolescence.",
     analogy:
-      "filling a bathtub. The tap (national investment) adds water; a slow drain (depreciation) takes some out. The bath cannot overflow because the closer to full it is, the slower it fills.",
+      "sealing the national road network. Crews (G_E) add sealed surface; weather and time wear it back down (delta_E). The closer to fully sealed, the slower each new crew makes a difference.",
   },
   {
     name: "Absorptive capability (Tier 1)",
@@ -107,9 +108,9 @@ const EQUATIONS = [
     formula:
       "dK/dt = (1 - K) * rho_K * ( phi_s*E  +  G_s  +  eta_s*A )   -   K * rho_K * mu_s",
     story:
-      "A sector's on-ramp gets wider when the tide is high (phi_s * E), when the sector receives targeted help (G_s), and when adoption is already underway and creates pull (eta_s * A). It narrows over time from skill turnover and tool obsolescence (mu_s).",
+      "A sector's on-ramp gets wider when the shared network is in good shape (phi_s * E), when the sector receives targeted help (G_s), and when adoption is already creating pull (eta_s * A). It narrows over time from skill turnover and tool obsolescence (mu_s).",
     analogy:
-      "widening an on-ramp. National conditions, direct funding, and existing drivers all push the work along. Without maintenance, the on-ramp narrows again.",
+      "widening that sector's on-ramp. Better shared roads, direct roadworks for this sector, and existing traffic all help. Without maintenance, the on-ramp narrows back.",
   },
   {
     name: "AI adoption (Tier 1)",
@@ -118,7 +119,7 @@ const EQUATIONS = [
     story:
       "Adoption grows when the on-ramp is open (high K). When the on-ramp is poor (low K), existing adoption stalls or reverses.",
     analogy:
-      "cars merging onto the motorway. Open the on-ramp and traffic flows on; close it and cars peel away.",
+      "cars merging on. An open on-ramp lets traffic flow on; a narrow one makes cars peel away.",
   },
   {
     name: "Realised productivity",
@@ -127,7 +128,7 @@ const EQUATIONS = [
     story:
       "Productivity gains build up as adoption matures. If adoption drops back, the gains fade rather than persisting on their own.",
     analogy:
-      "average traffic speed. Speed rises once cars are using the motorway well; it drops when cars leave or the lane closes.",
+      "average traffic speed. Speed rises once cars are using the lanes well; it drops when cars leave or a lane closes.",
   },
   {
     name: "Labour adjustment pressure (Tier 1)",
@@ -144,32 +145,40 @@ const SCENARIOS = [
   {
     symbol: "0",
     name: "Status quo",
-    story: "No new policy effort. Today's values carry forward. This is the reference every other scenario is compared against.",
-    analogy: "wallet stays shut.",
+    story:
+      "No new policy effort. Today's values carry forward. This is the reference every other scenario is compared against.",
+    analogy: "no new roadworks budget - keep the network as it is.",
   },
   {
     symbol: "A",
     name: "Aggregate",
     story: "Spread the same budget evenly across every sector. A little for everyone, no targeting.",
-    analogy: "buy a small treat for the whole class.",
+    analogy:
+      "send a small crew to every on-ramp in the country - a bit of work everywhere, nothing focused.",
   },
   {
     symbol: "B",
     name: "Targeted demand",
-    story: "Direct the budget to sectors with low current adoption. Help where the on-ramps are narrowest.",
-    analogy: "tutor the students who are furthest behind.",
+    story:
+      "Direct the budget to sectors with low current adoption. Help where the on-ramps are narrowest.",
+    analogy:
+      "send the crews straight to the narrowest, most clogged on-ramps first.",
   },
   {
     symbol: "C",
     name: "Targeted supply",
-    story: "Invest the budget in the shared tide itself - national skills, infrastructure, trust, regulation.",
-    analogy: "fix the whole school, not single classrooms.",
+    story:
+      "Invest the budget in the shared road network itself - national skills, infrastructure, trust, regulation.",
+    analogy:
+      "pour the budget into the shared network - sealing, signage, driver training - rather than any single on-ramp.",
   },
   {
     symbol: "D",
     name: "Mixed",
-    story: "Split the budget between the shared tide and targeted demand-side help.",
-    analogy: "half school upgrade, half tutoring.",
+    story:
+      "Split the budget between the shared network and targeted demand-side help.",
+    analogy:
+      "half on the shared network, half on the worst on-ramps.",
   },
 ];
 
@@ -193,13 +202,14 @@ export default function HowItWorksPage() {
         <article className="surface-card p-6">
           <p className="eyebrow">In 30 seconds</p>
           <h2 className="mt-1 font-display text-2xl text-ink">
-            A test kitchen for AI policy in Aotearoa
+            A driving simulator for AI policy in Aotearoa
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-steel">
-            This site helps anyone compare what could happen if New Zealand chose different
-            AI policies. You set the levers; the model shows the tradeoffs. It is a
-            thinking tool, not a crystal ball. We do not say what <em>will</em> happen -
-            we show how options differ when you make the same assumptions visible.
+            Picture the economy as a road network. Each sector has its own on-ramp onto
+            a shared national network. You choose how to spend the roadworks budget; the
+            model shows how traffic differs. It is a thinking tool, not a crystal ball.
+            We do not say what <em>will</em> happen - we show how options differ when
+            you make the same assumptions visible.
           </p>
         </article>
         <article className="surface-card p-6">
@@ -232,18 +242,20 @@ export default function HowItWorksPage() {
       <section id="big-idea" className="mt-8 surface-card p-6 scroll-mt-24">
         <p className="eyebrow">The big idea</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
-          A test kitchen, not a weather forecast
+          A driving simulator for AI policy
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-steel">
-          Imagine a test kitchen with the same oven, the same time, and the same budget.
-          You swap one ingredient at a time and taste the difference. That is what this
-          sandbox does for AI policy: same horizon, same envelope, different mix. We
-          compare cakes; we never claim to predict next Sunday&apos;s weather.
+          Picture New Zealand&apos;s economy as a road network. Each sector has its own
+          on-ramp onto a shared national network. Cars are AI use, lanes are capability,
+          and average traffic speed is the productivity payoff. The whole picture - on-ramps,
+          cars, speed, the network itself - is what this sandbox keeps in view.
         </p>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-steel">
-          Every result you see is therefore a <span className="font-semibold text-ink">comparison</span>,
-          not a forecast. Treat the numbers as <em>directional</em> signals about how
-          options differ, not as exact future values.
+          Policy is a roadworks budget. You can spread crews thinly across every region,
+          send them to the worst on-ramps, or invest in the shared network. Same budget,
+          same time horizon, different mix - that is what makes the options comparable.
+          Every result is a comparison between mixes, never a forecast of next year&apos;s
+          traffic count.
         </p>
       </section>
 
@@ -251,11 +263,12 @@ export default function HowItWorksPage() {
         <header className="mb-3">
           <p className="eyebrow">The five things we track</p>
           <h2 className="mt-1 font-display text-2xl text-ink">
-            One shared tide, four sector things
+            One shared network, four sector flows
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-steel">
-            Every quantity is a number between 0 and 1 - think of it as a fill level.
-            0 means none of it, 1 means the maximum the model allows.
+            Every quantity is a number between 0 and 1 - think of it as how built-out
+            that piece of the network is. 0 means none of it; 1 means the most the model
+            allows.
           </p>
         </header>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -272,23 +285,24 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section id="bathtub" className="mt-8 surface-card p-6 scroll-mt-24">
+      <section id="build-and-wear" className="mt-8 surface-card p-6 scroll-mt-24">
         <p className="eyebrow">How every equation works (one picture)</p>
         <h2 className="mt-1 font-display text-2xl text-ink">
-          Think of each quantity as a bathtub
+          Build it up, wear it down
         </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-[1fr_1fr]">
           <p className="text-sm leading-relaxed text-steel">
-            Every equation in the model is a bathtub with a tap and a drain. The level
-            sits between empty (0) and full (1). The tap adds at a rate that depends on
-            how empty it still is - so the closer to full, the slower it fills. The drain
-            takes some out at a rate that depends on how full it is - so an empty tub
-            cannot drain further.
+            Every equation in the model behaves like a section of road being built and
+            worn. Construction crews add lanes - faster when there is still plenty of
+            room to add, slower as the road approaches fully built. Meanwhile weather
+            and use wear the road back down at a rate that depends on how built it
+            already is.
           </p>
           <p className="text-sm leading-relaxed text-steel">
-            This is why every quantity stays between 0 and 1 by construction. You will
-            not see adoption above 100% or productivity below zero. The shape is the
-            same for every equation; only the tap and drain change.
+            That is why every quantity stays between 0 (no road) and 1 (fully built) by
+            construction. You will not see adoption above 100% or productivity below
+            zero. The shape is the same for every equation; only what counts as a
+            “crew” and what counts as “wear” changes.
           </p>
         </div>
       </section>
@@ -355,11 +369,11 @@ export default function HowItWorksPage() {
         <header className="mb-3">
           <p className="eyebrow">The five policy scenarios</p>
           <h2 className="mt-1 font-display text-2xl text-ink">
-            Different ways to spend the same wallet
+            Different ways to spend the same roadworks budget
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-steel">
             Every scenario uses the same budget envelope and the same time horizon. Only
-            the spending mix changes. That is what makes them comparable.
+            the spending mix changes - which is what makes them comparable.
           </p>
         </header>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
