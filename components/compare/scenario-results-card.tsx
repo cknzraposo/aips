@@ -6,6 +6,7 @@ import type {
 
 type Props = {
   result: ScenarioOutcomes;
+  horizonYears: number;
 };
 
 const MAGNITUDE_LABEL: Record<Magnitude, string> = {
@@ -35,7 +36,7 @@ const TONE_CLASS: Record<"positive" | "negative" | "neutral", string> = {
   neutral: "border-ink/15 bg-white",
 };
 
-export default function ScenarioResultsCard({ result }: Props) {
+export default function ScenarioResultsCard({ result, horizonYears }: Props) {
   return (
     <article className="surface-card p-5">
       <header className="flex items-baseline justify-between gap-3">
@@ -44,7 +45,11 @@ export default function ScenarioResultsCard({ result }: Props) {
           <span className="text-[11px] uppercase tracking-[0.16em] text-steel">
             Reference run
           </span>
-        ) : null}
+        ) : (
+          <span className="text-[11px] uppercase tracking-[0.16em] text-steel">
+            vs status quo at year {horizonYears}
+          </span>
+        )}
       </header>
 
       <div className="mt-4 grid gap-3">

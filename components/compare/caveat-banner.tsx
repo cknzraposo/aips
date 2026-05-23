@@ -19,7 +19,9 @@ export default function CaveatBanner() {
         Whole-economy coverage across all 19 ANZSIC Level 1 sectors. Many
         parameters are calibrated against international benchmarks where NZ
         evidence is sparse - see Methodology and the v0.3 calibration tables
-        for evidence class and confidence on every value.
+        for evidence class and confidence on every value. Moving the
+        uncertainty dials in the Policy lab changes the model&apos;s
+        assumptions, not its forecasts.
       </p>
       <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-steel">
         Content version {version.id}

@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 
-import BudgetHorizonControls from "@/components/compare/budget-horizon-controls";
 import CaveatBanner from "@/components/compare/caveat-banner";
 import ComparabilityWarning from "@/components/compare/comparability-warning";
+import PolicyLabPanel, {
+  CALIBRATED_CONFIG,
+  type PolicyLabConfig,
+  type ScenarioChip,
+} from "@/components/compare/policy-lab-panel";
 import ScenarioResultsCard from "@/components/compare/scenario-results-card";
-import ScenarioSelector, {
-  type ScenarioOption,
-} from "@/components/compare/scenario-selector";
 import SectorAdoptionChart from "@/components/compare/sector-adoption-chart";
 import TrajectoryChart from "@/components/compare/trajectory-chart";
 import PageHeader from "@/components/layout/page-header";
@@ -19,33 +20,131 @@ import { validateComparison } from "@/lib/model/validate-comparison";
 
 const REFERENCE_ID = "status-quo";
 
-const SCENARIO_OPTIONS: readonly ScenarioOption[] = CONTENT.scenarios
+const SCENARIO_CHIPS: readonly ScenarioChip[] = CONTENT.scenarios
   .filter((s) => s.id !== REFERENCE_ID)
   .map((s) => ({ id: s.id, name: s.name, description: s.description }));
 
+const SCENARIO_IDS = new Set(SCENARIO_CHIPS.map((s) => s.id));
+
+/** Encode the full config into a URL query string. */
+function encodeConfig(c: PolicyLabConfig): string {
+  const params = new URLSearchParams();
+  params.set("s", c.selectedScenarioIds.join(","));
+  params.set("b", String(c.budgetEnvelope));
+  params.set("h", String(c.horizonYears));
+  params.set("d", String(c.leverDurationYears));
+  params.set("sp", c.demandSupplySplit.toFixed(2));
+  params.set("ma", c.multipliers.adoption.toFixed(2));
+  params.set("mc", c.multipliers.capability.toFixed(2));
+  params.set("mp", c.multipliers.productivity.toFixed(2));
+  params.set("ml", c.multipliers.labour.toFixed(2));
+  return params.toString();
+}
+
+/** Decode a URL search-string back into a PolicyLabConfig, falling back to calibration. */
+function decodeConfig(search: string): PolicyLabConfig {
+  const params = new URLSearchParams(search);
+  const base = CALIBRATED_CONFIG;
+  const num = (key: string, fallback: number): number => {
+    const raw = params.get(key);
+    if (raw === null) return fallback;
+    const v = Number(raw);
+    return Number.isFinite(v) ? v : fallback;
+  };
+  const rawIds = params.get("s");
+  const ids = rawIds
+    ? rawIds
+        .split(",")
+        .map((v) => v.trim())
+        .filter((v) => SCENARIO_IDS.has(v))
+    : base.selectedScenarioIds;
+  return {
+    selectedScenarioIds: ids.length > 0 ? ids : base.selectedScenarioIds,
+    budgetEnvelope: num("b", base.budgetEnvelope),
+    horizonYears: num("h", base.horizonYears),
+    leverDurationYears: num("d", base.leverDurationYears),
+    demandSupplySplit: num("sp", base.demandSupplySplit),
+    multipliers: {
+      adoption: num("ma", base.multipliers.adoption),
+      capability: num("mc", base.multipliers.capability),
+      productivity: num("mp", base.multipliers.productivity),
+      labour: num("ml", base.multipliers.labour),
+    },
+  };
+}
+
+function configToOverrides(c: PolicyLabConfig) {
+  return {
+    leverDurationYears: c.leverDurationYears,
+    demandSupplySplit: c.demandSupplySplit,
+    rateMultipliers: { ...c.multipliers },
+  };
+}
+
 export default function ComparePage() {
-  const [selectedIds, setSelectedIds] = useState<string[]>([
-    "aggregate",
-    "targeted-demand",
-  ]);
-  const [budgetEnvelope, setBudgetEnvelope] = useState(400);
-  const [horizonYears, setHorizonYears] = useState(10);
+  const [staged, setStaged] = useState<PolicyLabConfig>(CALIBRATED_CONFIG);
+  const [applied, setApplied] = useState<PolicyLabConfig>(CALIBRATED_CONFIG);
+  const [shareLabel, setShareLabel] = useState<string>("Copy share link");
+  const [, startTransition] = useTransition();
+
+  // Hydrate from URL on mount. This is the textbook "read from an external
+  // system on mount" case the React docs allow effects for - the URL is the
+  // external store and we sync it into local state exactly once.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.location.search) return;
+    const fromUrl = decodeConfig(window.location.search);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setStaged(fromUrl);
+    setApplied(fromUrl);
+  }, []);
 
   const validation = validateComparison({
-    selectedScenarioIds: selectedIds,
-    budgetEnvelope,
-    horizonYears,
+    selectedScenarioIds: applied.selectedScenarioIds,
+    budgetEnvelope: applied.budgetEnvelope,
+    horizonYears: applied.horizonYears,
+    overrides: configToOverrides(applied),
   });
 
   const comparison = useMemo(() => {
     if (!validation.comparable) return null;
-    return runComparison(selectedIds, horizonYears, budgetEnvelope);
-  }, [selectedIds, horizonYears, budgetEnvelope, validation.comparable]);
-
-  const toggleScenario = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id],
+    return runComparison(
+      applied.selectedScenarioIds,
+      applied.horizonYears,
+      applied.budgetEnvelope,
+      configToOverrides(applied),
     );
+  }, [applied, validation.comparable]);
+
+  const handleRun = () => {
+    startTransition(() => {
+      setApplied(staged);
+      if (typeof window !== "undefined") {
+        const next = `${window.location.pathname}?${encodeConfig(staged)}`;
+        window.history.replaceState(null, "", next);
+      }
+    });
+  };
+
+  const handleReset = () => {
+    setStaged(CALIBRATED_CONFIG);
+    startTransition(() => {
+      setApplied(CALIBRATED_CONFIG);
+      if (typeof window !== "undefined") {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+    });
+  };
+
+  const handleShare = async () => {
+    if (typeof window === "undefined") return;
+    const url = `${window.location.origin}${window.location.pathname}?${encodeConfig(applied)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareLabel("Link copied");
+    } catch {
+      setShareLabel("Copy failed - select URL bar");
+    }
+    setTimeout(() => setShareLabel("Copy share link"), 2000);
   };
 
   return (
@@ -71,17 +170,16 @@ export default function ComparePage() {
 
       <CaveatBanner />
 
-      <section className="mt-6 grid gap-4 md:grid-cols-2">
-        <ScenarioSelector
-          options={SCENARIO_OPTIONS}
-          selected={selectedIds}
-          onToggle={toggleScenario}
-        />
-        <BudgetHorizonControls
-          budgetEnvelope={budgetEnvelope}
-          horizonYears={horizonYears}
-          onBudgetChange={setBudgetEnvelope}
-          onHorizonChange={setHorizonYears}
+      <section className="mt-6">
+        <PolicyLabPanel
+          scenarios={SCENARIO_CHIPS}
+          staged={staged}
+          applied={applied}
+          onChange={setStaged}
+          onRun={handleRun}
+          onReset={handleReset}
+          onShare={handleShare}
+          shareLabel={shareLabel}
         />
       </section>
 
@@ -121,7 +219,11 @@ export default function ComparePage() {
 
           <section className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {comparison.scenarios.map((r) => (
-              <ScenarioResultsCard key={r.scenarioId} result={r} />
+              <ScenarioResultsCard
+                key={r.scenarioId}
+                result={r}
+                horizonYears={comparison.horizonYears}
+              />
             ))}
           </section>
         </>
@@ -132,19 +234,20 @@ export default function ComparePage() {
         <ul className="mt-3 grid list-disc gap-2 pl-5 md:grid-cols-2">
           <li>
             Status quo is always run as the reference; every other card shows
-            qualitative direction and magnitude relative to it.
+            qualitative direction and magnitude relative to it at the chosen
+            horizon.
           </li>
           <li>
-            All selected scenarios share the same budget envelope and horizon,
-            so the comparison is like-for-like by construction.
+            All selected scenarios share the same budget envelope, horizon, and
+            uncertainty dials, so the comparison is like-for-like by construction.
           </li>
           <li>
             Hover any outcome tile to see the raw value, the reference value,
             and the absolute delta.
           </li>
           <li>
-            Confidence on most structural parameters is low - see the v0.3
-            calibration tables and the Evidence page for class and source.
+            Moving the uncertainty dials changes the model&apos;s assumptions,
+            not its forecasts. Use them to stress-test, not to predict.
           </li>
         </ul>
       </section>
