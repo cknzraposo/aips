@@ -129,7 +129,7 @@ export const OECD_APAC_ROWS: ReadonlyArray<OECDApacRow> = [
         "Policy frameworks, Algorithm Charter, sector-specific digital lines",
     },
     evidence: { class: "observed", confidence: "low" },
-    oecdAiUrl: "https://oecd.ai/en/dashboards/countries/New-Zealand",
+    oecdAiUrl: "https://oecd.ai/en/dashboards/national/new-zealand",
     sourceUrl:
       "https://www.mbie.govt.nz/business-and-employment/economic-development/artificial-intelligence",
     sourceLabel: "MBIE - Artificial Intelligence in New Zealand",
