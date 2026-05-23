@@ -1,3 +1,4 @@
+import ApacInvestmentTable from "@/components/evidence/apac-investment-table";
 import PageHeader from "@/components/layout/page-header";
 import { EVIDENCE_CLASSES } from "@/lib/reference-data";
 
@@ -23,6 +24,10 @@ export default function EvidencePage() {
           ))}
         </ul>
       </section>
+
+      <div className="mt-6">
+        <ApacInvestmentTable />
+      </div>
 
       <section className="mt-6 rounded-2xl border border-accent/30 bg-accent/10 p-6">
         <h2 className="font-display text-2xl text-ink">Implementation status</h2>
