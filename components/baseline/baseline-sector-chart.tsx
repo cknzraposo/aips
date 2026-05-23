@@ -97,10 +97,7 @@ export default function BaselineSectorChart({ sectors }: Props) {
                   fill={TIER_COLOUR[s.tier]}
                   opacity={0.85}
                 >
-                  <title>
-                    {s.name}: A₀ = {s.A0.toFixed(2)} · evidence: {s.evidenceClass} · confidence: {s.confidence}
-                    {s.notes ? ` · ${s.notes}` : ""}
-                  </title>
+                  <title>{`${s.name}: A₀ = ${s.A0.toFixed(2)} · evidence: ${s.evidenceClass} · confidence: ${s.confidence}${s.notes ? ` · ${s.notes}` : ""}`}</title>
                 </rect>
                 <text
                   x={xScale(s.A0) + 4}

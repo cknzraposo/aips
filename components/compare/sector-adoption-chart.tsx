@@ -110,9 +110,7 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
                       fill={colour}
                       opacity={s.isReference ? 0.5 : 0.9}
                     >
-                      <title>
-                        {s.scenarioName}: A = {value.toFixed(3)}
-                      </title>
+                      <title>{`${s.scenarioName}: A = ${value.toFixed(3)}`}</title>
                     </rect>
                   );
                 })}
