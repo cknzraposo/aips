@@ -1,10 +1,9 @@
-export const EVIDENCE_CLASSES = [
-  "Observed",
-  "Derived",
-  "Expert",
-  "Placeholder",
-  "Assumed"
-] as const;
+import { EvidenceClass } from "./model/schemas";
+
+/** Display labels for the evidence classes, derived from the canonical enum. */
+export const EVIDENCE_CLASSES = EvidenceClass.options.map(
+  (c) => (c.charAt(0).toUpperCase() + c.slice(1)) as Capitalize<typeof c>,
+);
 
 export type GlossaryEntry = {
   term: string;

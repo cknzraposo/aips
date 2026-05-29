@@ -45,6 +45,7 @@ export type ScenarioChip = {
 
 type Props = {
   scenarios: ReadonlyArray<ScenarioChip>;
+  referenceName?: string;
   staged: PolicyLabConfig;
   applied: PolicyLabConfig;
   onChange: (next: PolicyLabConfig) => void;
@@ -74,6 +75,7 @@ function configsEqual(a: PolicyLabConfig, b: PolicyLabConfig): boolean {
 
 export default function PolicyLabPanel({
   scenarios,
+  referenceName = "Status quo",
   staged,
   applied,
   onChange,
@@ -117,6 +119,15 @@ export default function PolicyLabPanel({
         <legend className="text-xs font-semibold uppercase tracking-[0.16em] text-steel">
           1. Scenarios to compare
         </legend>
+        <div className="mt-2 flex items-center gap-2 rounded-xl border border-dashed border-ink/30 bg-canvas/50 px-3 py-2">
+          <span className="rounded-full bg-ink/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-steel">
+            Reference
+          </span>
+          <span className="text-sm text-ink">
+            <span className="font-medium">{referenceName}</span> - always on. Every
+            scenario is measured against this.
+          </span>
+        </div>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
           {scenarios.map((s) => {
             const isOn = staged.selectedScenarioIds.includes(s.id);
@@ -124,6 +135,7 @@ export default function PolicyLabPanel({
               <button
                 key={s.id}
                 type="button"
+                aria-pressed={isOn}
                 onClick={() => toggleScenario(s.id)}
                 className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
                   isOn
@@ -271,6 +283,12 @@ export default function PolicyLabPanel({
 
       {/* Action bar */}
       <div className="mt-6 flex flex-wrap items-center justify-end gap-2 border-t border-ink/10 pt-4">
+        <a
+          href="#results"
+          className="mr-auto text-sm font-medium text-ink underline underline-offset-4"
+        >
+          View results &darr;
+        </a>
         <button
           type="button"
           onClick={onShare}
@@ -292,7 +310,7 @@ export default function PolicyLabPanel({
           className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-canvas hover:bg-ink/90 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={!isDirty}
         >
-          {isDirty ? "Run simulation" : "Run simulation (no changes)"}
+          {isDirty ? "Run simulation" : "Results up to date"}
         </button>
       </div>
     </section>

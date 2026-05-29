@@ -1,7 +1,13 @@
 "use client";
 
 import ChartIntro from "@/components/charts/chart-intro";
+import ChartLegend from "@/components/ui/chart-legend";
 import type { ScenarioOutcomes, SeriesPoint } from "@/lib/model/compare";
+import {
+  AXIS_COLOUR,
+  GRIDLINE_COLOUR,
+  SCENARIO_PALETTE,
+} from "@/lib/ui/theme";
 
 type SeriesSelector = "pBar" | "E";
 
@@ -14,14 +20,6 @@ type Props = {
   symbol?: string;
   explainerHref?: string;
 };
-
-const PALETTE = [
-  "#0f172a", // ink
-  "#0891b2", // datum
-  "#ea580c", // accent
-  "#7c3aed",
-  "#16a34a",
-];
 
 const WIDTH = 560;
 const HEIGHT = 240;
@@ -77,7 +75,9 @@ export default function TrajectoryChart({
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         role="img"
-        aria-label={`${title} - line chart across selected scenarios`}
+        aria-label={`${title} - line chart across ${scenarios
+          .map((s) => s.scenarioName)
+          .join(", ")}`}
         className="block h-auto w-full"
       >
         <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
@@ -89,7 +89,7 @@ export default function TrajectoryChart({
                 x2={innerW}
                 y1={yScale(v)}
                 y2={yScale(v)}
-                stroke="#e2e8f0"
+                stroke={GRIDLINE_COLOUR}
                 strokeWidth={1}
               />
               <text
@@ -127,8 +127,8 @@ export default function TrajectoryChart({
             </g>
           ))}
           {/* axes */}
-          <line x1={0} x2={innerW} y1={innerH} y2={innerH} stroke="#0f172a" strokeWidth={1.2} />
-          <line x1={0} x2={0} y1={0} y2={innerH} stroke="#0f172a" strokeWidth={1.2} />
+          <line x1={0} x2={innerW} y1={innerH} y2={innerH} stroke={AXIS_COLOUR} strokeWidth={1.2} />
+          <line x1={0} x2={0} y1={0} y2={innerH} stroke={AXIS_COLOUR} strokeWidth={1.2} />
           {/* axis labels */}
           <text
             x={innerW / 2}
@@ -151,7 +151,7 @@ export default function TrajectoryChart({
           {/* series */}
           {scenarios.map((s, i) => {
             const pts = pickPoints(s, series);
-            const colour = PALETTE[i % PALETTE.length];
+            const colour = SCENARIO_PALETTE[i % SCENARIO_PALETTE.length];
             return (
               <g key={s.scenarioId}>
                 <path
@@ -176,30 +176,15 @@ export default function TrajectoryChart({
         </g>
       </svg>
 
-      <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-steel">
-        {scenarios.map((s, i) => {
-          const colour = PALETTE[i % PALETTE.length];
-          return (
-            <li key={s.scenarioId} className="flex items-center gap-2">
-              <svg aria-hidden width={20} height={6} className="inline-block">
-                <line
-                  x1={0}
-                  x2={20}
-                  y1={3}
-                  y2={3}
-                  stroke={colour}
-                  strokeWidth={2}
-                  strokeDasharray={s.isReference ? "4 3" : undefined}
-                />
-              </svg>
-              <span>
-                {s.scenarioName}
-                {s.isReference ? " (reference)" : ""}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
+      <ChartLegend
+        items={scenarios.map((s, i) => ({
+          id: s.scenarioId,
+          colour: SCENARIO_PALETTE[i % SCENARIO_PALETTE.length],
+          shape: "line",
+          dashed: s.isReference,
+          label: `${s.scenarioName}${s.isReference ? " (reference)" : ""}`,
+        }))}
+      />
     </figure>
   );
 }

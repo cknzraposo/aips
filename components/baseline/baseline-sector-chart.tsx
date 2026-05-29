@@ -1,20 +1,9 @@
 import ChartIntro from "@/components/charts/chart-intro";
 import type { BaselineSectorPoint } from "@/lib/model/baseline";
+import { GRIDLINE_COLOUR, TIER_COLOURS, TIER_LABELS } from "@/lib/ui/theme";
 
 type Props = {
   sectors: ReadonlyArray<BaselineSectorPoint>;
-};
-
-const TIER_COLOUR: Record<1 | 2 | 3, string> = {
-  1: "#0f172a",
-  2: "#0891b2",
-  3: "#94a3b8",
-};
-
-const TIER_LABEL: Record<1 | 2 | 3, string> = {
-  1: "Tier 1 — full dynamics",
-  2: "Tier 2 — simplified",
-  3: "Tier 3 — residual",
 };
 
 const WIDTH = 640;
@@ -55,7 +44,7 @@ export default function BaselineSectorChart({ sectors }: Props) {
                 x2={xScale(v)}
                 y1={0}
                 y2={innerH}
-                stroke="#e2e8f0"
+                stroke={GRIDLINE_COLOUR}
               />
               <text
                 x={xScale(v)}
@@ -78,7 +67,7 @@ export default function BaselineSectorChart({ sectors }: Props) {
                   y={(ROW_HEIGHT - barH) / 2}
                   width={4}
                   height={barH}
-                  fill={TIER_COLOUR[s.tier]}
+                  fill={TIER_COLOURS[s.tier]}
                 />
                 <text
                   x={-MARGIN.left + 14}
@@ -94,7 +83,7 @@ export default function BaselineSectorChart({ sectors }: Props) {
                   y={(ROW_HEIGHT - barH) / 2}
                   width={xScale(s.A0)}
                   height={barH}
-                  fill={TIER_COLOUR[s.tier]}
+                  fill={TIER_COLOURS[s.tier]}
                   opacity={0.85}
                 >
                   <title>{`${s.name}: A₀ = ${s.A0.toFixed(2)} · evidence: ${s.evidenceClass} · confidence: ${s.confidence}${s.notes ? ` · ${s.notes}` : ""}`}</title>
@@ -117,9 +106,9 @@ export default function BaselineSectorChart({ sectors }: Props) {
         <g transform={`translate(${MARGIN.left},${height - 10})`}>
           {([1, 2, 3] as const).map((t, idx) => (
             <g key={t} transform={`translate(${idx * 170},0)`}>
-              <rect width={10} height={10} y={-9} fill={TIER_COLOUR[t]} />
+              <rect width={10} height={10} y={-9} fill={TIER_COLOURS[t]} />
               <text x={14} y={0} className="fill-steel" fontSize={10}>
-                {TIER_LABEL[t]}
+                {TIER_LABELS[t]}
               </text>
             </g>
           ))}

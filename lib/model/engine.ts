@@ -65,6 +65,22 @@ function gainLoss(X: number, rho: number, gain: number, loss: number): number {
   return rho * ((1 - X) * gain - X * loss);
 }
 
+/** Resolve a tier parameter row or throw with a descriptive error. */
+function requireParams<T>(
+  table: Record<string, T | undefined>,
+  id: string,
+  tier: 1 | 2 | 3,
+): T {
+  const row = table[id];
+  if (!row) throw new Error(`Missing tier${tier} parameters for sector ${id}`);
+  return row;
+}
+
+/** Exhaustiveness guard for discriminated unions. */
+function assertNever(value: never): never {
+  throw new Error(`Unhandled scenario archetype: ${String(value)}`);
+}
+
 /**
  * Resolve per-sector policy support G_s and national investment G_E at time t
  * for a given scenario.
@@ -100,7 +116,12 @@ function buildLevers(scenario: PolicyScenario, overrides?: RunOverrides) {
 
   const Delta = scenario.deltaIntensity;
   const D = overrides?.leverDurationYears ?? scenario.leverDurationYears;
-  const active = (t: number) => t <= D + 1e-9;
+  // RK4 stage times are integer multiples of DT/2 (0.05 yr) and D is an
+  // integer, so any tolerance between float noise and one half-step gives
+  // identical results. 1e-6 removes accumulation noise at the boundary
+  // without ever flipping a stage's active state.
+  const ACTIVE_EPS = 1e-6;
+  const active = (t: number) => t <= D + ACTIVE_EPS;
 
   return {
     Gs(sectorId: string, t: number): number {
@@ -116,6 +137,8 @@ function buildLevers(scenario: PolicyScenario, overrides?: RunOverrides) {
           return 0;
         case "mixed":
           return split * Delta * (demandWeight.get(sectorId) ?? 0);
+        default:
+          return assertNever(scenario.archetype);
       }
     },
     GE(t: number): number {
@@ -125,8 +148,12 @@ function buildLevers(scenario: PolicyScenario, overrides?: RunOverrides) {
           return GEbase + Delta;
         case "mixed":
           return GEbase + (1 - split) * Delta;
-        default:
+        case "baseline":
+        case "aggregate":
+        case "targeted-demand":
           return GEbase;
+        default:
+          return assertNever(scenario.archetype);
       }
     },
   };
@@ -224,7 +251,7 @@ function derivatives(
 
   // Tier 1
   tier1Ids.forEach((id, i) => {
-    const p = parameters.tier1[id] as Tier1ParamRow;
+    const p = requireParams<Tier1ParamRow>(parameters.tier1, id, 1);
     const K = s.tier1[i * 4 + 0];
     const A = s.tier1[i * 4 + 1];
     const P = s.tier1[i * 4 + 2];
@@ -253,7 +280,7 @@ function derivatives(
 
   // Tier 2
   tier2Ids.forEach((id, i) => {
-    const p = parameters.tier2[id] as Tier2ParamRow;
+    const p = requireParams<Tier2ParamRow>(parameters.tier2, id, 2);
     const A = s.tier2[i * 2 + 0];
     const P = s.tier2[i * 2 + 1];
     const G = levers.Gs(id, t);
@@ -271,7 +298,7 @@ function derivatives(
 
   // Tier 3
   tier3Ids.forEach((id, i) => {
-    const p = parameters.tier3[id] as Tier3ParamRow;
+    const p = requireParams<Tier3ParamRow>(parameters.tier3, id, 3);
     const A = s.tier3[i];
     const G = levers.Gs(id, t);
     // dA/dt = (1-A) rho_A (gamma E + G) - A rho_A (1 - gamma E)

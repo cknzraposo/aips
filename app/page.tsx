@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+import SystemDiagram from "@/components/explainer/system-diagram";
+
+const RNZ_URL =
+  "https://www.rnz.co.nz/news/political/595655/nearly-9000-public-sector-jobs-to-go-government-agencies-to-merge-nicola-willis-announces";
+
 const pillars = [
   {
     title: "Comparative, Not Predictive",
@@ -38,7 +43,10 @@ export default function HomePage() {
           </h1>
 
           <p className="max-w-3xl text-lg leading-relaxed text-steel">
-            Compare policy options in a transparent way across New Zealand sectors, with assumptions and caveats visible.
+            Different surveys put New Zealand&apos;s AI use anywhere from 32% to 87%. This
+            sandbox is a transparent way to compare policy options under that uncertainty -
+            same assumptions, same budget, same economy-wide scope - so the tradeoffs stay
+            visible rather than hidden.
           </p>
 
           <div className="grid gap-3 sm:flex sm:items-center">
@@ -109,6 +117,19 @@ export default function HomePage() {
               <span className="font-semibold">What it does not do:</span> provide exact forecasts, exact GDP paths, or definitive rankings.
             </li>
           </ul>
+
+          <SystemDiagram variant="compact" className="mt-6" />
+          <p className="mt-3 text-sm leading-relaxed text-steel">
+            The short version: a shared national capacity underpins every sector; a
+            sector has to be ready before AI use grows, and productivity follows use.{" "}
+            <Link
+              href="/how-it-works"
+              className="font-medium text-ink underline underline-offset-4"
+            >
+              See the full picture in plain English
+            </Link>
+            .
+          </p>
         </article>
       </section>
 
@@ -124,7 +145,7 @@ export default function HomePage() {
         ))}
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-6 pb-16 md:px-10">
+      <section className="mx-auto w-full max-w-6xl px-6 pb-8 md:px-10">
         <div className="rounded-2xl border border-datum/30 bg-datum/10 p-6 md:p-8">
           <p className="eyebrow !text-datum">Primary comparison dimensions</p>
           <ul className="mt-4 grid gap-3 md:grid-cols-2">
@@ -140,6 +161,48 @@ export default function HomePage() {
           <p className="mt-5 text-sm leading-relaxed text-steel">
             Every head-to-head comparison should maintain like-for-like assumptions for budget envelope, horizon, and sector coverage.
           </p>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-6 pb-16 md:px-10">
+        <div className="rounded-2xl border border-ink/15 bg-white/70 p-6 md:p-8">
+          <p className="eyebrow">In the news</p>
+          <h2 className="mt-2 font-display text-2xl text-ink">
+            When productivity is banked before it arrives
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-steel">
+            Policy debates increasingly treat AI as a productivity lever - sometimes
+            counting the dividend in advance. For example, the Government&apos;s May 2026
+            plan to reduce the public-sector workforce by roughly 8,700 roles and merge
+            agencies leaned on AI and digital tools to maintain services with fewer
+            people. The sandbox does not forecast whether such bets pay off; it makes the
+            preconditions visible - productivity rises only as adoption matures, and
+            adoption grows only where a sector is ready. Those figures are the
+            Government&apos;s own announced target, used here as context, not a model
+            output.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <Link
+              href="/how-it-works#why-now"
+              className="font-medium text-ink underline underline-offset-4"
+            >
+              See how the sandbox reads this
+            </Link>
+            <Link
+              href="/evidence"
+              className="font-medium text-steel underline underline-offset-4 hover:text-ink"
+            >
+              Public-sector signal in the evidence index
+            </Link>
+            <a
+              href={RNZ_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-steel underline underline-offset-4 hover:text-ink"
+            >
+              Source: RNZ, 24 May 2026
+            </a>
+          </div>
         </div>
       </section>
     </main>

@@ -55,6 +55,18 @@ for (const id of tier3Ids) {
 
 const scenarios: ReadonlyArray<PolicyScenario> = scenariosParsed.scenarios;
 
+/** O(1) sector lookup by id, shared across model modules. */
+export const SECTOR_BY_ID: ReadonlyMap<string, Sector> = new Map(
+  sectors.map((s) => [s.id, s]),
+);
+
+/** Resolve a sector by id or throw with a descriptive error. */
+export function sectorById(id: string): Sector {
+  const sector = SECTOR_BY_ID.get(id);
+  if (!sector) throw new Error(`Unknown sector id: ${id}`);
+  return sector;
+}
+
 export const CONTENT = Object.freeze({
   version,
   globals,

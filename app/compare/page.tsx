@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 
 import CaveatBanner from "@/components/compare/caveat-banner";
 import ComparabilityWarning from "@/components/compare/comparability-warning";
@@ -25,6 +25,9 @@ const SCENARIO_CHIPS: readonly ScenarioChip[] = CONTENT.scenarios
   .map((s) => ({ id: s.id, name: s.name, description: s.description }));
 
 const SCENARIO_IDS = new Set(SCENARIO_CHIPS.map((s) => s.id));
+
+const SCENARIO_NAME_BY_ID = new Map(CONTENT.scenarios.map((s) => [s.id, s.name]));
+const REFERENCE_NAME = SCENARIO_NAME_BY_ID.get(REFERENCE_ID) ?? "Status quo";
 
 /** Encode the full config into a URL query string. */
 function encodeConfig(c: PolicyLabConfig): string {
@@ -85,6 +88,7 @@ export default function ComparePage() {
   const [staged, setStaged] = useState<PolicyLabConfig>(CALIBRATED_CONFIG);
   const [applied, setApplied] = useState<PolicyLabConfig>(CALIBRATED_CONFIG);
   const [shareLabel, setShareLabel] = useState<string>("Copy share link");
+  const shareTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [, startTransition] = useTransition();
 
   // Hydrate from URL on mount. This is the textbook "read from an external
@@ -115,6 +119,18 @@ export default function ComparePage() {
     );
   }, [applied, validation.comparable]);
 
+  const appliedScenarioNames = applied.selectedScenarioIds.map(
+    (id) => SCENARIO_NAME_BY_ID.get(id) ?? id,
+  );
+  const appliedScenarioSummary =
+    appliedScenarioNames.length === 0
+      ? "no scenarios selected"
+      : appliedScenarioNames.length === 1
+        ? appliedScenarioNames[0]
+        : `${appliedScenarioNames.slice(0, -1).join(", ")} and ${
+            appliedScenarioNames[appliedScenarioNames.length - 1]
+          }`;
+
   const handleRun = () => {
     startTransition(() => {
       setApplied(staged);
@@ -144,8 +160,17 @@ export default function ComparePage() {
     } catch {
       setShareLabel("Copy failed - select URL bar");
     }
-    setTimeout(() => setShareLabel("Copy share link"), 2000);
+    if (shareTimer.current) clearTimeout(shareTimer.current);
+    shareTimer.current = setTimeout(() => setShareLabel("Copy share link"), 2000);
   };
+
+  // Clear any pending share-label reset on unmount.
+  useEffect(
+    () => () => {
+      if (shareTimer.current) clearTimeout(shareTimer.current);
+    },
+    [],
+  );
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-10 md:px-10 md:py-14">
@@ -168,11 +193,22 @@ export default function ComparePage() {
         today&apos;s values forward unchanged.
       </p>
 
+      <p className="mt-4 rounded-xl border border-ink/15 bg-white/60 px-4 py-3 text-sm text-ink">
+        <span className="font-semibold">Now showing:</span>{" "}
+        {appliedScenarioSummary} vs {REFERENCE_NAME.toLowerCase()}, NZ$
+        {applied.budgetEnvelope}M over {applied.horizonYears}
+        {" "}years.{" "}
+        <a href="#results" className="font-medium text-ink underline underline-offset-4">
+          Jump to results &darr;
+        </a>
+      </p>
+
       <CaveatBanner />
 
       <section className="mt-6">
         <PolicyLabPanel
           scenarios={SCENARIO_CHIPS}
+          referenceName={REFERENCE_NAME}
           staged={staged}
           applied={applied}
           onChange={setStaged}
@@ -187,6 +223,7 @@ export default function ComparePage() {
         <ComparabilityWarning messages={validation.messages} />
       </section>
 
+      <div id="results" className="scroll-mt-24">
       {comparison ? (
         <>
           <section className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -227,7 +264,18 @@ export default function ComparePage() {
             ))}
           </section>
         </>
-      ) : null}
+      ) : (
+        <section className="surface-card mt-6 p-6 text-sm text-steel">
+          <h2 className="font-display text-2xl text-ink">No comparable run yet</h2>
+          <p className="mt-2">
+            The current selections cannot be compared like-for-like. Resolve the
+            point(s) flagged above - typically by selecting at least one scenario
+            and keeping the shared budget and horizon - then the charts and
+            scenario cards will appear here.
+          </p>
+        </section>
+      )}
+      </div>
 
       <section className="surface-card mt-6 p-6 text-sm text-steel">
         <h2 className="font-display text-2xl text-ink">How to read these cards</h2>

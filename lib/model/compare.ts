@@ -1,6 +1,6 @@
 // Compare module: run multiple scenarios + status-quo, emit qualitative deltas.
 
-import { CONTENT } from "./content";
+import { CONTENT, sectorById } from "./content";
 import { runScenario, type RunOverrides, type Trajectory } from "./engine";
 import type { PolicyScenario } from "./schemas";
 
@@ -102,17 +102,15 @@ export const OUTCOME_DIMENSIONS = [
 function aggregatePBar(traj: Trajectory, snapshotIdx: number): number {
   let total = 0;
   CONTENT.tier1Ids.forEach((id, i) => {
-    const w = CONTENT.sectors.find((s) => s.id === id)!.gdpWeight;
-    total += w * traj.tier1[i].P[snapshotIdx];
+    total += sectorById(id).gdpWeight * traj.tier1[i].P[snapshotIdx];
   });
   CONTENT.tier2Ids.forEach((id, i) => {
-    const w = CONTENT.sectors.find((s) => s.id === id)!.gdpWeight;
-    total += w * traj.tier2[i].P[snapshotIdx];
+    total += sectorById(id).gdpWeight * traj.tier2[i].P[snapshotIdx];
   });
   CONTENT.tier3Ids.forEach((id, i) => {
-    const w = CONTENT.sectors.find((s) => s.id === id)!.gdpWeight;
+    // Tier 3 has no explicit P state; psi * A is its productivity proxy.
     const psi = CONTENT.parameters.tier3[id].psi;
-    total += w * psi * traj.tier3[i].A[snapshotIdx];
+    total += sectorById(id).gdpWeight * psi * traj.tier3[i].A[snapshotIdx];
   });
   return total;
 }
@@ -133,12 +131,8 @@ function adoptionSpread(traj: Trajectory, snapshotIdx: number): number {
 function labourPressureIntegral(traj: Trajectory): number {
   const n = traj.times.length;
   // Pre-compute weights and Tier 2 phi.
-  const weightsT1 = CONTENT.tier1Ids.map(
-    (id) => CONTENT.sectors.find((s) => s.id === id)!.gdpWeight,
-  );
-  const weightsT2 = CONTENT.tier2Ids.map(
-    (id) => CONTENT.sectors.find((s) => s.id === id)!.gdpWeight,
-  );
+  const weightsT1 = CONTENT.tier1Ids.map((id) => sectorById(id).gdpWeight);
+  const weightsT2 = CONTENT.tier2Ids.map((id) => sectorById(id).gdpWeight);
   const phiT2 = CONTENT.tier2Ids.map((id) => CONTENT.parameters.tier2[id].phi);
 
   const lAt = (idx: number): number => {
@@ -164,7 +158,7 @@ function labourPressureIntegral(traj: Trajectory): number {
 function buildAdoptionAtHorizon(traj: Trajectory): SectorAdoptionPoint[] {
   const lastIdx = traj.times.length - 1;
   const points: SectorAdoptionPoint[] = [];
-  const meta = (id: string) => CONTENT.sectors.find((s) => s.id === id)!;
+  const meta = (id: string) => sectorById(id);
   CONTENT.tier1Ids.forEach((id, i) => {
     const m = meta(id);
     points.push({
@@ -233,7 +227,6 @@ function buildDelta(
 function computeOutcomes(
   traj: Trajectory,
   reference: Trajectory | null,
-  horizonYears: number,
 ): OutcomeDelta[] {
   const lastIdx = traj.times.length - 1;
   const refIdx = reference ? reference.times.length - 1 : lastIdx;
@@ -242,8 +235,6 @@ function computeOutcomes(
   const refSpread = reference ? adoptionSpread(reference, refIdx) : adoptionSpread(traj, lastIdx);
   const refLabour = reference ? labourPressureIntegral(reference) : labourPressureIntegral(traj);
   const refE = reference ? reference.E[refIdx] : traj.E[lastIdx];
-
-  void horizonYears;
 
   return [
     buildDelta(OUTCOME_DIMENSIONS[0], refPbar, aggregatePBar(traj, lastIdx)),
@@ -299,10 +290,12 @@ export function runComparison(
   for (const s of scenarios)
     trajectories.set(s.id, runScenario(apply(s), horizonYears, overrides));
 
-  const reference = trajectories.get(referenceId)!;
+  const reference = trajectories.get(referenceId);
+  if (!reference) throw new Error("Reference trajectory missing after run");
 
   const scenarioOutcomes: ScenarioOutcomes[] = scenarios.map((s) => {
-    const traj = trajectories.get(s.id)!;
+    const traj = trajectories.get(s.id);
+    if (!traj) throw new Error(`Trajectory missing for scenario ${s.id}`);
     return {
       scenarioId: s.id,
       scenarioName: s.name,
@@ -310,7 +303,6 @@ export function runComparison(
       outcomes: computeOutcomes(
         traj,
         s.id === referenceId ? null : reference,
-        horizonYears,
       ),
       series: {
         pBar: traj.times.map((t, i) => ({ t, value: aggregatePBar(traj, i) })),
