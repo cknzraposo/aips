@@ -1,5 +1,14 @@
 import type { RunOverrides } from "./engine";
 
+/** Keys of the rate-multiplier override block, used for typed iteration. */
+type RateMultiplierKey = keyof NonNullable<RunOverrides["rateMultipliers"]>;
+const RATE_MULTIPLIER_KEYS: readonly RateMultiplierKey[] = [
+  "adoption",
+  "capability",
+  "productivity",
+  "labour",
+];
+
 export type ComparisonInput = {
   selectedScenarioIds: string[];
   budgetEnvelope: number;
@@ -58,15 +67,15 @@ export function validateComparison(input: ComparisonInput): ComparisonValidation
     }
 
     const m = o.rateMultipliers;
-    const labels: Record<string, string> = {
+    const labels: Record<RateMultiplierKey, string> = {
       adoption: "Adoption speed",
       capability: "Capability building",
       productivity: "Productivity sensitivity",
       labour: "Labour pressure sensitivity",
     };
     if (m) {
-      for (const key of Object.keys(labels)) {
-        const v = (m as Record<string, number | undefined>)[key];
+      for (const key of RATE_MULTIPLIER_KEYS) {
+        const v = m[key];
         if (v === undefined) continue;
         if (
           v < OVERRIDE_BOUNDS.rateMultiplier.min ||

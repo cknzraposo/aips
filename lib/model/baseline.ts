@@ -27,16 +27,24 @@ function lookupA0AndEvidence(sector: (typeof CONTENT.sectors)[number]): {
   confidence: Confidence;
   notes?: string;
 } {
-  if (sector.tier === 1) {
-    const row = CONTENT.parameters.tier1[sector.id];
-    return { A0: row.A0, evidenceClass: row.evidenceClass, confidence: row.confidence, notes: row.notes };
+  const table =
+    sector.tier === 1
+      ? CONTENT.parameters.tier1
+      : sector.tier === 2
+        ? CONTENT.parameters.tier2
+        : CONTENT.parameters.tier3;
+  const row = table[sector.id];
+  if (!row) {
+    throw new Error(
+      `Missing tier${sector.tier} parameters for sector ${sector.id}`,
+    );
   }
-  if (sector.tier === 2) {
-    const row = CONTENT.parameters.tier2[sector.id];
-    return { A0: row.A0, evidenceClass: row.evidenceClass, confidence: row.confidence, notes: row.notes };
-  }
-  const row = CONTENT.parameters.tier3[sector.id];
-  return { A0: row.A0, evidenceClass: row.evidenceClass, confidence: row.confidence, notes: row.notes };
+  return {
+    A0: row.A0,
+    evidenceClass: row.evidenceClass,
+    confidence: row.confidence,
+    notes: row.notes,
+  };
 }
 
 export function buildBaselineSnapshot(): BaselineSnapshot {

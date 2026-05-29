@@ -1,17 +1,19 @@
 "use client";
 
 import ChartIntro from "@/components/charts/chart-intro";
+import ChartLegend from "@/components/ui/chart-legend";
 import type { ScenarioOutcomes } from "@/lib/model/compare";
+import {
+  AXIS_COLOUR,
+  GRIDLINE_COLOUR,
+  MUTED_COLOUR,
+  SCENARIO_NON_REFERENCE,
+  TIER_COLOURS,
+} from "@/lib/ui/theme";
 
 type Props = {
   scenarios: ReadonlyArray<ScenarioOutcomes>;
   horizonYears: number;
-};
-
-const TIER_COLOUR: Record<1 | 2 | 3, string> = {
-  1: "#0f172a",
-  2: "#0891b2",
-  3: "#94a3b8",
 };
 
 const WIDTH = 560;
@@ -43,7 +45,9 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
       <svg
         viewBox={`0 0 ${WIDTH} ${height}`}
         role="img"
-        aria-label="Adoption per sector at the horizon"
+        aria-label={`Adoption per sector at year ${horizonYears} for ${scenarios
+          .map((s) => s.scenarioName)
+          .join(", ")}`}
         className="block h-auto w-full"
       >
         <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
@@ -55,7 +59,7 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
                 x2={xScale(v)}
                 y1={0}
                 y2={innerH}
-                stroke="#e2e8f0"
+                stroke={GRIDLINE_COLOUR}
                 strokeWidth={1}
               />
               <text
@@ -80,7 +84,7 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
                   y={(ROW_HEIGHT - barH) / 2}
                   width={4}
                   height={barH}
-                  fill={TIER_COLOUR[sector.tier]}
+                  fill={TIER_COLOURS[sector.tier]}
                 />
                 {/* sector label */}
                 <text
@@ -98,8 +102,10 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
                   const value = s.series.adoptionAtHorizon[rowIdx].A;
                   const colour =
                     sIdx === 0 || s.isReference
-                      ? "#94a3b8"
-                      : ["#0891b2", "#ea580c", "#7c3aed", "#16a34a"][(sIdx - 1) % 4];
+                      ? MUTED_COLOUR
+                      : SCENARIO_NON_REFERENCE[
+                          (sIdx - 1) % SCENARIO_NON_REFERENCE.length
+                        ];
                   return (
                     <rect
                       key={`${s.scenarioId}-${sector.sectorId}`}
@@ -119,30 +125,17 @@ export default function SectorAdoptionChart({ scenarios, horizonYears }: Props) 
           })}
 
           {/* baseline axis */}
-          <line x1={0} x2={0} y1={0} y2={innerH} stroke="#0f172a" strokeWidth={1.2} />
+          <line x1={0} x2={0} y1={0} y2={innerH} stroke={AXIS_COLOUR} strokeWidth={1.2} />
         </g>
       </svg>
 
-      <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-steel">
-        <li className="flex items-center gap-1.5">
-          <svg aria-hidden width={8} height={8} className="inline-block">
-            <rect width={8} height={8} rx={1.5} fill={TIER_COLOUR[1]} />
-          </svg>
-          Tier 1 (full state)
-        </li>
-        <li className="flex items-center gap-1.5">
-          <svg aria-hidden width={8} height={8} className="inline-block">
-            <rect width={8} height={8} rx={1.5} fill={TIER_COLOUR[2]} />
-          </svg>
-          Tier 2 (reduced)
-        </li>
-        <li className="flex items-center gap-1.5">
-          <svg aria-hidden width={8} height={8} className="inline-block">
-            <rect width={8} height={8} rx={1.5} fill={TIER_COLOUR[3]} />
-          </svg>
-          Tier 3 (adoption only)
-        </li>
-      </ul>
+      <ChartLegend
+        items={[
+          { id: "t1", colour: TIER_COLOURS[1], label: "Tier 1 (full state)" },
+          { id: "t2", colour: TIER_COLOURS[2], label: "Tier 2 (reduced)" },
+          { id: "t3", colour: TIER_COLOURS[3], label: "Tier 3 (adoption only)" },
+        ]}
+      />
     </figure>
   );
 }

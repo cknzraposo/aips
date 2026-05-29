@@ -30,8 +30,16 @@ export default function RootLayout({
   return (
     <html lang="en-NZ">
       <body className={`${bodySans.variable} ${displaySerif.variable}`}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:border focus:border-ink/20 focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-ink focus:shadow-sm"
+        >
+          Skip to main content
+        </a>
         <SiteHeader />
-        {children}
+        <div id="main-content" tabIndex={-1} className="outline-none">
+          {children}
+        </div>
         <SiteFooter />
       </body>
     </html>

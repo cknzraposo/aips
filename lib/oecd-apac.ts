@@ -13,8 +13,9 @@
  * Observatory country dashboards when adding a new content version.
  */
 
-export type EvidenceClass = "observed" | "derived" | "expert" | "placeholder";
-export type Confidence = "low" | "medium" | "high";
+import type { Confidence, EvidenceClass } from "./model/schemas";
+
+export type { Confidence, EvidenceClass } from "./model/schemas";
 
 export interface OECDApacRow {
   /** ISO 3166-1 alpha-2 code. */

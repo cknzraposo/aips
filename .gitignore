@@ -27,6 +27,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
 # Local environment overrides
 .env.local
 .env.development.local

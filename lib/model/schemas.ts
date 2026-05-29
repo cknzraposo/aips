@@ -20,8 +20,11 @@ export const EvidenceRecord = z.object({
 });
 export type EvidenceRecord = z.infer<typeof EvidenceRecord>;
 
+// Rate constants are bounded gain-loss coefficients and stocks in [0, 10].
+// The generous upper bound catches calibration typos (e.g. 30 instead of 0.30)
+// while leaving headroom above the current v0.3 values (all <= 1).
 const Rate = z
-  .object({ value: z.number().nonnegative() })
+  .object({ value: z.number().nonnegative().max(10) })
   .and(EvidenceRecord);
 
 export const GlobalParams = z.object({
