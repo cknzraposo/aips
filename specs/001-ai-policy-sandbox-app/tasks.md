@@ -11,15 +11,15 @@
 
 **Purpose**: Create the Next.js + TypeScript + Tailwind/shadcn project foundation for the showcase app.
 
-- [ ] T001 Create Next.js package manifest with scripts and dependencies in package.json
-- [ ] T002 Create TypeScript configuration for the app in tsconfig.json
-- [ ] T003 Create Next.js configuration for static-friendly deployment in next.config.ts
-- [ ] T004 [P] Configure Tailwind CSS theme and content paths in tailwind.config.ts
-- [ ] T005 [P] Create global stylesheet with Tailwind layers and base tokens in app/globals.css
-- [ ] T006 [P] Configure linting for TypeScript and React in eslint.config.mjs
+- [x] T001 Create Next.js package manifest with scripts and dependencies in package.json
+- [x] T002 Create TypeScript configuration for the app in tsconfig.json
+- [x] T003 Create Next.js configuration for static-friendly deployment in next.config.ts (implemented as `next.config.mjs`)
+- [x] T004 [P] Configure Tailwind CSS theme and content paths in tailwind.config.ts
+- [x] T005 [P] Create global stylesheet with Tailwind layers and base tokens in app/globals.css
+- [x] T006 [P] Configure linting for TypeScript and React in eslint.config.mjs
 - [ ] T007 [P] Configure Vitest unit test environment in vitest.config.ts
 - [ ] T008 [P] Configure Playwright end-to-end test project in playwright.config.ts
-- [ ] T009 Create root app layout and metadata shell in app/layout.tsx
+- [x] T009 Create root app layout and metadata shell in app/layout.tsx
 
 ---
 
@@ -27,30 +27,32 @@
 
 **Purpose**: Establish data contracts, repo-backed content loading, shared UI primitives, and model utilities required by all user stories.
 
+> Note: implementation shipped JSON content files under `content/*.json` instead of the originally planned YAML paths.
+
 **Critical**: No user story work can begin until this phase is complete.
 
-- [ ] T010 Create shared TypeScript domain types in lib/schemas/types.ts
-- [ ] T011 [P] Implement Published Content Version Zod schema in lib/schemas/published-content.ts
-- [ ] T012 [P] Implement Policy Scenario Zod schema in lib/schemas/policy-scenario.ts
-- [ ] T013 [P] Implement Sector Zod schema with 19-sector aggregate coverage validation in lib/schemas/sector.ts
-- [ ] T014 [P] Implement Evidence Record Zod schema in lib/schemas/evidence-record.ts
-- [ ] T015 [P] Implement Approved Control Zod schema in lib/schemas/approved-control.ts
-- [ ] T016 [P] Implement Static Summary Export Zod schema in lib/schemas/static-summary-export.ts
-- [ ] T017 Implement repo-backed content loader and validation pipeline in lib/content/load-content.ts
-- [ ] T018 Create initial reviewed content version record in content/versions/2026-05-03-showcase.json
-- [ ] T019 [P] Create initial scenario archetype content in content/scenarios/showcase-scenarios.yaml
-- [ ] T020 [P] Create initial 19-sector tiered content in content/sectors/anzsic-sectors.yaml
-- [ ] T021 [P] Create initial evidence records for showcase assumptions in content/evidence/showcase-evidence.yaml
-- [ ] T022 [P] Create approved public controls content in content/controls/showcase-controls.yaml
-- [ ] T023 Implement comparison state helpers for browser-session-only state in lib/state/comparison-state.ts
-- [ ] T024 Implement core tradeoff calculation helpers using approved controls in lib/model/compare-scenarios.ts
-- [ ] T025 Implement comparability validation for budget, horizon, sector coverage, and scenario assumptions in lib/model/validate-comparison.ts
-- [ ] T026 Create shared non-forecast caveat text utilities in lib/content/caveats.ts
+- [x] T010 Create shared TypeScript domain types in lib/schemas/types.ts (consolidated in `lib/model/schemas.ts`)
+- [x] T011 [P] Implement Published Content Version Zod schema in lib/schemas/published-content.ts (implemented in `lib/model/schemas.ts`)
+- [x] T012 [P] Implement Policy Scenario Zod schema in lib/schemas/policy-scenario.ts (implemented in `lib/model/schemas.ts`)
+- [x] T013 [P] Implement Sector Zod schema with 19-sector aggregate coverage validation in lib/schemas/sector.ts (schema in `lib/model/schemas.ts`, coverage checks in `lib/model/content.ts`)
+- [x] T014 [P] Implement Evidence Record Zod schema in lib/schemas/evidence-record.ts (implemented in `lib/model/schemas.ts`)
+- [ ] T015 [P] Implement Approved Control Zod schema in lib/schemas/approved-control.ts (left: dedicated approved-control schema/module)
+- [ ] T016 [P] Implement Static Summary Export Zod schema in lib/schemas/static-summary-export.ts (left: static export schema/module)
+- [ ] T017 Implement repo-backed content loader and validation pipeline in lib/content/load-content.ts (partially covered by `lib/model/content.ts` for JSON parse + validation)
+- [x] T018 Create initial reviewed content version record in content/versions/2026-05-03-showcase.json (implemented as `content/version.json`)
+- [x] T019 [P] Create initial scenario archetype content in content/scenarios/showcase-scenarios.yaml (implemented as `content/scenarios.json`)
+- [x] T020 [P] Create initial 19-sector tiered content in content/sectors/anzsic-sectors.yaml (implemented as `content/sectors.json`)
+- [ ] T021 [P] Create initial evidence records for showcase assumptions in content/evidence/showcase-evidence.yaml (left: dedicated evidence registry file)
+- [ ] T022 [P] Create approved public controls content in content/controls/showcase-controls.yaml (left: dedicated controls content file)
+- [ ] T023 Implement comparison state helpers for browser-session-only state in lib/state/comparison-state.ts (state exists in `app/compare/page.tsx`, left: shared state helper module)
+- [x] T024 Implement core tradeoff calculation helpers using approved controls in lib/model/compare-scenarios.ts (implemented in `lib/model/compare.ts`)
+- [x] T025 Implement comparability validation for budget, horizon, sector coverage, and scenario assumptions in lib/model/validate-comparison.ts
+- [ ] T026 Create shared non-forecast caveat text utilities in lib/content/caveats.ts (caveat text currently lives in `components/compare/caveat-banner.tsx`)
 - [ ] T027 Create shadcn-compatible base UI components in components/ui/button.tsx
 - [ ] T028 [P] Create shadcn-compatible card component in components/ui/card.tsx
 - [ ] T029 [P] Create shadcn-compatible tabs component in components/ui/tabs.tsx
-- [ ] T030 [P] Create shadcn-compatible slider component in components/ui/slider.tsx
-- [ ] T031 [P] Create responsive app navigation shell in components/layout/app-shell.tsx
+- [x] T030 [P] Create shadcn-compatible slider component in components/ui/slider.tsx
+- [ ] T031 [P] Create responsive app navigation shell in components/layout/app-shell.tsx (header/footer exist, left: `app-shell.tsx` wrapper)
 
 **Checkpoint**: Content contracts, validation, shared UI, and model helpers are ready for story implementation.
 
@@ -64,16 +66,16 @@
 
 ### Implementation for User Story 1
 
-- [ ] T032 [P] [US1] Create public landing page that routes users into the sandbox in app/page.tsx
-- [ ] T033 [P] [US1] Create scenario selection component in components/compare/scenario-selector.tsx
-- [ ] T034 [P] [US1] Create budget and time horizon controls in components/compare/budget-horizon-controls.tsx
-- [ ] T035 [P] [US1] Create approved uncertainty range controls in components/compare/uncertainty-controls.tsx
-- [ ] T036 [US1] Implement comparison workspace page using session-only state in app/compare/page.tsx
-- [ ] T037 [P] [US1] Create tradeoff summary panel in components/compare/tradeoff-summary.tsx
-- [ ] T038 [P] [US1] Create ECharts tradeoff chart component in components/charts/tradeoff-chart.tsx
-- [ ] T039 [P] [US1] Create comparability warning component in components/compare/comparability-warning.tsx
-- [ ] T040 [US1] Integrate non-forecast framing and caveat text in components/compare/tradeoff-summary.tsx
-- [ ] T041 [US1] Ensure public controls cannot mutate authoritative content in lib/state/comparison-state.ts
+- [x] T032 [P] [US1] Create public landing page that routes users into the sandbox in app/page.tsx
+- [ ] T033 [P] [US1] Create scenario selection component in components/compare/scenario-selector.tsx (implemented inside `policy-lab-panel.tsx`, left: split into dedicated component)
+- [ ] T034 [P] [US1] Create budget and time horizon controls in components/compare/budget-horizon-controls.tsx (implemented inside `policy-lab-panel.tsx`, left: split into dedicated component)
+- [ ] T035 [P] [US1] Create approved uncertainty range controls in components/compare/uncertainty-controls.tsx (implemented inside `policy-lab-panel.tsx`, left: split into dedicated component)
+- [x] T036 [US1] Implement comparison workspace page using session-only state in app/compare/page.tsx
+- [ ] T037 [P] [US1] Create tradeoff summary panel in components/compare/tradeoff-summary.tsx (similar card output in `scenario-results-card.tsx`, left: dedicated summary component)
+- [ ] T038 [P] [US1] Create ECharts tradeoff chart component in components/charts/tradeoff-chart.tsx (left: migrate current custom SVG charts to ECharts tradeoff chart)
+- [x] T039 [P] [US1] Create comparability warning component in components/compare/comparability-warning.tsx
+- [ ] T040 [US1] Integrate non-forecast framing and caveat text in components/compare/tradeoff-summary.tsx (framing exists via `caveat-banner.tsx`, left: integrate in dedicated summary component)
+- [ ] T041 [US1] Ensure public controls cannot mutate authoritative content in lib/state/comparison-state.ts (behaviour appears in page-level state flow, left: move/enforce in shared `comparison-state.ts`)
 
 **Checkpoint**: User Story 1 is independently functional as the MVP comparison workspace.
 
@@ -91,10 +93,10 @@
 - [ ] T043 [P] [US2] Create evidence badge component for observed, derived, expert, placeholder, and assumed classes in components/evidence/evidence-badge.tsx
 - [ ] T044 [P] [US2] Create evidence detail drawer in components/evidence/evidence-detail-drawer.tsx
 - [ ] T045 [US2] Add sector and evidence drill-down interactions to app/compare/page.tsx
-- [ ] T046 [P] [US2] Create evidence index page in app/evidence/page.tsx
-- [ ] T047 [P] [US2] Implement published content version display in components/evidence/content-version-banner.tsx
+- [x] T046 [P] [US2] Create evidence index page in app/evidence/page.tsx
+- [ ] T047 [P] [US2] Implement published content version display in components/evidence/content-version-banner.tsx (version is currently shown in `components/compare/caveat-banner.tsx`)
 - [ ] T048 [US2] Surface weak, placeholder, assumed, and low-confidence evidence caveats in components/evidence/evidence-detail-drawer.tsx
-- [ ] T049 [US2] Enforce last-published reviewed content behaviour in lib/content/load-content.ts
+- [ ] T049 [US2] Enforce last-published reviewed content behaviour in lib/content/load-content.ts (left: explicit reviewed publication pipeline)
 
 **Checkpoint**: User Story 2 is independently verifiable through sector and evidence inspection.
 
@@ -115,7 +117,7 @@
 - [ ] T054 [P] [US3] Create export summary button and status UI in components/compare/export-summary-button.tsx
 - [ ] T055 [US3] Integrate static summary export into comparison workspace in app/compare/page.tsx
 - [ ] T056 [US3] Validate exported summary content with Zod in lib/export/static-summary.ts
-- [ ] T057 [US3] Confirm browser-session-only reset behaviour in lib/state/comparison-state.ts
+- [ ] T057 [US3] Confirm browser-session-only reset behaviour in lib/state/comparison-state.ts (state reset exists in page local state, left: shared module-level confirmation)
 
 **Checkpoint**: User Story 3 is independently verifiable through sensitivity exploration and static export.
 
@@ -125,17 +127,17 @@
 
 **Purpose**: Validate end-to-end quality, documentation, accessibility, and deployment readiness across all stories.
 
-- [ ] T058 [P] Create methodology page explaining sandbox framing and limits in app/methodology/page.tsx
+- [x] T058 [P] Create methodology page explaining sandbox framing and limits in app/methodology/page.tsx
 - [ ] T059 [P] Add quickstart usage notes for public showcase users in README.md
 - [ ] T060 [P] Add content authoring guidance for analysts in docs/showcase-content-workflow.md
 - [ ] T061 Create unit coverage for schemas and model utilities in tests/unit/model-and-schema.test.ts
 - [ ] T062 Create contract validation coverage for repo-backed content in tests/contract/content-contracts.test.ts
 - [ ] T063 Create Playwright flow covering comparison, evidence inspection, export, and session-only reset in tests/e2e/public-sandbox.spec.ts
 - [ ] T064 Run quickstart validation commands and record gaps in specs/001-ai-policy-sandbox-app/quickstart.md
-- [ ] T065 Run build validation for the Next.js app using package.json scripts
-- [ ] T066 Audit UI copy for non-forecast framing and NZ English in app/compare/page.tsx
-- [ ] T067 Audit responsive layout and chart readability in components/charts/tradeoff-chart.tsx
-- [ ] T068 Run TypeScript strict type-safety validation for policy-critical paths using package.json scripts
+- [x] T065 Run build validation for the Next.js app using package.json scripts
+- [x] T066 Audit UI copy for non-forecast framing and NZ English in app/compare/page.tsx
+- [ ] T067 Audit responsive layout and chart readability in components/charts/tradeoff-chart.tsx (left: formal audit evidence and ECharts component)
+- [x] T068 Run TypeScript strict type-safety validation for policy-critical paths using package.json scripts
 - [ ] T069 Validate public performance goals for first view, comparison update, and static export in tests/e2e/public-sandbox.spec.ts using Playwright desktop and mobile profiles with documented network and CPU throttling assumptions
 - [ ] T070 Audit UX uniformity for navigation, controls, caveats, and responsive accessibility across app/ and components/
 
