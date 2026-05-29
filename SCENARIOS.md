@@ -35,6 +35,8 @@ Scenarios represent structural shapes of policy (who is targeted, what lever is 
 ### Rule 2 - Same budget envelope
 Scenarios compared head-to-head use the same aggregate fiscal cost envelope, scaled appropriately. A targeted scenario that spends five times more than the aggregate scenario is not a fair comparison; it is an argument for larger budgets.
 
+**Budget 2026 calibration note (NZ):** where scenario design depends on public fiscal context, apply the same-envelope rule using both operating and capital envelopes rather than a single blended number. Budget 2026 confirms a tighter operating allowance (NZ$2.1B) and a looser capital allowance (NZ$5.7B net new / NZ$7B gross). Operating-side levers (programme spend, public-sector enabling support) should be compared within the operating envelope; capital-embedded digital levers should be compared within the capital envelope.
+
 ### Rule 3 - Levers map to state variables, not outputs
 Policy levers act on inputs to the model: capability \(K_s\), adoption friction, enabling capacity \(E\), labour adjustment \(L_s\). They do not prescribe productivity \(P_s\) or labour pressure outcomes directly. Outcomes emerge from the dynamics.
 
@@ -189,6 +191,39 @@ The initial comparison set runs nine configurations:
 Runs 8 and 9 combine demand-side and supply-side targeting at half-intensity each, under the same total fiscal envelope. This tests whether hybrid targeting outperforms pure targeting.
 
 Every run is repeated across the Monte Carlo parameter ensemble defined in the uncertainty quantification plan (to be drafted).
+
+### 6.1 Budget 2026 live stress-test add-on (issue #10 follow-up)
+
+**Scenario name:** Aggregate-policy with Public Administration FTE reduction (Budget 2026 live test)
+
+**Premise.** Government announces a NZ$2.4B savings envelope with an 8,700 FTE reduction in Public Administration over ~3.5 years (Dec 2025 to Jul 2029), with increased use of AI and other digital tools as the assumed substitute. This can be modelled as a real-world stress test of Archetype A under Rule 2's same-envelope discipline.
+
+**Inputs.**
+- Public Administration FTE step shock: -8,700 over t=0 to t=3.5 (linear or front-loaded schedule).
+- Public-sector enabling-capacity uplift assumption (E) varied by sub-scenario.
+- Same-budget envelope: NZ$2.4B operating savings/reallocation envelope.
+
+**Three productivity sub-scenarios.**
+
+| Variant | AI productivity gain per remaining FTE per year | Source posture |
+|---|---|---|
+| Singapore-class (optimistic) | +3% to +5% | Government's implicit framing (Singapore/Malaysia exemplars cited) |
+| Middling | +1% to +2% | OECD-style median public-sector AI gain assumption |
+| Hipkins-class (sceptical) | 0% to +0.5% | Counter-claim that cuts of this scale cannot avoid service pressure |
+
+**Outputs to compare.**
+- Service delivery proxy (workload absorbed / workload baseline) at t=3.5, t=7, t=10.
+- Public Administration \(K_s\) trajectory versus no-cut counterfactual.
+- Consistency check between required productivity assumptions and sector \(E\) growth assumptions.
+
+**Comparison runs (same envelope, Rule 2).**
+- Targeted Public Sector enabling-capacity uplift (same NZ$2.4B envelope, allocated to \(E\)).
+- Aggregate Investment Boost extension (same-envelope comparator in aggregate mode).
+- Hybrid split (50/50).
+
+**Provenance notes.**
+- `~/.openclaw/workspace-aips/research/external-signals/2026-05-24-public-sector-cuts-and-ai-substitution.md`
+- `~/.openclaw/workspace-aips/research/external-signals/2026-05-29-budget-2026-reconciliation.md`
 
 ---
 

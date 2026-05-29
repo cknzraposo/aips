@@ -1,0 +1,53 @@
+id: S04.T1
+sector:
+  id: S04
+  name: Public Sector
+  tier: 1
+  anzsic_code: O
+parameter:
+  code: T1
+  group: "Trajectory anchors"
+  state_variable: "L_s"
+  name: "Public Administration FTE trajectory anchor (Dec 2025 to Jul 2029)"
+  description: >
+    Calibration anchor for Public Administration labour adjustment in Budget 2026 follow-up work.
+    Anchors the observed policy target path from Dec 2025 baseline to Jul 2029 target,
+    used for stress-test scenario setup rather than as a structural forecast.
+  unit: "FTE and implied annual FTE change"
+  required_for_v1: false
+value:
+  current: -2500
+  range:
+    low: -2200
+    high: -2800
+    type: "plausible_range"
+status: filled
+evidence_class: derived
+confidence: medium
+method: >
+  Derived linear annualised change from announced trajectory: 63,657 Public Administration FTE
+  (Dec 2025) to 55,000 (Jul 2029), equivalent to -8,657 over ~3.5 years and an implied
+  average change of approximately -2,500 FTE per year.
+sources:
+  primary:
+    id: src.signal.pubcuts.2026-05-24
+    citation: "Public sector cuts + AI substitution (Willis announcement, 24 May 2026)"
+    url: "~/.openclaw/workspace-aips/research/external-signals/2026-05-24-public-sector-cuts-and-ai-substitution.md"
+    accessed: "2026-05-29"
+  secondary:
+    - id: src.signal.reconcile.2026-05-29
+      citation: "Public sector cuts + AI substitution - Budget 2026 reconciliation"
+      url: "~/.openclaw/workspace-aips/research/external-signals/2026-05-29-budget-2026-reconciliation.md"
+      accessed: "2026-05-29"
+history:
+  - date: "2026-05-29"
+    value: -2500
+    note: "Initial trajectory anchor added from Budget 2026 public-sector substitution signal reconciliation."
+    author: "codewright"
+dependencies: []
+used_by:
+  - equation: "scenario.pub_admin_fte_budget2026"
+    role: "trajectory_anchor"
+notes: >
+  Anchor is intentionally policy-target-based and should be refreshed as PSC/GCDO telemetry
+  updates are published through the Jul 2029 horizon.
