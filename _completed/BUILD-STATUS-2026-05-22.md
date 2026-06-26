@@ -126,14 +126,14 @@ Supporting components:
 
 ## Known issues and deferred work
 
-**Open issue**
+### Open issue
 
 - v0.3 LaTeX note states Tier 1 omega sum = 0.506 but the published table values sum to 0.601 (full 19-sector table sums to 0.9997, accepted within tolerance and renormalised). The remark text in [src/equations/model-equations-v0.3.tex](../src/equations/model-equations-v0.3.tex) needs reconciliation or a methodology note. Engine behaviour is correct.
 
-**Deferred (not started)**
+### Deferred and in-progress follow-up
 
-- URL state sharing on `/compare` (serialise selectedIds, budgetEnvelope, horizonYears into search params for shareable runs).
-- Vitest engine tests: bounded-state invariants, determinism, qualitative ordering across the 9 SCENARIOS.md runs, content coverage assertions.
+- URL state sharing on `/compare` is now implemented (query-string encode/decode plus share-link copy in [app/compare/page.tsx](../app/compare/page.tsx)).
+- Vitest and Playwright suites are now configured with baseline coverage in `tests/unit` and `tests/e2e`; remaining work is deeper scenario-ordering and export/session-reset coverage.
 - Sensitivity nudge (+/-25% one-at-a-time parameter sweep with small inspector UI).
 - Static JSON export implementing the `StaticSummaryExport` contract in [specs/001-ai-policy-sandbox-app/contracts/data-contracts.md](../specs/001-ai-policy-sandbox-app/contracts/data-contracts.md).
 - Tier ribbon visualisation (compact 19-sector strip showing tier membership and current adoption).

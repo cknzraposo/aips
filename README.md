@@ -132,9 +132,9 @@ The primary reference architecture is adapted from [Strauss (ai-web-economy-simu
 - named policy scenarios
 - mathematical specification before code
 
-The adaptation replaces the two-population platform/creator model with a **19-sector tiered economy** where each sector block has interpretable state variables for adoption, absorptive capacity, productivity effect, and labour pressure.
+The adaptation replaces the two-population platform/creator model with a **19-sector tiered economy** where each sector block has interpretable state variables for adoption, absorptive capability, productivity effect, and labour pressure.
 
-Tech stack is not yet decided. The methods and scope come first.
+The app stack is now selected and implemented for the public sandbox MVP: Next.js App Router, TypeScript strict mode, Tailwind, Zod-validated content, and client-side comparison logic.
 
 ---
 
@@ -154,17 +154,18 @@ Tech stack is not yet decided. The methods and scope come first.
 - [x] First-pass equations (v0.1 - Tier 1, 9 sectors)
 - [x] Whole-economy equations (v0.2 - all 19 sectors)
 - [x] Calibrated parameters (v0.3 - all 19 sectors, all tiers, GDP weights summing to 1)
-- [ ] Tech stack decision
-- [ ] Version 1 model build
+- [x] Tech stack decision
+- [x] Version 1 model build (public sandbox MVP)
 - [ ] Paper draft
 - [ ] External review
-- [ ] Public-facing interactive layer
+- [x] Public-facing interactive layer (`/`, `/baseline`, `/compare`, `/evidence`, `/methodology`, `/glossary`, `/how-it-works`, `/contribute`)
+- [ ] MVP hardening and spec-completion backlog
 
 ---
 
 ## Project structure
 
-```
+```text
 nzais/
 ├── README.md              # This file
 ├── SCOPE.md               # Formal project scope
@@ -184,9 +185,15 @@ nzais/
 ├── data/
 │   ├── sector-parameter-table.csv    # 348-cell parameter table
 │   └── raw/                          # Source data files
+├── app/                  # Next.js routes and pages
+├── components/           # Reusable UI and chart components
+├── content/              # Versioned JSON content consumed by the app
+├── lib/                  # Model, validation, and helper logic
+├── tests/                # Unit and e2e tests
 ├── research/
 │   └── *.md                          # Per-source analysis notes
-└── src/                              # Model code (TBD)
+└── src/
+    └── equations/                    # Equation sources and generated PDFs
 ```
 
 ---
@@ -210,7 +217,7 @@ Setup on a clean clone:
 
 ## Contributing
 
-This project is currently private and in foundation phase.
+This project is currently private and in MVP hardening phase.
 
 If you are interested in contributing - as an economist, sector expert, policy analyst, or technically literate critic - the most useful next step is a short conversation focused on:
 

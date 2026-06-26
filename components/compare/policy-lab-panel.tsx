@@ -135,7 +135,6 @@ export default function PolicyLabPanel({
               <button
                 key={s.id}
                 type="button"
-                aria-pressed={isOn}
                 onClick={() => toggleScenario(s.id)}
                 className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
                   isOn
