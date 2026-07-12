@@ -6,11 +6,13 @@
 *Upstream: [Project scope](SCOPE.md), [Methods note](METHODS.md), [State variables](STATE-VARIABLES.md), [Model equations v0.2](src/equations/model-equations-v0.2.pdf)*
 *Downstream: Simulation runs, sensitivity analysis, backtesting targets, paper comparison tables*
 
+> **Reconciliation notice:** This draft predates the executable v0.3 scenario mechanics and is not currently authoritative for model runs. Its multi-lever archetypes, targeting thresholds, and equal-budget language must be reconciled with the equations, content, engine, and cost interpretation under the [research protocol](docs/research-protocol.md) before comparative findings are published.
+
 ---
 
 ## 1. Purpose
 
-The sandbox's core question is whether aggregate AI policy, designed around a single national average, systematically produces worse outcomes than sector-targeted policy in New Zealand.
+The sandbox asks under which combinations of sector heterogeneity, policy instrument, resource-allocation rule, and parameter uncertainty targeted AI policies produce materially different tradeoffs from broad aggregate policies in New Zealand.
 
 Answering that question requires running the model under **comparable, concretely-specified policy archetypes**. Without a scenario specification, "aggregate vs targeted" is a slogan. With one, it is a reproducible experiment.
 

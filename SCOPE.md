@@ -36,10 +36,21 @@ A whole-of-economy policy conversation needs a structure that reflects those dif
 
 ## 3. Core research question
 
-Does aggregate AI policy, designed around a single national average, systematically produce worse outcomes than sector-targeted policy in New Zealand?
+Under which combinations of sector heterogeneity, policy instrument, resource-allocation rule, and parameter uncertainty do targeted AI policies produce materially different productivity, adoption, labour-adjustment, and enabling-capacity tradeoffs from broad aggregate policies in New Zealand?
 
-### Working hypothesis
-Yes. New Zealand's sector mix creates materially different adoption pathways, constraints, and returns. A broad aggregate approach will underperform when it ignores those structural differences.
+### Evidential position
+
+The project distinguishes three claims:
+
+1. **Established descriptive finding** - reported NZ AI-adoption figures are not directly comparable because their definitions, populations, methods, and selection biases differ.
+2. **Structural proposition** - New Zealand's sector mix creates materially different adoption pathways, constraints, and potential returns. This is plausible and partly evidenced, but several response parameters remain assumed or derived.
+3. **Comparative hypothesis** - targeted and broad allocation rules may produce materially different tradeoffs under common resource constraints. The direction and robustness of those differences must emerge from registered analysis rather than be presumed.
+
+### Null hypothesis
+
+After applying common resource constraints and propagating plausible parameter and structural uncertainty, targeted allocation does not produce a robust material improvement over defensible aggregate allocation rules on the nominated outcome or Pareto criteria.
+
+The [research protocol](docs/research-protocol.md) defines the provisional materiality and robustness conventions. The [research hypothesis review and implementation plan](docs/research-hypothesis-review-and-plan.md) records the evidence assessment, model gaps, sequencing, and publication gates.
 
 ---
 

@@ -15,7 +15,9 @@ It sits between the methods note and the eventual model equations.
 
 The goal is not to create a large state space for its own sake. The goal is to define the **smallest set of state variables** that can credibly answer the project's core question:
 
-> Does aggregate AI policy, designed around a single national average, systematically produce worse outcomes than sector-targeted policy in New Zealand?
+> Under which combinations of sector heterogeneity, policy instrument, resource-allocation rule, and parameter uncertainty do targeted AI policies produce materially different tradeoffs from broad aggregate policies in New Zealand?
+
+The state-variable structure remains locked. The revised question narrows the claim tested by that structure; it does not add, remove, or redefine a state variable.
 
 This specification is written to withstand critique from economists, policy analysts, and technically literate reviewers. That means it must be explicit about:
 - what each variable means

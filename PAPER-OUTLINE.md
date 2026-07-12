@@ -12,7 +12,7 @@
 
 ### Alternative titles
 1. **Fragmented Baselines, Targeted Policy: Modelling AI Policy Tradeoffs in a Heterogeneous New Zealand Economy**
-2. **Why Single-Average AI Policy Fails: A Tiered Whole-Economy Framework for New Zealand**
+2. **Beyond Single-Average AI Policy: A Tiered Whole-Economy Framework for New Zealand**
 3. **A Transparent NZ AI Policy Sandbox: Comparing Aggregate and Targeted AI Policy Under Uncertainty**
 
 ---
@@ -34,7 +34,7 @@ A sector-calibrated scenario framework covering the full economy through a three
 - targeted supply-side policy
 
 ### Claim
-In a heterogeneous economy like New Zealand's, sector structure changes the effectiveness of AI policy. Policies designed around a single average are likely to misallocate effort.
+In a heterogeneous economy like New Zealand's, sector structure may change the effectiveness and tradeoffs of AI policy. The paper tests the conditions under which specified broad and targeted allocation rules produce materially different outcomes.
 
 ### Output
 A policy-relevant, transparent framework for comparing AI policy structures under uncertainty without overclaiming predictive precision.
@@ -198,22 +198,25 @@ The real policy question is not only whether targeting beats aggregate allocatio
 
 # 7. Anticipated Findings / Propositions
 
-This section can be written as propositions before results are final.
+This section contains conditional propositions, not anticipated conclusions. Final findings must follow the registered comparison, uncertainty, and reporting rules in [docs/research-protocol.md](docs/research-protocol.md).
 
 ### Proposition 1
-Single-average AI policy is structurally weak in a heterogeneous economy.
+Reported national adoption measures provide an insufficient basis for choosing a sector allocation rule when their definitions and populations are not comparable.
 
 ### Proposition 2
-Targeted policy is likely to outperform aggregate allocation where bottlenecks are sector-specific.
+Targeted direct support may produce a material improvement where sector bottlenecks are sufficiently heterogeneous, but the direction and robustness of that difference must be tested against more than one aggregate allocation rule.
 
 ### Proposition 3
-Supply-side investment may outperform direct sector targeting in cases where diffusion capacity is the binding constraint.
+Enabling-system investment may produce a material improvement where shared national capacity is the binding constraint across enough economic activity.
 
 ### Proposition 4
 Some sectors require policy designs that balance productivity goals against equity, governance, or public-interest constraints.
 
 ### Proposition 5
 A whole-economy denominator changes the honesty and interpretation of policy comparisons.
+
+### Proposition 6
+The comparative result may be fragile or indeterminate when assumed rates, lower-tier reduced forms, productivity ceilings, policy duration, and time horizon are varied across plausible alternatives.
 
 ---
 
