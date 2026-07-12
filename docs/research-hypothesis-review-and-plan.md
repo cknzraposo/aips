@@ -290,3 +290,5 @@ The five-state, three-tier ordinary differential equation architecture remains t
 3. Add protocol links from the core research documents.
 4. Reconcile the scenario contract before changing engine behaviour.
 5. Correct public construct labels before exposing additional model outputs.
+
+The application-specific findings, implementation slices, browser evidence, and E2E matrix are maintained in [app-ux-e2e-review.md](app-ux-e2e-review.md).
