@@ -136,3 +136,65 @@ It is descriptive, not prescriptive. Nothing here is a recommendation. It is the
 - Post-Budget: see `~/.openclaw/workspace-aips/research/budget-2026-confirmed.md` §6 (full URL list to RNZ, The Conversation, interest.co.nz, National Party release, Wikipedia 2026 NZ budget summary).
 - External signal: `~/.openclaw/workspace-aips/research/external-signals/2026-05-24-public-sector-cuts-and-ai-substitution.md`.
 - 2025 carry-over: 2025 New Zealand budget (Wikipedia, Budget at a Glance, RNZ 19-22 May 2025), MBIE NZ Strategy for AI (July 2025), `research/data-source-catalogue.md` #14 / #36.
+
+---
+
+## 9. Budget 2026 public-sector AI substitution tracking protocol
+
+**Status.** This stream remains linked to `cknzraposo/aips#10` until Vote-level pull and reconciliation debt is cleared.
+
+### 9.1 Quarterly reconciliation cadence (through Jul 2029)
+
+Update once per quarter (or nearest publication window) across all three series:
+
+1. **GCDO AI Use Case Census telemetry**
+   - Total use cases and fully operational use cases.
+   - Any definitional changes in what counts as "operational".
+2. **Public Service Commission FTE snapshots** (or nearest published equivalent)
+   - Public-service and Public Administration FTE level.
+   - Coverage changes (agency consolidation/reclassification) including MCERT effects.
+3. **BEFU / Budget update deltas** relevant to the substitution envelope
+   - Any revision to the NZ$2.4B savings envelope, timing, or reinvestment profile.
+   - Any newly surfaced operating/capital line that materially changes the substitution interpretation.
+
+### 9.2 Anchor-path consistency check (Dec 2025 → Jul 2029)
+
+Budget anchor: **-8,700 FTE over 3.5 years**. Use a simple linear checkpoint unless an official schedule is published.
+Linear checkpoint formula: `anchor_reduction(q) = -8,700 * (months_elapsed_since_Dec_2025 / 42)`, rounded to nearest FTE (`42` months = 3.5 years, Dec 2025 to Jul 2029).
+
+| Checkpoint | Months elapsed since Dec 2025 | Anchor cumulative reduction (FTE) | Observed cumulative reduction (FTE) | Gap vs anchor | Trajectory call |
+|---|---:|---:|---:|---:|---|
+| 2025-Q4 (Dec, anchor start) | 0 | 0 | 0 | 0 | baseline |
+| 2026-Q3 (Sep) | 9 | -1,864 | TBD | TBD | TBD |
+| 2026-Q4 (Dec) | 12 | -2,486 | TBD | TBD | TBD |
+| 2027-Q1 (Mar) | 15 | -3,107 | TBD | TBD | TBD |
+| 2027-Q2 (Jun) | 18 | -3,729 | TBD | TBD | TBD |
+| 2027-Q3 (Sep) | 21 | -4,350 | TBD | TBD | TBD |
+| 2027-Q4 (Dec) | 24 | -4,971 | TBD | TBD | TBD |
+| 2028-Q1 (Mar) | 27 | -5,593 | TBD | TBD | TBD |
+| 2028-Q2 (Jun) | 30 | -6,214 | TBD | TBD | TBD |
+| 2028-Q3 (Sep) | 33 | -6,836 | TBD | TBD | TBD |
+| 2028-Q4 (Dec) | 36 | -7,457 | TBD | TBD | TBD |
+| 2029-Q1 (Mar) | 39 | -8,079 | TBD | TBD | TBD |
+| 2029-Q2 (Jun, nearest to Jul 2029) | 42 | -8,700 | TBD | TBD | TBD |
+
+Trajectory call convention:
+- **On-track**: observed within ±5% of anchor reduction.
+- **Ahead**: observed reduction >5% beyond anchor.
+- **Behind**: observed reduction >5% short of anchor.
+
+### 9.3 Backtest readiness log (maintain through Jul 2029)
+
+#### A) Quarterly reconciliation log
+
+| Quarter | GCDO census state (cases / operational) | PSC FTE snapshot state | BEFU/Budget delta | Anchor-path call | Notes |
+|---|---|---|---|---|---|
+| 2026-Q2 (initial setup) | 272 / 55 (2025 baseline) | 8,700 reduction target announced; initial PSC baseline level TBD, quarterly realised tracking starts with first post-Budget snapshot | NZ$2.4B savings envelope stated in Budget 2026 | Baseline established | Start live reconciliation series |
+
+#### B) Productivity-per-FTE assumptions log (scenario runs)
+
+| Assumption set | Productivity gain per remaining FTE per year | Source posture | First used | Last reviewed | Notes |
+|---|---|---|---|---|---|
+| Singapore-class (optimistic) | +3% to +5% | Government implicit framing (Singapore/Malaysia exemplars) | 2026-05-29 | 2026-05-29 | Traces to `SCENARIOS.md` §6.1 ("Three productivity sub-scenarios") |
+| Middling | +1% to +2% | OECD-style median public-sector AI gain assumption | 2026-05-29 | 2026-05-29 | Traces to `SCENARIOS.md` §6.1 ("Three productivity sub-scenarios") |
+| Hipkins-class (sceptical) | 0% to +0.5% | Counter-claim that cuts of this scale risk service pressure | 2026-05-29 | 2026-05-29 | Traces to `SCENARIOS.md` §6.1 ("Three productivity sub-scenarios") |

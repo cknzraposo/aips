@@ -226,6 +226,7 @@ Every run is repeated across the Monte Carlo parameter ensemble defined in the u
 **Provenance notes.**
 - `~/.openclaw/workspace-aips/research/external-signals/2026-05-24-public-sector-cuts-and-ai-substitution.md`
 - `~/.openclaw/workspace-aips/research/external-signals/2026-05-29-budget-2026-reconciliation.md`
+- Ongoing quarterly reconciliation protocol and assumptions log: `docs/budget-instruments.md` §9 (kept linked to issue #10 until Vote-level pull/reconciliation debt is cleared).
 
 ---
 
