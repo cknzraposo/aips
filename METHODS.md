@@ -21,10 +21,23 @@ The purpose of this project is therefore **not** to predict the future with prec
 ## 2. Research question
 
 ### Core question
-Does aggregate AI policy, designed around a single national average, systematically produce worse outcomes than sector-targeted policy in New Zealand?
+Under which combinations of sector heterogeneity, policy instrument, resource-allocation rule, and parameter uncertainty do targeted AI policies produce materially different productivity, adoption, labour-adjustment, and enabling-capacity tradeoffs from broad aggregate policies in New Zealand?
 
-### Working hypothesis
-Yes. New Zealand's sector structure creates materially different AI adoption pathways, constraints, and returns. A policy built to a single average will misread those differences and misallocate effort.
+### Established finding
+
+Reported NZ AI-adoption figures are not directly comparable because they use different definitions, populations, methods, and selection mechanisms. The model does not test this descriptive finding; it motivates the move from a single national average to a sector-calibrated framework.
+
+### Conditional hypotheses
+
+- Targeted direct support may produce a material improvement when sector-specific adoption or capability bottlenecks are sufficiently heterogeneous.
+- Enabling-system investment may produce a material improvement when shared national capacity is the binding constraint across enough GDP-weighted sector activity.
+- The direction and scale of targeted-versus-aggregate differences may depend on the aggregate allocation rule, uncertainty ranges, model structure, and time horizon.
+
+### Null hypothesis
+
+After applying common resource constraints and propagating plausible parameter and structural uncertainty, targeted allocation does not produce a robust material improvement over defensible aggregate allocation rules on the nominated outcome or Pareto criteria.
+
+These claims are evaluated under the versioned [research protocol](docs/research-protocol.md). The protocol defines the comparison families, outcome interpretations, provisional materiality and robustness conventions, mandatory structural sensitivity cases, and reporting rules. The supporting [research hypothesis review and implementation plan](docs/research-hypothesis-review-and-plan.md) records why this claim discipline is required.
 
 ---
 

@@ -22,11 +22,15 @@ This project replaces single-number thinking with a structured, sector-calibrate
 
 ## Core research question
 
-**Does aggregate AI policy, designed around a single national average, systematically produce worse outcomes than sector-targeted policy in New Zealand?**
+**Under which combinations of sector heterogeneity, policy instrument, resource-allocation rule, and parameter uncertainty do targeted AI policies produce materially different tradeoffs from broad aggregate policies in New Zealand?**
 
 A related question sits underneath it:
 
 > When is it better to support direct adoption in sectors, and when is it better to invest in enabling capacity - technology, skills, procurement, infrastructure, and diffusion?
+
+The project treats the fragmented national adoption baseline as an established descriptive finding. It treats the comparative performance of targeted and aggregate policy as a conditional hypothesis to test, not a conclusion built into the framing.
+
+See the [research hypothesis review and implementation plan](docs/research-hypothesis-review-and-plan.md) and [research protocol](docs/research-protocol.md) for the null hypothesis, comparison rules, uncertainty requirements, and publication gates.
 
 ---
 
@@ -156,6 +160,9 @@ The app stack is now selected and implemented for the public sandbox MVP: Next.j
 - [x] Calibrated parameters (v0.3 - all 19 sectors, all tiers, GDP weights summing to 1)
 - [x] Tech stack decision
 - [x] Version 1 model build (public sandbox MVP)
+- [x] Research hypothesis review and implementation plan
+- [x] Draft research protocol with conditional hypotheses and publication gates
+- [ ] Research protocol external review and approval
 - [ ] Paper draft
 - [ ] External review
 - [x] Public-facing interactive layer (`/`, `/baseline`, `/compare`, `/evidence`, `/methodology`, `/glossary`, `/how-it-works`, `/contribute`)
@@ -181,6 +188,8 @@ nzais/
 │   ├── repo-selection.md
 │   ├── architecture-adaptation.md
 │   ├── provenance-analysis.md
+│   ├── research-hypothesis-review-and-plan.md
+│   ├── research-protocol.md
 │   └── data-source-catalogue.md
 ├── data/
 │   ├── sector-parameter-table.csv    # 348-cell parameter table

@@ -26,11 +26,13 @@ We want to replace that with a more honest framework: a **sector-calibrated, who
 
 ## Core research question
 
-Does aggregate AI policy, designed around a single national average, systematically produce worse outcomes than sector-targeted policy in New Zealand?
+Under which combinations of sector heterogeneity, policy instrument, resource-allocation rule, and parameter uncertainty do targeted AI policies produce materially different tradeoffs from broad aggregate policies in New Zealand?
 
 A related question sits underneath it:
 
 > When is it better to support direct adoption in sectors, and when is it better to invest in enabling capacity such as technology, skills, procurement, infrastructure, and diffusion?
+
+The comparative performance of targeted and aggregate policy is a conditional hypothesis, not a project conclusion. Contributors working on model claims should use the [research protocol](docs/research-protocol.md) and [research hypothesis review and implementation plan](docs/research-hypothesis-review-and-plan.md).
 
 ---
 
