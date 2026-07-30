@@ -248,7 +248,7 @@ This project is developed under [AI for Good New Zealand](https://www.aiforgood.
 
 This project is led by the **AI for Good New Zealand** collective - a community of practitioners, economists, sector specialists, and policy analysts working to ensure AI benefits all of Aotearoa.
 
-- [AI for Good NZ](https://www.aiforgood.org.nz) · [Blog](https://hello.chandima.net) · [Substack](https://chandima.substack.com)
+- [AI for Good NZ](https://www.aiforgood.org.nz/aips) 
 
 ---
 
